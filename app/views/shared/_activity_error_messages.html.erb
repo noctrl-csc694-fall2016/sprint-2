@@ -1,12 +1,14 @@
 <% if @activity.errors.any? %>
-  <div class="col-sm-8 col-sm-offset-2" id="error_explanation">
-    <div class="alert alert-danger">
-      Activity cannot be created.  The form contains <%= pluralize(@activity.errors.count, "error") %>.
+  <div class="form-error-group">
+    <div class="col-sm-8 col-sm-offset-2" id="error_explanation">
+      <div class="alert alert-danger">
+        Activity cannot be created.  The form contains <%= pluralize(@activity.errors.count, "error") %>.
+      </div>
+      <ul>
+        <% @activity.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
-    <ul>
-      <% @activity.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
   </div>
 <% end %>

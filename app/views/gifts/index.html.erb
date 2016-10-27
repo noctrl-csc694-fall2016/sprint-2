@@ -8,9 +8,7 @@
 			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Gift</span>
 		    <% end %>
   		  <div>
-      		Surf to: 
-          		<%=link_to "All Activities", activities_url %>
-          		<%=link_to "All Donors", donors_url %>
+          		<%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Donors", donors_url %>
         </div>
   		</aside>
   	</div>
@@ -25,12 +23,16 @@
 <!--Table -- list all requested gifts-->
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
+    <% if @gifts.count != 0 %>
+    <div class="row surf-data">
+      There are <%= pluralize(@gifts.count, "gift") %> for a sum of <%= number_to_currency(Gift.sum(:amount)) %>.
+    </div>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Activity</td>
           <td>Donor</td>
           <td>Date</td>
+          <td>Activity</td>
           <td>Amount</td>
           <td>Type</td>
         </tr>
@@ -39,10 +41,10 @@
         <% @gifts.each do |gift| %>
         <!--find the gifts that match the selected activity and donor-->
           <% if ((params[:activity_id] == "" || params[:activity_id] == gift.activity_id.to_s ) && (params[:donor_id] == "" || params[:donor_id] == gift.donor_id.to_s)) %>
-          <tr>
-            <td><%= link_to Activity.find(gift.activity).name, edit_gift_path(gift) %></td>
+          <tr data-link="<%= edit_gift_path(gift) %>">
             <td><%= Donor.find(gift.donor).first_name + " " + Donor.find(gift.donor).last_name %></td>
-            <td><%= gift.donation_date %></td>
+            <td><%= gift.donation_date.strftime("%B %d, %Y") %></td>
+            <td><%= Activity.find(gift.activity).name %></td>
             <td><%= number_to_currency(gift.amount) %></td>
             <td><%= gift.gift_type %></td>
           </tr>
@@ -50,5 +52,8 @@
         <% end %>
       </tbody>
     </table>
+    <% else %>
+    <h3>No gifts located given your search criteria.</h3>
+    <% end %>
   </div>
 </div>

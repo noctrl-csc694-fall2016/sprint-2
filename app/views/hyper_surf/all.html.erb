@@ -8,20 +8,22 @@
 </div>
 <div class="row col-xs-offset-2">
   <div class="col-sm-8">
-    <div class="search-query">The search returned the following results for: "<%= params[:term] %>"</div>
+    <div class="search-query">The search returned <%= pluralize(1, "result") %> for the following search: "<%= params[:term] %>"</div>
     <table class="table table-striped table-hover table-bordered table-responsive">
         <thead>
           <tr>
+            <td>ID</td>
             <td>Type</td>
             <td>Name</td>
-            <td>Description</td>
+            <td>Match</td>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr data-link="#">
+            <td>DON01</td>
             <td>Donor</td>
-            <td><a href="#">Unknown Donor</a></td>
-            <td>Things and things</td>
+            <td>Unknown Donor</td>
+            <td>Item</td>
           </tr>
         </tbody>
       </table>

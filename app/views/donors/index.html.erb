@@ -8,9 +8,7 @@
 			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Donor</span>
 		    <% end %>
   		  <div>
-      		Surf to: 
-          		<%=link_to "All Activities", activities_url %>
-          		<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
+          		<%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
         </div>
   		</aside>
   	</div>
@@ -20,6 +18,9 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
     <% if @donors.count != 0 %>
+    <div class="row surf-data">
+      There are <%= pluralize(@donors.count, "donor") %>.
+    </div>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
@@ -32,18 +33,18 @@
       </thead>
       <tbody>
         <% @donors.each do |donor| %>
-        <tr>
-          <td><%= link_to "#{donor.first_name} #{donor.last_name}", edit_donor_path(donor) %></td>
-          <td><%= link_to gift_count_per_donor(donor), "/gifts?donor_id=" + donor.id.to_s + "&activity_id=&commit=GO" %></td>
-          <td>$<%= gift_total_amount_per_donor(donor) %></td>
-          <td>$<%= last_gift_amount(donor) %></td>
+        <tr data-link="<%= edit_donor_path(donor) %>">
+          <td><%= "#{donor.first_name} #{donor.last_name}" %></td>
+          <td><%= gift_count_per_donor(donor) %></td>
+          <td><%= number_to_currency(gift_total_amount_per_donor(donor)) %></td>
+          <td><%= number_to_currency(last_gift_amount(donor)) %></td>
           <td><%= last_activity(donor) %></td>
         </tr>
         <% end %>
       </tbody>
     </table>
     <% else %>
-    <h3>No donors yet.</h3>
+    <h3>No donors located given your search criteria.</h3>
     <% end %>
   </div>
 </div>
