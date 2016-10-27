@@ -106,9 +106,10 @@ a:hover{
 .page-content{
   h1, h2, h3, h4, h5, h6{
   	font-weight: bold;
-	font-style: italic;
-	color: rgb(50, 42, 63);
+	  font-style: italic;
+	  color: rgb(50, 42, 63);
   }
+  
   /* Image Source: http://www.clipartbest.com/cliparts/biy/Knn/biyKnn4iL.png
   background-image:url('/assets/butterfly.gif');
   background-repeat:no-repeat;
@@ -284,7 +285,6 @@ a.btn.btn-danger{
   	color: rgb(50, 42, 63);
   }
 }
-
 
 /* Tables */
 .table-striped > tbody > tr:nth-of-type(odd){
