@@ -8,9 +8,7 @@
 			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Activity</span>
 		    <% end %>
   		  <div>
-      		Surf to: 
-      		  <%=link_to "All Donors", donors_url %>
-          	<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
+      		  <%=link_to "All Donors", donors_url %>&nbsp; | &nbsp;<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
         </div>
   		</aside>
   	</div>
@@ -20,6 +18,9 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
     <% if @activities.count != 0 %>
+    <div class="row surf-data">
+      There are <%= pluralize(@activities.count, "activity") %>.
+    </div>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
@@ -28,24 +29,22 @@
           <td>Goal</td>
           <td>Progress</td>
           <td>Donors</td>
-          <td>Gifts</td>
         </tr>
       </thead>
       <tbody>
         <% @activities.each do |activity| %>
-        <tr>
-          <td><%= link_to activity.name, edit_activity_path(activity) %></td>
-          <td><%= activity.end_date %></td>
+        <tr data-link="<%=edit_activity_path(activity) %>">
+          <td><%= activity.name %></td>
+          <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
           <td><%= number_to_currency(activity.goal) %></td>
           <td><%= progress(activity) %>%</td>
-          <td><%= link_to donor_count_per_activity(activity), "/gifts?activity_id=" + activity.id.to_s + "&donor_id=&commit=GO" %></td>
-          <td><%= link_to gift_count_per_activity(activity), "/gifts?activity_id=" + activity.id.to_s + "&donor_id=&commit=GO" %></td>
+          <td><%= donor_count_per_activity(activity)%></td>
         </tr>
         <% end %>
       </tbody>
     </table>
     <% else %>
-    <h3>No activities yet.</h3>
+    <h3>No activities located given your search criteria.</h3>
     <% end %>
   </div>
 </div>

@@ -1,12 +1,14 @@
 <% if @gift.errors.any? %>
-  <div class="col-sm-8 col-sm-offset-2" id="error_explanation">
-    <div class="alert alert-danger">
-      Gift cannot be created.  The form contains <%= pluralize(@gift.errors.count, "error") %>.
+  <div class="form-error-group">
+    <div class="col-sm-8 col-sm-offset-2" id="error_explanation">
+      <div class="alert alert-danger">
+        Gift cannot be created.  The form contains <%= pluralize(@gift.errors.count, "error") %>.
+      </div>
+      <ul>
+        <% @gift.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
-    <ul>
-      <% @gift.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
   </div>
 <% end %>

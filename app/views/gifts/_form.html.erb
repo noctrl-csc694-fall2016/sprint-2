@@ -1,24 +1,21 @@
 <%=form_for(@gift) do |f| %>
-    <div class="row form-group">
-        <%=render 'shared/gift_error_messages' %>
-            <div class="col-xs-2 col-xs-offset-2">
-                <div class="line-break">
-                    <%=f.label :donor %>
-                        <span class="required-field-marker">*</span>
-                </div><%= @donor_id %>
-                <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu' %>
-            </div>
-    </div>
-    <!-- row -->
-    
   <div class="row form-group">
-    <div class="col-xs-4 col-xs-offset-2">
-      <div class="line-break">
-        <%=f.label :activity %>
+    <%=render 'shared/gift_error_messages' %>
+      <div class="col-xs-2 col-xs-offset-2">
+        <div class="line-break">
+          <%=f.label :donor %>
           <span class="required-field-marker">*</span>
+        </div>
+        <%= @donor_id %>
+        <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu' %>
       </div>
-      <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id), include_blank: "Select a donor", class:'form-control input-sm dropdown-menu' %>
-    </div>
+      <div class="col-xs-2">
+        <div class="line-break">
+          <%=f.label :activity %>
+          <span class="required-field-marker">*</span>
+        </div>
+        <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id), include_blank: "Select a donor", class:'form-control input-sm dropdown-menu' %>
+      </div>
   </div>
   <!-- row -->
 
@@ -64,7 +61,10 @@
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%=f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%=link_to "Cancel", gifts_path, class: "btn btn-danger" %>
+        <%=link_to "Cancel", gifts_path, class: "btn btn-warning" %>
+        &nbsp;
+        &nbsp;
+        <%= link_to "Delete Gift", @gift, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure that you want to permanently remove this gift from the database? This action cannot be undone." } %>
     </div>
   </div>
   <!-- row -->

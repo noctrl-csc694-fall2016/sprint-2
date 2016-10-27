@@ -32,7 +32,7 @@ a, a:active, a:visited{
   
 }
 a:hover{
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* Header */
@@ -92,6 +92,7 @@ a:hover{
   }
   a:hover{
   	color: rgb(97, 52, 13);
+  	text-decoration: underline;
   }
   
   table{
@@ -100,6 +101,7 @@ a:hover{
   	}
 	  a:hover{
 	    color: rgb(97, 52, 13);
+	    text-decoration: underline;
 	  }
   }
 }
@@ -237,9 +239,21 @@ a:hover{
   background-color: rgb(139, 173, 84);
   color: rgb(255, 255, 255);
 }
+a.btn.btn-warning{
+  background-color: rgb(249, 157, 28);
+  color: rgb(255, 255, 255);
+  
+  &:hover{
+    text-decoration: none;
+  }
+}
 a.btn.btn-danger{
   background-color: rgb(204, 107, 54);
   color: rgb(255, 255, 255);
+  
+  &:hover{
+    text-decoration: none;
+  }
 }
 .select-medium{
   width: 100px;
@@ -283,12 +297,16 @@ a.btn.btn-danger{
   }
   a:hover{
   	color: rgb(50, 42, 63);
+  	text-decoration: underline;
   }
 }
 
 /* Tables */
 .table-striped > tbody > tr:nth-of-type(odd){
   background-color: rgb(224, 230, 244);
+}
+.table-striped > tbody > tr:nth-of-type(odd):hover td{
+  background-color: rgb(195, 207, 233);
 }
 .table-striped tbody tr:nth-child(even):hover td {
    background-color: rgb(252, 227, 236);
@@ -300,4 +318,23 @@ a.btn.btn-danger{
 }
 .line-break{
   display: block;
+}
+
+/* Surf Common CSS */
+.surf-data{
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+/* Row Grid Override */
+.row{
+  margin-right: -5px;
+}
+
+/* Error Handlers */
+div.alert {
+    z-index:99;
+    margin-left: auto;
+    margin-right: auto;
 }

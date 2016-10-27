@@ -9,10 +9,6 @@
       		Surf to:
           		<%=link_to "All Gifts for this Activity", "/gifts?activity_id=" + @activity.id.to_s + "&donor_id=&commit=GO" %>
         </div>
-        <div>
-          <%= link_to "Delete activity", @activity, method: :delete,
-                                                          data: { confirm: "Are you sure that you want to permanently remove this activity from the database? This action cannot be undone." } %>
-        </div>
   		</aside>
   	</div>
   </div>
