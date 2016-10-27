@@ -63,7 +63,9 @@
       <div class="col-xs-8 col-xs-offset-1 text-center">
           <%= f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%= link_to "Cancel", donors_path, class: "btn btn-danger" %>
+        <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
+        &nbsp;
+        <%= link_to "Delete Donor", @donor, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
       </div>
   	</div>   <!-- row -->
  	

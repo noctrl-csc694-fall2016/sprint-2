@@ -11,8 +11,6 @@
   		  </div>
   		  <div>
           <%=link_to "All Gifts for this Donor", "/gifts?activity_id=&donor_id=" + @donor.id.to_s + "&commit=GO" %>
-          &nbsp; | &nbsp;
-          <%= link_to "Delete donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
         </div>
   		</aside>
   	</div>

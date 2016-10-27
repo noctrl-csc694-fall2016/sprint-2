@@ -61,7 +61,10 @@
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%=f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%=link_to "Cancel", gifts_path, class: "btn btn-danger" %>
+        <%=link_to "Cancel", gifts_path, class: "btn btn-warning" %>
+        &nbsp;
+        &nbsp;
+        <%= link_to "Delete Gift", @gift, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure that you want to permanently remove this gift from the database? This action cannot be undone." } %>
     </div>
   </div>
   <!-- row -->

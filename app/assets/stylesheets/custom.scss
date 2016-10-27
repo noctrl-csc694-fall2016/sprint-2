@@ -239,6 +239,14 @@ a:hover{
   background-color: rgb(139, 173, 84);
   color: rgb(255, 255, 255);
 }
+a.btn.btn-warning{
+  background-color: rgb(249, 157, 28);
+  color: rgb(255, 255, 255);
+  
+  &:hover{
+    text-decoration: none;
+  }
+}
 a.btn.btn-danger{
   background-color: rgb(204, 107, 54);
   color: rgb(255, 255, 255);
