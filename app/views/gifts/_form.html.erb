@@ -14,7 +14,7 @@
           <%=f.label :activity %>
           <span class="required-field-marker">*</span>
         </div>
-        <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id), include_blank: "Select a donor", class:'form-control input-sm dropdown-menu' %>
+        <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id || params[:activity_id]), include_blank: "Select a donor", class:'form-control input-sm dropdown-menu' %>
       </div>
   </div>
   <!-- row -->
