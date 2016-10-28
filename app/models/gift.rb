@@ -15,8 +15,7 @@ class Gift < ApplicationRecord
   validates :gift_type, presence: true
   validates :notes, presence: false, length: { maximum: 2500 }
   
-  # Export Gifts
-  # outputs all gifts as a csv file(all attributes included).
+  # Import Gifts
   def self.import(file, activity)
     
     CSV.foreach(file.path, headers: true) do |row|
@@ -33,4 +32,24 @@ class Gift < ApplicationRecord
       end # end if else
     end # end foreach
   end
+  
+  # Import in Kind Gifts
+  def self.inkind(file, activity)
+    
+    CSV.foreach(file.path, headers: true) do |row|
+      gift_hash = row.to_hash 
+      # imported in kind gifts are assigned an activity at import time
+      gift_hash["activity_id"] = activity
+      gift_hash["gift_type"] = "in Kind"
+      
+      gift = Gift.where(id: gift_hash["id"])
+
+      if gift.count == 1
+        gift.first.update_attributes(gift_hash)
+      else
+        Gift.create!(gift_hash)
+      end # end if else
+    end # end foreach
+  end
+  
 end

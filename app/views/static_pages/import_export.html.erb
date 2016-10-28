@@ -1,9 +1,8 @@
 <% provide(:title, "Import-Export Information") %>
-<div class="overlay" id="overlay" style="display:none;"></div>
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
   	<div class='import-header'>
-  		<h2 class="import-color">Import <small>&nbsp; read data into Donna Donor from an outside source</small></h2>
+  		<h2 class="import-color">Import <small>&nbsp; read data into Gift Garden from an outside source</small></h2>
   	</div>
   </div>
 </div>
@@ -11,7 +10,7 @@
 <!-- Import content -->
   <div class="row report-row">
     <div class="col-xs-8 col-xs-offset-2" id='inKindLink'> 
-    <%= link_to('import-export/inkind') do %>
+    <%= link_to(inkind_path) do %>
     	<span class="	glyphicon glyphicon-leaf import-icon import-color"></span>
     	<span class="report-title">In-kind</span> 
   	<% end %>
@@ -22,66 +21,13 @@
 <!-- Beginning of CSV Imports -->
 <div class="row  report-row">
   <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
-  <%= link_to('javascript:void(0)') do %>
+  <%= link_to(import_path) do %>
   	<span class="	glyphicon glyphicon-download import-icon import-color"></span>
   	<span class="report-title">CSV Import</span> 
   	<% end %>
   	<span class="report-description">- import data from Raiser's Edge</span> 
   </div>
 </div>
-
-<div id='inKindPopupWrapper' class='import-export-dialog import-export-text'>
-	<a class="boxclose" id="boxclose"></a>
-	<br />
-	<div id='inKindImportDiv' class='import-html'>
-  	<p>
-  		<div>Imports will be created from the chosen .csv file.<br /></div>
-		  <br />
-		  <button type="button" onclick="alert('import in kind data')">Import In Kind Data</button>
-		  <br />
-  	</p>
-  </div>		
-</div>
-
-															<!-- col-xs-8 col-xs-offset-2 -->
-<div id='importPopupWrapper' class='import-export-dialog import-export-text'>
-	<a class="boxclose" id="boxclose"></a>
-	<br/>
-	<div class='import-export-label'>
-		<span>Please select the import type:</span>
-    <select id="importTypeSelection" name="user_id">
-      <option value="None" selected="selected">Choose Type</option>
-      <option value="Donors">Donors</option></option>
-      <option value="Gifts">Gifts</option>
-    </select>
-	</div>
-  	
-	<div id='donorsImportDiv' class='import-html import-export-label'>
-		<br />
-		<%= form_tag import_donors_path, multipart: true do %>
-      <%= file_field_tag :file %>
-      <br />
-      <%= submit_tag "Import Donors from CSV" %>
-  	<% end %>
-  </div>
-  
-  <div id='giftsImportDiv' class='import-html import-export-label'>
-  	<p>
-  		<%= form_tag import_gifts_path, multipart:true do %>
-  			<span>Choose associated activity:</span>
-  			<%= select_tag "activity",
-  			options_from_collection_for_select(@activities, "id", "name") %>
-  			
-  			<br /><br />
-	      <%= file_field_tag :file %>
-	      <br />
-	      <%= submit_tag "Import Gifts from CSV" %>
-    	<% end %>
-  	</p>
-  </div>
-</div> 
-
-</div>	<!-- End of CSV Imports -->
 
 <!-- Export header -->
 <div class="row export-header">
@@ -112,81 +58,3 @@
 	<span class="report-description">- export contact info to Constant Contact</span> 
 	</div>
 </div>
-
-<script>
-	$(document).ready(function() {
-		$("#inKindPopupWrapper").css('display', 'none');
-		$("#importPopupWrapper").css('display', 'none');
-		
-		$("#inKindLink").click(function () {
-			$('#overlay').fadeIn(200,function(){
-           $('#inKindPopupWrapper').animate({
-						opacity: "toggle",
-						height: "toggle"
-					}); 
-        });
-			return false;
-		});
-		
-		$("#importLink").click(function () {
-			$('#overlay').fadeIn(200,function(){
-           $('#importPopupWrapper').animate({
-						opacity: "toggle",
-						height: "toggle"
-					}); 
-        });
-			importFunctions.hideImports();
-			return false;
-		});
-		
-		$('.boxclose').click(function(){
-			hideImportDialogAndOverlay();
-    });
-			
-    $(document).keyup(function(e) {
-     	if (e.keyCode == 27) {	// esc pressed
-        if ($(".import-export-dialog").length ||
-        		$(".boxclose").length ||
-        		$(".overlay").length) {
-        		hideImportDialogAndOverlay();		
-    		}
-    	}
-		});
-		
-		$('#importTypeSelection').on('change', function() {
-      if (this.value == 'Donors') {
-        importFunctions.hideImports();
-        $('#donorsImportDiv').toggle();
-      }
-      else if (this.value == 'Gifts') {
-        importFunctions.hideImports();
-        $('#giftsImportDiv').toggle();
-      }
-    });
-    
-    if($("div.alert.alert-info").length) {
-			  setTimeout(function(){ 
-			  	$("div.alert.alert-info").fadeOut("slow") }, 2000);
-			} 
-    
-	});
-	
-	function hideImportDialogAndOverlay () {
-		if ($('#inKindPopupWrapper').css('display') == 'block') {
-				$('#inKindPopupWrapper').animate({
-					opacity: "toggle",
-					height: "toggle"
-				});
-			}
-			
-    	if ($('#importPopupWrapper').css('display') == 'block') {
-				$('#importPopupWrapper').animate({
-					opacity: "toggle",
-					height: "toggle"
-				});
-			}
-			
-    	$('#overlay').fadeOut('fast');
-	}
-	
-</script>

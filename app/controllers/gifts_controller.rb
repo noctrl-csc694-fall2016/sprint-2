@@ -25,6 +25,12 @@ class GiftsController < ApplicationController
     Gift.import(params[:file], params[:activity])
     redirect_to import_export_url, notice: "Gifts imported."
   end
+  
+  # Import in kind Gifts: calls inkind method from the Gift model
+  def inkind
+    Gift.inkind(params[:file], params[:activity])
+    redirect_to import_export_url, notice: "In Kind Gifts imported."
+  end
 
   
   # create new gift using gift_params permitted below in private section
