@@ -27,7 +27,6 @@ Rails.application.routes.draw do
   get    '/import', to: 'import_export#import'
   get    '/inkind', to: 'import_export#inkind'
   
-  
   get    'hyper-surf/donors', to: 'hyper_surf#donors'
   get    'hyper-surf/all', to: 'hyper_surf#all'
   
