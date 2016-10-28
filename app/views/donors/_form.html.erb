@@ -66,7 +66,7 @@
         <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
       </div>
   	</div>   <!-- row -->
-  	<% if gift_count_per_donor(@donor) == 0 %>
+  	<% if gift_count_per_donor(@donor) == 0 && !@donor.new_record? %>
     	<div class="row form-group form-delete">
         <div class="col xs-1 col-xs-offset-7">
           <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
