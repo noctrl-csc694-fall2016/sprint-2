@@ -44,7 +44,7 @@
     <div class="col-xs-4 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
-        <%=f.text_field :gift_type, class: 'form-control input-sm' %>
+        <%=f.select(:gift_type, options_for_select([["Cash",1], ["Check",2], ["Credit Card/Debit Card", 3]]),{},:class => "form-control")%>
     </div>
   </div>
 
@@ -62,10 +62,13 @@
       <%=f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
         <%=link_to "Cancel", gifts_path, class: "btn btn-warning" %>
-        &nbsp;
-        &nbsp;
-        <%= link_to "Delete Gift", @gift, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure that you want to permanently remove this gift from the database? This action cannot be undone." } %>
     </div>
   </div>
   <!-- row -->
+  <div class="row form-group form-delete">
+    <div class="col xs-1 col-xs-offset-7">
+      <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+      <%= link_to "Delete Gift", @gift, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this gift from the database? This action cannot be undone." } %>
+    </div>
+  </div>
 <% end %>

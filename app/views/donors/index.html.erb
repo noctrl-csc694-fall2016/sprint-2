@@ -2,15 +2,20 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class="page-header">
-  		<h2>Surf Donors <small>&nbsp; Select a row to view or edit that donor.</small></h2>
-  		<aside class="text-right">
-  		  <%= link_to(new_donor_path) do %>
-			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Donor</span>
-		    <% end %>
-  		  <div>
-          		<%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
+  		<h2>Surf Donors <small>&nbsp; Select a row to view or edit that donor</small></h2>
+  		<div class="row relative-row">
+        <div class="text-left bottom-vertical-align">
+          There are <%= pluralize(@donors.count, "donor") %>.
         </div>
-  		</aside>
+        <div class="text-right">
+          <%= link_to(new_donor_path) do %>
+        	  <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Donor</span>
+        	<% end %>
+          <div>
+            <%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Gifts", gifts_url + "?activity_id=&donor_id=&commit=GO" %>
+          </div>
+        </div>
+      </div>
   	</div>
   </div>
 </div>
@@ -18,17 +23,14 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
     <% if @donors.count != 0 %>
-    <div class="row surf-data">
-      There are <%= pluralize(@donors.count, "donor") %>.
-    </div>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Name</td>
-          <td>Gifts</td>
-          <td>Total Gift</td>
-          <td>Last Gift</td>
-          <td>Last Activity</td>
+          <th>Name</th>
+          <th>Gifts</th>
+          <th>Total Gift</th>
+          <th>Last Gift</th>
+          <th>Last Activity</th>
         </tr>
       </thead>
       <tbody>

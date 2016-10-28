@@ -2,15 +2,20 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class="page-header">
-  		<h2>Surf Gifts <small>&nbsp; Select a row to view or edit that gift.</small></h2>
-  		<aside class="text-right">
-  		  <%= link_to(new_gift_path) do %>
-			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Gift</span>
-		    <% end %>
-  		  <div>
-          		<%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Donors", donors_url %>
+  		<h2>Surf Gifts <small>&nbsp; Select a row to view or edit that gift</small></h2>
+  		<div class="row relative-row">
+        <div class="text-left bottom-vertical-align">
+          There are <%= pluralize(@gifts.count, "gift") %> for a sum of <%= number_to_currency(Gift.sum(:amount)) %>.
         </div>
-  		</aside>
+        <div class="text-right">
+          <%= link_to(new_gift_path) do %>
+        	  <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Gift</span>
+        	<% end %>
+          <div>
+            <%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Donors", donors_url %>
+          </div>
+        </div>
+      </div>
   	</div>
   </div>
 </div>
@@ -24,17 +29,14 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
     <% if @gifts.count != 0 %>
-    <div class="row surf-data">
-      There are <%= pluralize(@gifts.count, "gift") %> for a sum of <%= number_to_currency(Gift.sum(:amount)) %>.
-    </div>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Donor</td>
-          <td>Date</td>
-          <td>Activity</td>
-          <td>Amount</td>
-          <td>Type</td>
+          <th>Donor</th>
+          <th>Date</th>
+          <th>Activity</th>
+          <th>Amount</th>
+          <th>Type</th>
         </tr>
       </thead>
       <tbody>

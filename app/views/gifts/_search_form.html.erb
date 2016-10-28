@@ -1,20 +1,20 @@
 <!--form to build activity dropdown and donor dropdown-->
 <%= form_tag({controller: "gifts", action: "index"}, method: :get) do %>
-    <div class="row form-group">
-        <div class="col-xs-2 col-xs-offset-2">
-            <div class="line-break">
-                <p>Activity</p>
-            </div>
-            <%= select_tag(:activity_id, options_for_select(@activities, params[:activity_id] || "" ), include_blank: "All Activities", class: 'form-control input-sm') %>
-        </div>
-        <div class="col-xs-2">
-            <div class="line-break">
-                <p>Donor</p>
-            </div>
-            <%= select_tag(:donor_id, options_for_select(@donors, params[:donor_id] || ""), include_blank: "All Donors", class: 'form-control input-sm') %>
-        </div>
-        <div class="col-xs-2 vertical-align-bottom">
-            <%= submit_tag 'GO', class: 'btn btn-success' %>
-        </div>
+  <div class="row form-group">
+    <div class="col-xs-2 col-xs-offset-2">
+      <div class="line-break">
+        <p>Activity</p>
+      </div>
+      <%= select_tag(:activity_id, options_for_select(@activities, params[:activity_id] || "" ), include_blank: "All Activities", class: 'form-control input-sm') %>
     </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Donor</p>
+      </div>
+      <%= select_tag(:donor_id, options_for_select(@donors, params[:donor_id] || ""), include_blank: "All Donors", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2 vertical-align-bottom">
+      <%= submit_tag 'GO', class: 'btn btn-success' %>
+    </div>
+  </div>
 <% end %>
