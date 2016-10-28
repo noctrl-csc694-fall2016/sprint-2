@@ -75,3 +75,20 @@ a.boxclose{
 .import-header {
     border-bottom: 1px solid #bccddd;
 }
+
+#import-sides {
+    margin:0;
+}
+
+#import-donors, #import-inkind {
+    float:left;
+    width:30%;
+    overflow:hidden;
+    margin-left: 16.66666667%;
+}
+
+#import-gifts {
+    float:left;
+    width:30%;
+    overflow:hidden;
+} 

@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   get    '/contact', to: 'static_pages#contact'
   get    '/reports', to: 'static_pages#reports'
   get    '/import-export', to: 'static_pages#import_export'
+  get    '/import', to: 'import_export#import'
+  get    '/inkind', to: 'import_export#inkind'
   
   get    'hyper-surf/donors', to: 'hyper_surf#donors'
   get    'hyper-surf/all', to: 'hyper_surf#all'

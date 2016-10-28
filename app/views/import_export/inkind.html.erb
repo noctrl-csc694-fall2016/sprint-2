@@ -1,0 +1,29 @@
+<% provide(:title, "Import in Kind Gifts") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+  	<div class='import-header'>
+  		<h2 class="import-color">Import in Kind<small>&nbsp; transfer in Kind Gifts to Gift Garden from a .csv file.</small></h2>
+  	</div>
+  </div>
+</div>
+  
+  <!-- Content -->
+  <br />
+  <div id='import-sides'>
+    <div id='import-inkind'>
+      <h4>Gifts</h4>
+        <div class='import-export-label'>
+  		    <%= form_tag inkind_gifts_path, multipart:true do %>
+  			  <span class='import-export-label'>Choose associated activity:</span>
+  			  <%= select_tag "activity",
+  			  options_from_collection_for_select(@activities, "id", "name") %>
+  			  <br /><br />
+  			
+  			  <%= file_field_tag :file %>
+  			
+	        <br />
+	        <%= submit_tag "Import Gifts from CSV" %>
+    	    <% end %>
+    	  </div>
+    </div>
+  </div>
