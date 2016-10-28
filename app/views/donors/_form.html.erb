@@ -66,11 +66,13 @@
         <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
       </div>
   	</div>   <!-- row -->
-  	<div class="row form-group form-delete">
-      <div class="col xs-1 col-xs-offset-7">
-        <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
-        <%= link_to "Delete Donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
+  	<% if gift_count_per_donor(@donor) == 0 %>
+    	<div class="row form-group form-delete">
+        <div class="col xs-1 col-xs-offset-7">
+          <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+          <%= link_to "Delete Donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
+        </div>
       </div>
-    </div>
+    <% end %>
  	
 <% end %>
