@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   
   resources :gifts, only: [:new, :create, :edit, :update, :index, :destroy] do
     collection { post :import }
-    collection { post :inkind }
   end
   resources :donors, only: [:new, :create, :edit, :update, :index, :destroy] do
     collection { post :import }
