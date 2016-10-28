@@ -2,78 +2,73 @@
 <div class="overlay" id="overlay" style="display:none;"></div>
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
-  	<div class="page-header">
-  		<h2>Reports <small>&nbsp; These executive reports are quickly and easily created. 
-	  		The output of each report is a nicely-formatted PDF file.</small></h2>
+    <div class="page-header">
+      <h2>Reports <small>&nbsp; These executive reports are quickly and easily created. 
+      The output of each report is a nicely-formatted PDF file</small></h2>
   	</div>
   </div>
 </div>
 <!-- Content -->
-  <div class="row report-row" id="activity-report">
-    <div class="col-xs-8 col-xs-offset-2">
-      <%= link_to('activities.pdf') do %> <!-- 'javascript:void(0)' -->
-    	  <%= icon("ship", class: "report-icon") %>
-    	  <span class="report-title">Activity</span>
-    	<% end %>
-    	<span class="report-description">- report the donors and gifts for an Activity</span>
-    </div>
+<div class="row report-row" id="activity-report">
+  <div class="col-xs-8 col-xs-offset-2">
+    <%= link_to('activities.pdf') do %> <!-- 'javascript:void(0)' -->
+      <%= icon("ship", class: "report-icon") %><span class="report-title">Activity</span>
+    <% end %>
+    <span class="report-description">- report the donors and gifts for an Activity</span>
   </div>
+</div>
 
-  <div class="row report-row">
-    <div class="col-xs-8 col-xs-offset-2">
-      <%= link_to('donors.pdf') do %>
-  		  <span class="glyphicon glyphicon-phone-alt report-icon"></span>
-  		  <span class="report-title">Donor</span>
-  		<% end %>
-    	<span class="report-description">- report donations of a single Donor</span>
-    </div>
+<div class="row report-row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <%= link_to('donors.pdf') do %>
+      <span class="glyphicon glyphicon-phone-alt report-icon"></span><span class="report-title">Donor</span>
+    <% end %>
+    <span class="report-description">- report donations of a single Donor</span>
   </div>
+</div>
 
-  <div class="row report-row">
-    <div class="col-xs-8 col-xs-offset-2"> 
+<div class="row report-row">
+  <div class="col-xs-8 col-xs-offset-2"> 
     <%= link_to('gifts.pdf') do %>
-    	  <%= icon("gift", class: "report-icon") %>
-    	  <span class="report-title">Gifts</span>
-    	<% end %>
-    	<span class="report-description">- report all Gifts over a time period</span> 
-    </div>
+      <%= icon("gift", class: "report-icon") %><span class="report-title">Gifts</span>
+    <% end %>
+    <span class="report-description">- report all Gifts over a time period</span> 
   </div>
+</div>
 
-  <div class="row report-row">
-    <div class="col-xs-8 col-xs-offset-2"> 
+<div class="row report-row">
+  <div class="col-xs-8 col-xs-offset-2"> 
     <%= link_to('activities.pdf') do %>
-	      <span class="glyphicon glyphicon-repeat report-icon"></span>
-	      <span class="report-title">Recurring Activity</span>
-	    <% end %>
-	    <span class="report-description">- report annual comparison of a recurring activity</span>
-    </div>
+      <span class="glyphicon glyphicon-repeat report-icon"></span><span class="report-title">Recurring Activity</span>
+	<% end %>
+	<span class="report-description">- report annual comparison of a recurring activity</span>
   </div>
+</div>
   
-  <div class="row report-row">
-    <div class="col-xs-8 col-xs-offset-2">
-      <%= link_to('donors.pdf') do %> 
-        <%= icon("calendar-check-o", class: "report-icon") %>
-        <span class="report-title">LYBUNT</span>
-      <% end %>
-      <span class="report-description">- report Donors who gave last year but unfortunately not this year</span>
-    </div>
+<div class="row report-row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <%= link_to('donors.pdf') do %> 
+      <%= icon("calendar-check-o", class: "report-icon") %><span class="report-title">LYBUNT</span>
+    <% end %>
+    <span class="report-description">- report Donors who gave last year but unfortunately not this year</span>
   </div>
+</div>
   
   <!-- Dialog Content -->
 <div id='importPopupWrapper' class='import-export-dialog import-export-text'>
-   <a class="boxclose" id="boxclose"></a>
-   <div class='import-export-label' id="activity-report-dialog">
-      <p>
-         <%= form_tag 'activities.pdf' do %>
-         <span>Choose Activity:</span>
-         <br /><br />
-         <%= select_tag "activity",
-            options_from_collection_for_select(@activities, "id", "name") %>
-         <br /><br />
-         <%= submit_tag "Generate Report" %>
-         <% end %>
-      </p>
-   </div>
+  <a class="boxclose" id="boxclose"></a>
+  <div class='import-export-label' id="activity-report-dialog">
+    <p>
+      <%= form_tag 'activities.pdf' do %>
+        <span>Choose Activity:</span>
+        <br /><br />
+        <%= select_tag "activity",
+          options_from_collection_for_select(@activities, "id", "name") %>
+          <br /><br />
+          <%= submit_tag "Generate Report" %>
+        <% end %>
+    </p>
+ </div>
 </div>
 
 <script>

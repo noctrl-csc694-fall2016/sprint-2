@@ -255,6 +255,9 @@ a.btn.btn-danger{
     text-decoration: none;
   }
 }
+.form-delete{
+  padding-top: 20px;
+}
 .select-medium{
   width: 100px;
 }
@@ -330,6 +333,14 @@ a.btn.btn-danger{
 /* Row Grid Override */
 .row{
   margin-right: -5px;
+}
+.relative-row {
+    position: relative;
+}
+.bottom-vertical-align{
+  position: absolute;
+  bottom:0;
+  left: 15px;
 }
 
 /* Error Handlers */

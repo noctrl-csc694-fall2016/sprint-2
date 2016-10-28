@@ -48,10 +48,10 @@
 		</div>   <!-- row -->
 
 		<div class="row form-group">
-	    <div class="col-xs-2 col-xs-offset-2">
-	        <%= f.label :email %>
-	        <span class="required-field-marker">*</span>
-	        <%= f.text_field :email, class: 'form-control input-sm' %>
+		  <div class="col-xs-2 col-xs-offset-2">
+		    <%= f.label :email %>
+		    <span class="required-field-marker">*</span>
+		    <%= f.text_field :email, class: 'form-control input-sm' %>
 	    </div>
 	    <div class="col-xs-2">
 	      <%= f.label :phone %>
@@ -61,12 +61,18 @@
 
 		<div class=" row form-group">
       <div class="col-xs-8 col-xs-offset-1 text-center">
-          <%= f.submit yield(:button_text), class: "btn btn-success" %>
+        <%= f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
         <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
-        &nbsp;
-        <%= link_to "Delete Donor", @donor, method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
       </div>
   	</div>   <!-- row -->
+  	<% if gift_count_per_donor(@donor) == 0 %>
+    	<div class="row form-group form-delete">
+        <div class="col xs-1 col-xs-offset-7">
+          <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+          <%= link_to "Delete Donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
+        </div>
+      </div>
+    <% end %>
  	
- <% end %>
+<% end %>
