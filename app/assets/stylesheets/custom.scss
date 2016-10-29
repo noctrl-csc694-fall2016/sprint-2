@@ -5,7 +5,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 /* Custom Google Fonts */
-@import url('https://fonts.googleapis.com/css?family=Exo:600i|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Exo:600i|Open+Sans|Pacifico');
 
 /* Notes:
   1. Use EM for font sizing
@@ -76,8 +76,9 @@ a:hover{
   }
 }
 .navbar-header .navbar-brand{
-  float: right;
+  float: left;
   padding: 0px 15px 15px 15px;
+  font-family: 'Pacifico', cursive;
 }
 .page-header{
   border-bottom: 1px solid rgb(188, 205, 221);
@@ -276,23 +277,27 @@ a.btn.btn-danger{
 }
 
 /* Footer CSS */
+.pre-footer{
+  bottom: 20px;
+  width: 100%;
+  position: fixed;
+  height: 100px;
+  /*http://tuffdogglawn.com/wp-content/uploads/2015/02/footer-grass.png*/
+  background-image: url('/assets/footer-grass-export.png');
+  background-repeat: none;
+}
 .footer {
   bottom: 0;
   width: 100%;
-  min-height: 60px;
+  height: 30px;
   position: fixed; /* Sticky Footer */
-  background-color: rgba(127, 165, 66, 0.90);
-  /* Handles custom border curvature */
-  -webkit-border-top-left-radius: 50px;
-  -webkit-border-top-right-radius: 50px;
-  -moz-border-radius-topleft: 50px;
-  -moz-border-radius-topright: 50px;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
+  background-color: rgb(68, 122, 11);
   font-size: 1.0em;
   
   .footer-text {
-  	margin: 20px 0;		/* center footer text horizontally */
+  	padding-top: 5px;
+  	padding-bottom: 5px;
+  	margin: 0px;		/* center footer text horizontally */
   }
 	
   a{
