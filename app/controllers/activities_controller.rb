@@ -21,7 +21,7 @@ class ActivitiesController < ApplicationController
   def create
     @activity = Activity.new(activity_params)
     if @activity.save
-      flash[:success] = "Activty added successfully!"
+      flash[:success] = "Activity added successfully!"
       redirect_to activities_url
     else
       render 'new'
@@ -33,7 +33,7 @@ class ActivitiesController < ApplicationController
     @activity = Activity.find(params[:id])
     if @activity.update(activity_params)
        redirect_to activities_url
-       flash[:success] = "Activty updated successfully!"
+       flash[:success] = "Activity updated successfully!"
     else
       render 'edit'
     end

@@ -82,15 +82,15 @@ class GiftsController < ApplicationController
     redirect_to gifts_path
   end
   
-  def map_activities_n_donors()
-    @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
-    @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
-  end
-  
   private
     #define permitted and required parameters for create and update methods
     def gift_params
       params.required(:gift).permit(:activity_id, :donor_id, :donation_date, :amount, :gift_type, :notes)
+    end
+    
+    def map_activities_n_donors()
+      @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
+      @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
     end
 
 
