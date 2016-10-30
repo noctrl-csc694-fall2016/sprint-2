@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161012184244) do
+ActiveRecord::Schema.define(version: 20161030235000) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -36,6 +36,9 @@ ActiveRecord::Schema.define(version: 20161012184244) do
     t.text     "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "title"
+    t.string   "nickname"
+    t.string   "country"
   end
 
   create_table "gifts", force: :cascade do |t|
@@ -47,6 +50,14 @@ ActiveRecord::Schema.define(version: 20161012184244) do
     t.text     "notes"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.float    "pledge"
+    t.integer  "check_number"
+    t.datetime "check_date"
+    t.boolean  "anonymous"
+    t.text     "memorial_note"
+    t.string   "solicited_by"
+    t.string   "gift_user"
+    t.string   "gift_source"
     t.index ["activity_id"], name: "index_gifts_on_activity_id"
     t.index ["donor_id"], name: "index_gifts_on_donor_id"
   end
