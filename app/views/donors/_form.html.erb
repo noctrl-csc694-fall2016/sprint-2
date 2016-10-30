@@ -1,78 +1,77 @@
 <%= form_for(@donor) do |f| %>
-  	<div class="row form-group">
-  	   <%= render 'shared/donor_error_messages' %>
-    	<div class="col-xs-2 col-xs-offset-2">
-      	<%= f.label :first_name %>
-      	<span class="required-field-marker">*</span>
-        <%= f.text_field :first_name, class: 'form-control input-sm' %>
-      </div>
-      <div class="col-xs-2">
-      	<%= f.label :last_name %>
-      	<span class="required-field-marker">*</span>
-        <%= f.text_field :last_name, class: 'form-control input-sm' %>
-      </div>
-    </div> <!-- row -->
+  <div class="row form-group">
+  	<%= render 'shared/donor_error_messages' %>
+    <div class="col-xs-2 col-xs-offset-2">
+      <%= f.label :first_name %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :first_name, class: 'form-control input-sm' %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :last_name %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :last_name, class: 'form-control input-sm' %>
+    </div>
+  </div> <!-- row -->
 
-    <div class="row form-group">
-    	<div class="col-xs-4 col-xs-offset-2">
-      	<%= f.label :address %>
-        <span class="required-field-marker">*</span>
-        <%= f.text_field :address, class: 'form-control input-sm' %>
-      </div>
-    </div>   <!-- row -->
+  <div class="row form-group">
+    <div class="col-xs-4 col-xs-offset-2">
+      <%= f.label :address %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :address, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
 
-    <div class="row form-group">
-     	<div class="col-xs-4 col-xs-offset-2">
-      	<%= f.label :address2 %>
-        <%= f.text_field :address2, class: 'form-control input-sm' %>
-      </div>
-    </div>   <!-- row -->
+  <div class="row form-group">
+    <div class="col-xs-4 col-xs-offset-2">
+      <%= f.label :address2 %>
+      <%= f.text_field :address2, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
 
-    <div class="row form-group">
-      <div class="col-xs-2 col-xs-offset-2">
-        <%= f.label :city %>
-        <span class="required-field-marker">*</span>
-        <%= f.text_field :city, class: 'form-control input-sm' %>
-      </div>
-      <div class="col-xs-1">
-      	<%= f.label :state %>
-        <span class="required-field-marker">*</span>
-        <%= f.text_field :state, class: 'form-control input-sm' %>
-      </div>
+  <div class="row form-group">
+    <div class="col-xs-2 col-xs-offset-2">
+      <%= f.label :city %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :city, class: 'form-control input-sm' %>
+    </div>
+    <div class="col-xs-1">
+      <%= f.label :state %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :state, class: 'form-control input-sm' %>
+    </div>
+    <div class="col-xs-1">
+      <%= f.label :zip %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :zip, class: 'form-control input-sm' %>
+    </div>
+	</div>   <!-- row -->
 
-      <div class="col-xs-1">
-      	<%= f.label :zip %>
-        <span class="required-field-marker">*</span>
-        <%= f.text_field :zip, class: 'form-control input-sm' %>
-      </div>
-		</div>   <!-- row -->
+	<div class="row form-group">
+	  <div class="col-xs-2 col-xs-offset-2">
+		  <%= f.label :email %>
+		  <span class="required-field-marker">*</span>
+		  <%= f.text_field :email, class: 'form-control input-sm' %>
+    </div>
+    <div class="col-xs-2">
+      <%= f.label :phone %>
+	    <%= f.text_field :phone, class: 'form-control input-sm' %>
+	  </div>
+  </div>   <!-- row -->
 
-		<div class="row form-group">
-		  <div class="col-xs-2 col-xs-offset-2">
-		    <%= f.label :email %>
-		    <span class="required-field-marker">*</span>
-		    <%= f.text_field :email, class: 'form-control input-sm' %>
-	    </div>
-	    <div class="col-xs-2">
-	      <%= f.label :phone %>
-	      <%= f.text_field :phone, class: 'form-control input-sm' %>
-	    </div>
-		</div>   <!-- row -->
-
-		<div class=" row form-group">
-      <div class="col-xs-8 col-xs-offset-1 text-center">
-        <%= f.submit yield(:button_text), class: "btn btn-success" %>
-        &nbsp;
-        <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
+	<div class=" row form-group">
+    <div class="col-xs-8 col-xs-offset-1 text-center">
+      <%= f.submit yield(:button_text), class: "btn btn-success" %>
+      &nbsp;
+      <%= link_to "Cancel", donors_path, class: "btn btn-warning" %>
+    </div>
+  </div>   <!-- row -->
+  <% if gift_count_per_donor(@donor) == 0 && !@donor.new_record? %>
+    <div class="row form-group form-delete">
+      <div class="col xs-1 col-xs-offset-7">
+        <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+        <%= link_to "Delete Donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
       </div>
-  	</div>   <!-- row -->
-  	<% if gift_count_per_donor(@donor) == 0 && !@donor.new_record? %>
-    	<div class="row form-group form-delete">
-        <div class="col xs-1 col-xs-offset-7">
-          <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
-          <%= link_to "Delete Donor", @donor, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this donor from the database? This action cannot be undone." } %>
-        </div>
-      </div>
-    <% end %>
+    </div>
+  <% end %>
  	
 <% end %>

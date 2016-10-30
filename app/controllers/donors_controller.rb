@@ -21,7 +21,7 @@ class DonorsController < ApplicationController
   def create
     @donor = Donor.new(donor_params)
     if @donor.save
-      flash[:success] = "Activty added successfully!"
+      flash[:success] = "Donor added successfully!"
       redirect_to donors_url
     else
       render 'new'
