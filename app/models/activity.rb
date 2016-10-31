@@ -12,6 +12,12 @@ class Activity < ApplicationRecord
   validates :description, presence: true, length: {maximum:255}
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   
+  TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
+    'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
+    'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
+    
+  SORTS = [ 'Name', 'Start Date', 'End Date', 'Goal']
+  
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|
     #  activity_hash = row.to_hash
@@ -23,4 +29,16 @@ class Activity < ApplicationRecord
     #  end # end if !activity.nil?
     #end # end CSV.foreach
   end # end self.import(file)
+  
+  #handles requests for reports of activities
+  def self.report()
+    @activities = Activity.all
+    respond_to do |format|
+      format.html
+        format.pdf do
+          pdf = ActivityPdf.new(@activities)
+          send_data pdf.render, filename: 'Activities.pdf', type: 'application/pdf'
+        end
+      end
+  end
 end

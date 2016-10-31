@@ -15,13 +15,13 @@ class ActivityPdf < Prawn::Document
       self.row_colors = ['DDDDDD', 'FFFFFF']
       self.column_widths = [110, 175, 175, 80]
       end
-    end
+  end
 
-    def activity_rows
-      [['Name', 'Start Date', 'End Date', 'Goal']] +
-        @activities.map do |activity|
-        [activity.name.to_s, activity.start_date.to_s, activity.end_date.to_s, 
-          activity.goal.to_s]
-      end
+  def activity_rows
+    [['Name', 'Start Date', 'End Date', 'Goal']] +
+      @activities.map do |activity|
+      [activity.name.to_s, activity.start_date.to_s, activity.end_date.to_s, 
+        activity.goal.to_s]
     end
   end
+end
