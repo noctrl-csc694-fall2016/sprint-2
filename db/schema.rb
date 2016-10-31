@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161030235000) do
+ActiveRecord::Schema.define(version: 20161031145029) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -60,6 +60,13 @@ ActiveRecord::Schema.define(version: 20161030235000) do
     t.string   "gift_source"
     t.index ["activity_id"], name: "index_gifts_on_activity_id"
     t.index ["donor_id"], name: "index_gifts_on_donor_id"
+  end
+
+  create_table "trashes", force: :cascade do |t|
+    t.string   "category"
+    t.string   "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

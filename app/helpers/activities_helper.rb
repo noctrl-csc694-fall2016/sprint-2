@@ -9,7 +9,7 @@ module ActivitiesHelper
   
   #returns the percent value of the $ given vs the $ goal for an activity
   def progress(activity)
-    selected_gifts = Gift.where(:activity_id => activity)
+    selected_gifts = Gift.where(:activity_id => activity.id)
     sum = 0.0
     selected_gifts.each do |g|
       sum+=g.amount
@@ -26,7 +26,7 @@ module ActivitiesHelper
   
   #returns the quantity of donors that have given $ for an activity
   def donor_count_per_activity(activity)
-    selected_gifts = Gift.where(:activity_id => activity)
+    selected_gifts = Gift.where(:activity_id => activity.id)
     selected_gifts.distinct.count(:donor_id)
   end 
 end

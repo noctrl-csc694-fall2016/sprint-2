@@ -52,7 +52,7 @@
     <% if donor_count_per_activity(@activity) == 0 && !@activity.new_record? %>
       <div class="row form-group form-delete">
         <div class="col xs-1 col-xs-offset-7">
-          <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+          <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-delete"></span>
           <%= link_to "Delete activity", @activity, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this activity from the database? This action cannot be undone." } %>
         </div>
       </div>
