@@ -61,14 +61,14 @@
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%=f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%=link_to "Cancel", gifts_path, class: "btn btn-warning" %>
+        <%=link_to "Cancel", gifts_path(activity_id: "", donor_id: ""), class: "btn btn-warning" %>
     </div>
   </div>
   <!-- row -->
   <% if !@gift.new_record? %>
     <div class="row form-group form-delete">
       <div class="col xs-1 col-xs-offset-7">
-        <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-new"></span>
+        <span class="glyphicon glyphicon-minus icon-donna-regular icon-donna-delete"></span>
         <%= link_to "Delete Gift", @gift, method: :delete, data: { confirm: "Are you sure that you want to permanently remove this gift from the database? This action cannot be undone." } %>
       </div>
     </div>

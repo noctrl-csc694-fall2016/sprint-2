@@ -5,7 +5,7 @@
   		<h2>Surf Donors <small>&nbsp; Select a row to view or edit that donor</small></h2>
   		<div class="row relative-row">
         <div class="text-left bottom-vertical-align">
-          There are <%= pluralize(@donors.count, "donor") %>.
+          <h4>There are <%= pluralize(@donors.count, "donor") %>.</h4>
         </div>
         <div class="text-right">
           <%= link_to(new_donor_path) do %>
@@ -54,3 +54,7 @@
     <% end %>
   </div>
 </div>
+
+
+<!--The followings are added just for test-->
+<br><br>

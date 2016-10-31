@@ -63,7 +63,16 @@ class GiftsController < ApplicationController
   
   #list all gifts on index page
   def index
-    @selected_gifts = Gift.paginate(page: params[:page], per_page: 5)
+    # @selected_gifts = Gift.paginate(page: params[:page], per_page: 5)
+    if(params[:activity_id] == "" && params[:donor_id] == "")
+      @selected_gifts = Gift.all.paginate(page: params[:page], per_page: 5)
+    elsif(params[:activity_id] == "")
+      @selected_gifts = Gift.where(:donor_id => params[:donor_id]).paginate(page: params[:page], per_page: 5)
+    elsif(params[:donor_id] == "")
+      @selected_gifts = Gift.where(:activity_id => params[:activity_id]).paginate(page: params[:page], per_page: 5)
+    else
+      @selected_gifts = Gift.where(["activity_id = ? and donor_id = ?", params[:activity_id], params[:donor_id]]).paginate(page: params[:page], per_page: 5)
+    end
     map_activities_n_donors()
     # for reports
     respond_to do |format|
@@ -79,7 +88,7 @@ class GiftsController < ApplicationController
   def destroy
     Gift.find(params[:id]).destroy
     flash[:success] = "Gift deleted."
-    redirect_to gifts_path
+    redirect_to gifts_path(activity_id: "", donor_id: "")
   end
   
   private
@@ -92,6 +101,5 @@ class GiftsController < ApplicationController
       @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
       @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
     end
-
-
+    
 end
