@@ -24,6 +24,7 @@
   <div class="col-sm-8 col-xs-offset-2">
     <% if @donors.count != 0 %>
     <table class="table table-striped table-hover table-bordered table-responsive">
+      <%= will_paginate @donors %>
       <thead>
         <tr>
           <th>Name</th>
@@ -45,6 +46,7 @@
         <% end %>
       </tbody>
     </table>
+    <%= will_paginate @donors %>
     <% else %>
     <h3>No donors located given your search criteria.</h3>
     <% end %>

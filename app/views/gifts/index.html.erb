@@ -28,6 +28,7 @@
 <!--Table -- list all requested gifts-->
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
+    <%= will_paginate @gifts %>
     <% if @gifts.count != 0 %>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
@@ -54,6 +55,7 @@
         <% end %>
       </tbody>
     </table>
+    <%= will_paginate @gifts %>
     <% else %>
     <h3>No gifts located given your search criteria.</h3>
     <% end %>

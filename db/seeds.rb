@@ -37,6 +37,20 @@ Activity.create!( name: "Food Truck",
                   goal: "100",
                   notes: "Contact Jen for more information.")
 
+Activity.create!( name: "Halloween Pumpkin Carving",
+                  start_date: "2016-10-16",
+                  end_date: "2016-10-31",
+                  description: "Fun",
+                  goal: "2500",
+                  notes: "Donors purchase $5 pumpkin to carve.")
+
+Activity.create!( name: "Chicago Cubs World Series",
+                  start_date: "2016-10-31",
+                  end_date: "2016-10-31",
+                  description: "Fun",
+                  goal: "1000",
+                  notes: "Contact Bob for more information.")
+
 #Create sample donors                 
 Donor.create!( first_name: "Joe",
                   last_name: "Donor",
@@ -78,6 +92,26 @@ Donor.create!( first_name: "Brian",
                   phone: "330-257-6689",
                   email: "bbrown@hotmail.com",
                   notes: "Example donor #4.")
+
+Donor.create!( first_name: "Brian",
+                  last_name: "Green",
+                  address: "200 Main Ave.",
+                  city: "Chicago",
+                  state: "IL",
+                  zip: "60060",
+                  phone: "330-257-5589",
+                  email: "bgreen@hotmail.com",
+                  notes: "Example donor #5.")
+
+Donor.create!( first_name: "Joe",
+                  last_name: "Brown",
+                  address: "300 Main Ave.",
+                  city: "Chicago",
+                  state: "IL",
+                  zip: "60060",
+                  phone: "330-257-4567",
+                  email: "jbrown@hotmail.com",
+                  notes: "Example donor #6.")
                   
 #Create sample donations/gifts                 
 Gift.create!( activity_id: 1,
@@ -112,4 +146,112 @@ Gift.create!( activity_id: 3,
               donor_id: 3,
               donation_date: "2016-09-30",
               amount: 2500,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 3,
+              donor_id: 3,
+              donation_date: "2016-10-30",
+              amount: 600,
+              gift_type: "Cash")
+
+Gift.create!( activity_id: 1,
+              donor_id: 4,
+              donation_date: "2016-04-30",
+              amount: 2500,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 2,
+              donation_date: "2016-09-15",
+              amount: 400,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 4,
+              donor_id: 3,
+              donation_date: "2016-03-30",
+              amount: 700,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 4,
+              donor_id: 1,
+              donation_date: "2016-09-12",
+              amount: 50,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 1,
+              donor_id: 3,
+              donation_date: "2016-09-04",
+              amount: 3000,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 4,
+              donor_id: 2,
+              donation_date: "2016-09-05",
+              amount: 1500,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 3,
+              donation_date: "2016-09-06",
+              amount: 400,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 1,
+              donation_date: "2016-09-09",
+              amount: 6500,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 4,
+              donation_date: "2016-09-02",
+              amount:1200,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 1,
+              donation_date: "2016-12-30",
+              amount: 900,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 2,
+              donor_id: 3,
+              donation_date: "2016-01-30",
+              amount: 30,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 1,
+              donor_id: 1,
+              donation_date: "2016-02-13",
+              amount:600,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 1,
+              donor_id: 3,
+              donation_date: "2016-03-27",
+              amount: 70,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 1,
+              donor_id: 4,
+              donation_date: "2016-04-27",
+              amount: 50,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 3,
+              donor_id: 2,
+              donation_date: "2016-05-27",
+              amount: 10,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 1,
+              donor_id: 3,
+              donation_date: "2016-07-12",
+              amount: 20,
+              gift_type: "Cash")
+              
+Gift.create!( activity_id: 3,
+              donor_id: 4,
+              donation_date: "2016-12-12",
+              amount: 20,
               gift_type: "Cash")
