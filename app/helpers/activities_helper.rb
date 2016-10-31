@@ -29,4 +29,9 @@ module ActivitiesHelper
     selected_gifts = Gift.where(:activity_id => activity)
     selected_gifts.distinct.count(:donor_id)
   end 
+  
+  #returns the public/visible id for the activity
+  def get_activity_id(activity)
+    return "act" + activity.id.to_s
+  end
 end

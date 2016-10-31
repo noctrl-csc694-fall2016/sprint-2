@@ -33,6 +33,7 @@
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
         <tr>
+          <th>ID</th>
           <th>Donor</th>
           <th>Date</th>
           <th>Activity</th>
@@ -45,6 +46,7 @@
         <!--find the gifts that match the selected activity and donor-->
           <% if ((params[:activity_id] == "" || params[:activity_id] == gift.activity_id.to_s ) && (params[:donor_id] == "" || params[:donor_id] == gift.donor_id.to_s)) %>
           <tr data-link="<%= edit_gift_path(gift) %>">
+            <td><%= get_gift_id(gift) %></td>
             <td><%= Donor.find(gift.donor).first_name + " " + Donor.find(gift.donor).last_name %></td>
             <td><%= gift.donation_date.strftime("%B %d, %Y") %></td>
             <td><%= Activity.find(gift.activity).name %></td>
