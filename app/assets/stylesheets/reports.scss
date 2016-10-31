@@ -1,0 +1,58 @@
+// Place all the styles related to the Reports controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.report-container {
+  width:66%;
+  height: 60px;
+  //background: aqua;
+  margin: auto;
+  font-size: 1.15em!important;
+}
+
+.report-third-left {
+  width: 33.3%;
+  height: 60px;
+  //background: pink;
+  float: left;
+}
+
+.report-third-middle {
+  width: 33.3%;
+  height: 60px;
+  //background: lightgreen;
+  float:left;
+}
+
+.report-third-right {
+  width: 33.3%;
+  height: 60px;
+  //background: lightblue;
+  float: left;
+}
+
+.report-left-half {
+  width: 50%;
+  height: 60px;
+  //background: pink;
+  float: left;
+}
+
+.report-right-half {
+  width: 50%;
+  height: 60px;
+  //background: lightgreen;
+  float:left;
+}
+
+.report-submit {
+  margin-left: 17%;
+}
+
+.report-tab {
+  padding-right: 1em;
+}
+
+.report-container label {
+  font-weight: normal!important;
+}

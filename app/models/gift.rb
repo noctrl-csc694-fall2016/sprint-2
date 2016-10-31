@@ -15,6 +15,14 @@ class Gift < ApplicationRecord
   validates :gift_type, presence: true
   validates :notes, presence: false, length: { maximum: 2500 }
   
+  TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
+    'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
+    'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
+    
+  SORTS = [ 'Donor', 'Amount', 'Donation Date', 'Gift Type']
+  
+  TOPN = [ '10', '20', '50', '100', 'all']
+  
   # Import Gifts
   def self.import(file, activity)
     

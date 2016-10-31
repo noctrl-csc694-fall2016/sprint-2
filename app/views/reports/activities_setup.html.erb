@@ -1,0 +1,43 @@
+<% provide(:title, "Activities Report") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+    <div class="page-header">
+      <h2>Activities Report <small>&nbsp;
+      All Activities within a timeframe are saved to a PDF file.</small></h2>
+  	</div>
+  </div>
+</div>
+<!-- Content -->
+<%= form_tag '/report-activities-pdf', multipart:true do %>
+  <section class='report-container'>
+    <div class="report-third-left">
+      <span class='report-tab'>Timeframe:</span>
+        <%= select_tag 'times', options_for_select(Activity::TIMES) %>
+    </div>
+
+    <div class="report-third-middle">
+      <span class='report-tab'>Sort By:</span>
+        <%= select_tag 'sorts', options_for_select(Activity::SORTS) %>
+    </div>
+
+    <div class="report-third-right">
+      <span class='report-tab'>Layout:</span><br />
+      <%= radio_button_tag(:layout, "portrait", checked = true) %>
+      <%= label_tag(:layout_portrait, "Regular/Portrait") %><br />
+      <%= radio_button_tag(:layout, "landscape") %>
+      <%= label_tag(:layout_landscape, "Long/Landscape") %>
+    </div>
+    <%= hidden_field(:name, :name, :value => 'ReportActivity') %>
+    <%= hidden_field(:start_date, :start_date, :value => 'ReportStartDate') %>
+    <%= hidden_field(:end_date, :end_date, :value => 'ReportEndDate') %>
+    <%= hidden_field(:description, :description, :value => 'ReportDescription') %>
+    <%= hidden_field(:goal, :goal, :value => 'ReportGoal') %>
+    <%= hidden_field(:notes, :notes, :value => 'ReportNotes') %>
+  </section>
+  <br /><br />
+  <div class="report-submit">
+    <%= submit_tag "Generate Report", class: "btn btn-success" %>
+    &nbsp;
+    <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
+  </div>
+<% end %>

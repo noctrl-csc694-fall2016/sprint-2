@@ -14,7 +14,7 @@
       <h4>Gifts</h4>
         <div class='import-export-label'>
   		    <%= form_tag inkind_gifts_path, multipart:true do %>
-  			  <span class='import-export-label'>Choose associated activity:</span>
+  			  <span class='import-export-label'>Choose Activity:</span>
   			  <%= select_tag "activity",
   			  options_from_collection_for_select(@activities, "id", "name") %>
   			  <br /><br />
@@ -25,5 +25,7 @@
 	        <%= submit_tag "Import Gifts from CSV" %>
     	    <% end %>
     	  </div>
+    	  <br /><br /><br /><br />
+      <%=link_to "Cancel", import_export_url, class: "btn btn-warning" %>
     </div>
   </div>

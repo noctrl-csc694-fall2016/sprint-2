@@ -20,6 +20,14 @@ class Donor < ApplicationRecord
                     uniqueness: true
   require 'csv'
   
+  TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
+    'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
+    'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
+    
+  SORTS = [ 'First Name', 'Last Name', 'Email', 'State']
+  
+  TOPN = [ '10', '20', '50', '100', 'all']
+  
   # Export Donors
   # outputs all donors as a csv file(all attributes included).
   def self.as_csv
