@@ -12,6 +12,8 @@ gem 'jbuilder',       '2.4.1'
 gem 'prawn',          '2.1.0'
 gem 'prawn-table', '~> 0.1.0'
 gem 'font-awesome-sass', '~> 4.6.2'
+gem 'will_paginate',           '3.1.0'
+gem 'bootstrap-will_paginate', '0.0.10'
 
 group :development, :test do
   gem 'sqlite3', '1.3.11'

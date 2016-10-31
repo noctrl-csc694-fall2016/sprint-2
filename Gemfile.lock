@@ -45,6 +45,8 @@ GEM
     bootstrap-sass (3.3.6)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    bootstrap-will_paginate (0.0.10)
+      will_paginate
     builder (3.2.2)
     byebug (9.0.0)
     coderay (1.1.1)
@@ -198,12 +200,14 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    will_paginate (3.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   bootstrap-sass (= 3.3.6)
+  bootstrap-will_paginate (= 0.0.10)
   byebug (= 9.0.0)
   coffee-rails (= 4.2.1)
   font-awesome-sass (~> 4.6.2)
@@ -227,6 +231,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier (= 3.0.0)
   web-console (= 3.1.1)
+  will_paginate (= 3.1.0)
 
 BUNDLED WITH
    1.13.5
