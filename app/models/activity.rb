@@ -7,7 +7,7 @@ class Activity < ApplicationRecord
   #             Pat M, Oct 17 2016
   #----------------------------------#
   has_many :gifts, dependent: :destroy
-  default_scope -> {order(created_at: :desc)}
+  default_scope -> {order(id: :desc)}
   validates :name, presence: true, length: {maximum:255}
   validates :description, presence: true, length: {maximum:255}
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}

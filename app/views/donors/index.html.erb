@@ -27,6 +27,7 @@
       <%= will_paginate @donors %>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Name</th>
           <th>Gifts</th>
           <th>Total Gift</th>
@@ -37,6 +38,7 @@
       <tbody>
         <% @donors.each do |donor| %>
         <tr data-link="<%= edit_donor_path(donor) %>">
+          <td><%= get_donor_id(donor) %></td>
           <td><%= "#{donor.first_name} #{donor.last_name}" %></td>
           <td><%= gift_count_per_donor(donor) %></td>
           <td><%= number_to_currency(gift_total_amount_per_donor(donor)) %></td>

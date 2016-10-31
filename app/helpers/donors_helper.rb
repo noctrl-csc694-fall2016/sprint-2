@@ -63,4 +63,9 @@ module DonorsHelper
     end
   end
   
+  #returns the public/visible id for the donor
+  def get_donor_id(donor)
+    return "don" + donor.id.to_s
+  end
+  
 end
