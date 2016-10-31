@@ -47,7 +47,7 @@ class DonorsController < ApplicationController
   
   # list all donors on index page
   def index
-    @donors = Donor.all
+    @donors = Donor.paginate(page: params[:page], per_page: 5)
     respond_to do |format|
       format.html
         format.pdf do

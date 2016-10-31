@@ -63,7 +63,7 @@ class GiftsController < ApplicationController
   
   #list all gifts on index page
   def index
-    @gifts = Gift.all
+    @selected_gifts = Gift.paginate(page: params[:page], per_page: 5)
     map_activities_n_donors()
     # for reports
     respond_to do |format|

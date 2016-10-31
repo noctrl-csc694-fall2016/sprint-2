@@ -24,6 +24,7 @@
   <div class="col-sm-8 col-xs-offset-2">
     <% if @activities.count != 0 %>
     <table class="table table-striped table-hover table-bordered table-responsive">
+      <%= will_paginate @activities %>
       <thead>
         <tr>
           <th>Name</th>
@@ -45,6 +46,7 @@
         <% end %>
       </tbody>
     </table>
+    <%= will_paginate @activities %>
     <% else %>
     <h3>No activities located given your search criteria.</h3>
     <% end %>
