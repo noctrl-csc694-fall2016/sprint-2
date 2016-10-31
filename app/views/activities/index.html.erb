@@ -27,6 +27,7 @@
       <%= will_paginate @activities %>
       <thead>
         <tr>
+          <th>ID</th>
           <th>Name</th>
           <th>End Date</th>
           <th>Goal</th>
@@ -37,6 +38,7 @@
       <tbody>
         <% @activities.each do |activity| %>
         <tr data-link="<%=edit_activity_path(activity) %>">
+          <td><%= get_activity_id(activity) %></td>
           <td><%= activity.name %></td>
           <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
           <td><%= number_to_currency(activity.goal) %></td>

@@ -9,7 +9,7 @@ class Gift < ApplicationRecord
   
   belongs_to :donor
   belongs_to :activity
-  default_scope -> {order(donation_date: :desc)}
+  default_scope -> {order(id: :desc)}
   validates :donation_date, presence: true
   validates :amount, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   validates :gift_type, presence: true
