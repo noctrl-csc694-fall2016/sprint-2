@@ -39,6 +39,18 @@ class ActivitiesController < ApplicationController
     end
   end
   
+  #list all activities on index page		
+  def index		
+     @activities = Activity.paginate(page: params[:page], per_page: 5)		
+     respond_to do |format|		
+       format.html		
+        format.pdf do		
+           pdf = ActivityPdf.new(@activities)		
+           send_data pdf.render, filename: 'Activities.pdf', type: 'application/pdf'		
+        end		
+      end		
+  end
+  
   #delete activity
   def destroy
     Activity.find(params[:id]).destroy
