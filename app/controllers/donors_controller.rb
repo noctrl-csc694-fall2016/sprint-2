@@ -69,6 +69,7 @@ class DonorsController < ApplicationController
     # defines permitted and required parameters for create and update methods
     def donor_params
       params.required(:donor).permit(:first_name, :last_name, :address, :address2, :city,
-       :state, :zip, :phone, :email, :notes)
+                                    :state, :zip, :country, :phone, :email, :title, :nickname, 
+                                    :notes)
     end
 end

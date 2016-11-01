@@ -5,7 +5,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 /* Custom Google Fonts */
-@import url('https://fonts.googleapis.com/css?family=Exo:600i|Open+Sans|Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Pacifico');
 
 /* Notes:
   1. Use EM for font sizing
@@ -52,7 +52,7 @@ a:hover{
 }
 .navbar-donna-brand {
   color: rgb(140, 137, 240);
-  font-family: 'Exo', sans-serif;
+  font-family: 'Pacifico', cursive;
   
   a{
   	color: rgb(140, 137, 240);
@@ -78,10 +78,16 @@ a:hover{
 .navbar-header .navbar-brand{
   float: left;
   padding: 0px 15px 15px 15px;
-  font-family: 'Pacifico', cursive;
 }
 .page-header{
   border-bottom: 1px solid rgb(188, 205, 221);
+}
+.search-field-button{
+  padding-left: 5px;
+}
+.min-btn-height{
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 /* Page Content */
@@ -240,11 +246,9 @@ a:hover{
   }
 }
 .btn.btn-success{
-  background-color: rgb(139, 173, 84);
   color: rgb(255, 255, 255);
 }
 a.btn.btn-warning{
-  background-color: rgb(249, 157, 28);
   color: rgb(255, 255, 255);
   
   &:hover{
@@ -252,7 +256,6 @@ a.btn.btn-warning{
   }
 }
 a.btn.btn-danger{
-  background-color: rgb(204, 107, 54);
   color: rgb(255, 255, 255);
   
   &:hover{
@@ -288,6 +291,7 @@ a.btn.btn-danger{
   /*http://tuffdogglawn.com/wp-content/uploads/2015/02/footer-grass.png*/
   background-image: url('/assets/footer-grass-export.png');
   background-repeat: none;
+  z-index: 9999999;
 }
 .footer {
   bottom: 0;
@@ -296,6 +300,7 @@ a.btn.btn-danger{
   position: fixed; /* Sticky Footer */
   background-color: rgb(121, 186, 36);
   font-size: 1.0em;
+  z-index: 9999999;
   
   .footer-text {
   	padding-top: 5px;
@@ -322,6 +327,9 @@ a.btn.btn-danger{
 .table-striped tbody tr:nth-child(even):hover td {
    background-color: rgb(252, 227, 236);
 }
+.pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus{
+  background-color: rgb(140, 137, 240);
+}
 
 /* Misc */
 .top-margin-sm{
@@ -329,6 +337,13 @@ a.btn.btn-danger{
 }
 .line-break{
   display: block;
+}
+.record-count{
+  font-size: 1.25em;
+  font-style: italic;
+  display: block;
+  margin: 7px;
+  font-weight: bold;
 }
 
 /* Surf Common CSS */
@@ -350,10 +365,16 @@ a.btn.btn-danger{
   bottom:0;
   left: 15px;
 }
+.container-fluid{
+  padding-left: 0px;
+}
 
 /* Error Handlers */
 div.alert {
     z-index:99;
     margin-left: auto;
     margin-right: auto;
+}
+.panel-group .panel{
+  margin-bottom: 10px;
 }

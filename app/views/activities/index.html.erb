@@ -5,7 +5,7 @@
   		<h2>Surf Activities <small>&nbsp; Select a row to view or edit that activty</small></h2>
   		<div class="row relative-row">
     		<div class="text-left bottom-vertical-align">
-          <h4>There are <%= pluralize(@activities.count, "activity") %>.</h4>
+          <span class="record-count">There are <%= pluralize(@activities.count, "activity") %>.</span>
     		</div>
     		<div class="text-right">
     		  <%= link_to(new_activity_path) do %>
@@ -22,9 +22,27 @@
 
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
+    
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+            Filter/Sort Activities
+          </a>
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse">
+        <div class="panel-body">
+        Here is where the filter and sort options will be....hooray!  
+        </div>
+      </div>
+    </div>
+  
+  
     <% if @activities.count != 0 %>
     <table class="table table-striped table-hover table-bordered table-responsive">
-      <%= will_paginate @activities %>
+      <%= will_paginate @activities, class: "pagination pagination-centered" %>
       <thead>
         <tr>
           <th>ID</th>
@@ -54,3 +72,4 @@
     <% end %>
   </div>
 </div>
+
