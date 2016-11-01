@@ -22,36 +22,54 @@
 
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
-    <% if @donors.count != 0 %>
-    <table class="table table-striped table-hover table-bordered table-responsive">
-      <%= will_paginate @donors, class: "pagination pagination-centered" %>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Gifts</th>
-          <th>Total Gift</th>
-          <th>Last Gift</th>
-          <th>Last Activity</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @donors.each do |donor| %>
-        <tr data-link="<%= edit_donor_path(donor) %>">
-          <td><%= get_donor_id(donor) %></td>
-          <td><%= "#{donor.first_name} #{donor.last_name}" %></td>
-          <td><%= gift_count_per_donor(donor) %></td>
-          <td><%= number_to_currency(gift_total_amount_per_donor(donor)) %></td>
-          <td><%= number_to_currency(last_gift_amount(donor)) %></td>
-          <td><%= last_activity(donor) %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= will_paginate @donors %>
-    <% else %>
-    <h3>No donors located given your search criteria.</h3>
-    <% end %>
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+              Filter/Sort This Data
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <div class="panel-body">  
+            Filters/Search
+          </div>
+        </div>
+      </div>
+      
+      <% if @donors.count != 0 %>
+      <table class="table table-striped table-hover table-bordered table-responsive">
+        <%= will_paginate @donors, class: "pagination pagination-centered" %>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gifts</th>
+            <th>Total Gift</th>
+            <th>Last Gift</th>
+            <th>Last Activity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @donors.each do |donor| %>
+          <tr data-link="<%= edit_donor_path(donor) %>">
+            <td><%= get_donor_id(donor) %></td>
+            <td><%= "#{donor.first_name} #{donor.last_name}" %></td>
+            <td><%= gift_count_per_donor(donor) %></td>
+            <td><%= number_to_currency(gift_total_amount_per_donor(donor)) %></td>
+            <td><%= number_to_currency(last_gift_amount(donor)) %></td>
+            <td><%= last_activity(donor) %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate @donors %>
+      <% else %>
+        <h3>No donors located given your search criteria.</h3>
+      <% end %>
+      </div>
+    </div>
   </div>
 </div>
 
