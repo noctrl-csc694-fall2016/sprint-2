@@ -29,16 +29,5 @@ class Activity < ApplicationRecord
     #  end # end if !activity.nil?
     #end # end CSV.foreach
   end # end self.import(file)
-  
-  #handles requests for reports of activities
-  def self.report()
-    @activities = Activity.all
-    respond_to do |format|
-      format.html
-        format.pdf do
-          pdf = ActivityPdf.new(@activities)
-          send_data pdf.render, filename: 'Activities.pdf', type: 'application/pdf'
-        end
-      end
-  end
+
 end
