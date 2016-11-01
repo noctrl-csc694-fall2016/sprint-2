@@ -38,7 +38,7 @@
     <div class="col-xs-2 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
-        <%=f.select(:gift_type, options_for_select([["Cash",1], ["Check",2], ["Credit Card/Debit Card", 3]]),{},:class => "form-control")%>
+        <%=f.select(:gift_type, options_for_select([["Cash", "Cash"], ["Check", "Check"], ["Credit Card/Debit Card", "Credit Card/Debit Card"]], :selected => @gift.gift_type),{},:class => "form-control")%>
     </div>
     <div class="col-xs-2">
       <%= f.label :solicited_by %>
@@ -62,14 +62,14 @@
       <%= f.label :pledge %>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <%=f.number_field :amount, class: 'form-control input-sm' %>
+        <%=f.number_field :pledge, class: 'form-control input-sm' %>
       </div>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
         <%= f.label :anonymous %>
       </div>
-      <%=f.select(:anonymous, options_for_select([["Yes",1], ["No",2]]), include_blank: "Select here",:class => "form-control")%>
+      <%=f.select(:anonymous, options_for_select([["Yes", true], ["No", false]], :selected => @gift.anonymous), include_blank: "Select here",:class => "form-control")%>
     </div>
   </div> <!-- row -->
   
@@ -104,7 +104,7 @@
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%=f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%=link_to "Cancel", gifts_path(activity_id: "", donor_id: ""), class: "btn btn-warning" %>
+        <%=link_to "Cancel", gifts_path(:activity_id => @gift.activity_id, :donor_id => @gift.donor_id), class: "btn btn-warning" %>
     </div>
   </div> <!-- row -->
   
