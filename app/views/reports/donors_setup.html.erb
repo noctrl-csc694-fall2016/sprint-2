@@ -41,3 +41,12 @@
   <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
 </div>
 <% end %>
+
+<script>
+  $(document).ready(function(){
+    $("input.btn.btn-success").removeAttr("data-disable-with")
+    $("input.btn.btn-success").click(function(){
+        $("form")[0].reset();
+    });
+});
+</script>

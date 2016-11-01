@@ -12,12 +12,12 @@
   <section class='report-container'>
     <div class="report-third-left">
       <span class='report-tab'>Timeframe:</span>
-        <%= select_tag 'times', options_for_select(Activity::TIMES) %>
+        <%= select_tag 'timeframe', options_for_select(Activity::TIMES) %>
     </div>
 
     <div class="report-third-middle">
       <span class='report-tab'>Sort By:</span>
-        <%= select_tag 'sorts', options_for_select(Activity::SORTS) %>
+        <%= select_tag 'sortby', options_for_select(Activity::SORTS) %>
     </div>
 
     <div class="report-third-right">
@@ -41,3 +41,13 @@
     <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
 <% end %>
+
+<script>
+  $(document).ready(function(){
+    $("input.btn.btn-success").removeAttr("data-disable-with")
+    $("input.btn.btn-success").click(function(){
+        $("form")[0].reset();
+    });
+});
+</script>
+

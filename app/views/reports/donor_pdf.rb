@@ -1,7 +1,10 @@
 class DonorPdf < Prawn::Document
-  def initialize(donor)
+  def initialize(donor, timeframe, sortby, topn)
     super()
     @donors = donor
+    @timeframe = timeframe
+    @sortby = sortby
+    @topn = topn
     header
     text_content
     table_content
@@ -11,33 +14,34 @@ class DonorPdf < Prawn::Document
   # under the first section for puma.
 
   def header
-    #This inserts an image in the pdf file and sets the size of the image
-    #image "#{Rails.root}/app/assets/images/header.png", width: 530, height: 150
+    text "Donors Report", size: 24, style: :bold, :align => :center
   end
-
+  
   def text_content
-    # The cursor for inserting content starts on the top left of the page. 
-    # Here we move it down a little to create more space between the text and the 
-    # image inserted above
+    y_position = cursor - 20
+
+    bounding_box([0, y_position], :width => 658, :height => 50) do
+      text "This GiftGarden report created " + Time.zone.now.to_date.to_s + 
+      " by John Smith.", size: 15
+      text "Report options: Timeframe " + @timeframe + ", Sorted by " + @sortby.to_s + 
+      ", Top N " + @topn + ".", size: 15
+    end
   end
 
   def table_content
-    # This makes a call to donor_rows and gets back an array of data that will 
-    # populate the columns and rows of a table I then included some styling to 
-    # include a header and make its text bold. I made the row background colors 
-    # alternate between grey and white Then I set the table column widths
     table donor_rows do
       row(0).font_style = :bold
       self.header = true
       self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [200, 200]
-    end
+      self.column_widths = [40, 175, 90, 80, 65]
+      end
   end
 
   def donor_rows
-    [['Last Name', 'First Name']] +
+    [['ID', 'Donor Name', 'City, State', 'Date of Last Gift', 'Gift Total']] +
       @donors.map do |donor|
-      [donor.last_name, donor.first_name]
+      [donor.id.to_s, donor.first_name.to_s + " " + donor.last_name.to_s, 
+      donor.city.to_s + " " + donor.state, donor.updated_at.to_date.to_s, ""]
     end
   end
 end
