@@ -5,7 +5,7 @@
   		<h2>Surf Gifts <small>&nbsp; Select a row to view or edit that gift</small></h2>
   		<div class="row relative-row">
         <div class="text-left bottom-vertical-align">
-          <h4>There are <%= pluralize(@selected_gifts.count, "gift") %> for a sum of <%= number_to_currency(@selected_gifts.sum(:amount)) %>.</h4>
+          <span class="record-count">There are <%= pluralize(@selected_gifts.count, "gift") %> for a sum of <%= number_to_currency(@selected_gifts.sum(:amount)) %>.</span>
         </div>
         <div class="text-right">
           <%= link_to(new_gift_path) do %>
@@ -28,7 +28,7 @@
 <!--Table -- list all requested gifts-->
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
-    <%= will_paginate @selected_gifts %>
+    <%= will_paginate @selected_gifts, class: "pagination pagination-centered" %>
     <% if @selected_gifts.count != 0 %>
     <table class="table table-striped table-hover table-bordered table-responsive">
       <thead>
