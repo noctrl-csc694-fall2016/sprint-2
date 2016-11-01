@@ -54,8 +54,8 @@ class GiftsController < ApplicationController
     @gift = Gift.find(params[:id])
     map_activities_n_donors()
     if @gift.update(gift_params)
-       redirect_to gifts_url
        flash[:success] = "Gift updated successfully!"
+       redirect_to gifts_path(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
     else
       render 'edit'
     end
@@ -94,7 +94,9 @@ class GiftsController < ApplicationController
   private
     #define permitted and required parameters for create and update methods
     def gift_params
-      params.required(:gift).permit(:activity_id, :donor_id, :donation_date, :amount, :gift_type, :notes)
+      params.required(:gift).permit(:activity_id, :donor_id, :donation_date, :amount, :gift_type,  
+                                    :solicited_by, :check_date, :check_number, :pledge, :anonymous, 
+                                    :gift_user, :gift_source, :memorial_note, :notes)
     end
     
     def map_activities_n_donors()
