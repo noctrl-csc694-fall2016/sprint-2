@@ -14,6 +14,7 @@ class Gift < ApplicationRecord
   validates :amount, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   validates :gift_type, presence: true
   validates :notes, presence: false, length: { maximum: 2500 }
+  enum gift_type: [:Cash, :Check, :CreditCard, :DebitCard]
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
