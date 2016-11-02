@@ -30,15 +30,10 @@ class ReportsController < ApplicationController
             end # (Pat M) Q: do activities that haven't ended have a blank end date?
           when 'This Quarter'
             currentQuarter = ((Time.now.month - 1) / 3) + 1
-            monthEnded = activity["end_date"].to_datetime.strftime('%m')
-            monthQuarter = ((monthEnded.to_f - 1) / 3) + 1
-            #if monthQuarter = currentQuarter
-              
-              activity["name"] = currentQuarter
-              activity["goal"] = monthQuarter
-              
+            activityQuarter = current_quarter_months(activity["end_date"].to_datetime)
+            if activityQuarter = currentQuarter
               @reportActivitiesArray.push(activity)
-            #end
+            end
           when 'This Month'
             @reportActivitiesArray.push(activity) #not implemented yet!
           when 'Last Year'
@@ -121,6 +116,11 @@ class ReportsController < ApplicationController
         send_data pdf.render, :filename => 'Gifts Report.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
     end
+  end
+  
+  def current_quarter_months(date)
+    quarters = [1,2,3,4]
+    quarters[(date.month - 1) / 3]
   end
   
 end
