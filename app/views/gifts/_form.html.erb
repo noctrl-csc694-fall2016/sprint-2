@@ -8,6 +8,7 @@
       </div>
       <%= @donor_id %>
       <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu' %>
+    <%= link_to 'Find Donors', hyper_surf_donors_path, class: "btn btn-primary"%>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
@@ -38,7 +39,7 @@
     <div class="col-xs-2 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
-        <%=f.select(:gift_type, options_for_select([["Cash", "Cash"], ["Check", "Check"], ["Credit Card/Debit Card", "Credit Card/Debit Card"]], :selected => @gift.gift_type),{},:class => "form-control")%>
+        <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => @gift.gift_type),{},:class => "form-control")%>
     </div>
     <div class="col-xs-2">
       <%= f.label :solicited_by %>
@@ -66,10 +67,8 @@
       </div>
     </div>
     <div class="col-xs-2">
-      <div class="line-break">
-        <%= f.label :anonymous %>
-      </div>
-      <%=f.select(:anonymous, options_for_select([["Yes", true], ["No", false]], :selected => @gift.anonymous), include_blank: "Select here",:class => "form-control")%>
+      <%= f.check_box :anonymous, {:check => @gift.anonymous} %>
+      <%= f.label :anonymous %>
     </div>
   </div> <!-- row -->
   

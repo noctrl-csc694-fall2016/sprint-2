@@ -54,4 +54,16 @@ class Donor < ApplicationRecord
     end # end foreach
   end
   
+  def self.search(search)
+    if search
+      #HypersurfDonor....
+      #use lower to make searh case insensitive
+      where('lower(first_name) LIKE lower(?) OR lower(last_name) LIKE lower(?) OR lower(email) LIKE lower(?) OR lower(address) LIKE lower(?)  OR lower(address2) LIKE lower(?)  OR lower(city) LIKE lower(?)  OR lower(state) LIKE lower(?) ', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%","%#{search}%", "%#{search}%","%#{search}%")
+    else
+      all
+      #Donor.all.scoped
+    end
+  end
+
+  
 end

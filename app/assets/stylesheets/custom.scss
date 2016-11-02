@@ -5,7 +5,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 /* Custom Google Fonts */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|Pacifico');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Alex+Brush');
 
 /* Notes:
   1. Use EM for font sizing
@@ -34,11 +34,15 @@ a, a:active, a:visited{
 a:hover{
   text-decoration: underline;
 }
+h1{
+  font-size: 2.7em;
+}
 
 /* Header */
 .navbar-donna {
+  padding-top: 8px;
   background-color: rgb(255,255,255);
-  height: 120px;
+  height: 128px;
   border-bottom: 2px solid rgb(172, 168, 242);
 }
 .navbar-donna-search {
@@ -52,7 +56,7 @@ a:hover{
 }
 .navbar-donna-brand {
   color: rgb(140, 137, 240);
-  font-family: 'Pacifico', cursive;
+  font-family: 'Alex Brush', cursive;
   
   a{
   	color: rgb(140, 137, 240);
@@ -93,7 +97,7 @@ a:hover{
 /* Page Content */
 .container-donna {
   padding-top: 120px;
-  margin-bottom:60px;
+  margin-bottom: 120px;
   a {
 	 color: rgb(204, 107, 54);
   }
@@ -263,7 +267,7 @@ a.btn.btn-danger{
   }
 }
 .form-delete{
-  padding-top: 20px;
+  padding-top: 12px;
 }
 .select-medium{
   width: 100px;
@@ -309,7 +313,12 @@ a.btn.btn-danger{
   }
 	
   a{
-  	color: rgb(97, 52, 13);
+  	color: 	rgb(74,69,231);
+  	text-shadow:
+   -.1px -.1px 0 #000,  
+    .1px -.1px 0 #000,
+    -.1px .1px 0 #000,
+     .1px .1px 0 #000;
   }
   a:hover{
   	color: rgb(50, 42, 63);
