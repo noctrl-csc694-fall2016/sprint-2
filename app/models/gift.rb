@@ -59,5 +59,23 @@ class Gift < ApplicationRecord
       end # end if else
     end # end foreach
   end
+
+      t.float :amount
+      t.text :notes
+    add_column :gifts, :pledge, :float
+    add_column :gifts, :check_number, :integer
+    add_column :gifts, :memorial_note, :text
+    add_column :gifts, :solicited_by, :string
+
+  def self.search(search)
+    if search
+      #HypersurfActivity....
+      #use lower to make searh case insensitive
+      where('lower(amount) LIKE lower(?) OR lower(notes) LIKE lower(?) OR lower(pledge) LIKE lower(?) OR lower(check_number) LIKE lower(?)OR lower(memorial_note) LIKE lower(?) OR lower(solicited_by) LIKE lower(?)', "%#{search}%","%#{search}%", "%#{search}%","%#{search}%","%#{search}%","%#{search}%")
+    else
+      all
+      #Donor.all.scoped
+    end
+  end
   
 end
