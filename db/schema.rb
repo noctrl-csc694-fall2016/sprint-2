@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161031145029) do
+ActiveRecord::Schema.define(version: 20161102044216) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 20161031145029) do
     t.integer  "activity_id"
     t.date     "donation_date"
     t.float    "amount"
-    t.string   "gift_type"
+    t.integer  "gift_type"
     t.text     "notes"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
