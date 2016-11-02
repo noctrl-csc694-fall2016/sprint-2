@@ -13,6 +13,24 @@
       </div>
       <%= select_tag(:donor_id, options_for_select(@donors, params[:donor_id] || ""), include_blank: "All Donors", class: 'form-control input-sm') %>
     </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Timeframe</p>
+      </div>
+      <%= select_tag(:timeframe, options_for_select(Gift::TIMES), include_blank: "All", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Top N</p>
+      </div>
+      <%= select_tag(:topn, options_for_select(Gift::TOPN), include_blank: "All", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Sort By</p>
+      </div>
+      <%= select_tag(:sortby, options_for_select(Gift::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+    </div>
   </div>
   <div class="row form-group">
     <div class="col-xs-2">
