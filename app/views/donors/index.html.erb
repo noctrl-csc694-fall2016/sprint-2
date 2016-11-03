@@ -63,7 +63,7 @@
           <% end %>
         </tbody>
       </table>
-      <%= will_paginate @donors, class: "pagination pagination-centered" %>
+      <%= will_paginate @donors, :inner_window => 2, class: "pagination pagination-centered" %>
       <% else %>
         <h3>No donors located given your search criteria.</h3>
       <% end %>
