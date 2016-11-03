@@ -27,15 +27,20 @@ class ReportsController < ApplicationController
             currentYear = Time.now.year.to_s
             if endYear.between?(currentYear, currentYear)
               @reportActivitiesArray.push(activity)
-            end # (Pat M) Q: do activities that haven't ended have a blank end date?
+            end # (Pat M) Q: activities that haven't ended aren't being handled!!!
           when 'This Quarter'
             currentQuarter = ((Time.now.month - 1) / 3) + 1
             activityQuarter = current_quarter_months(activity["end_date"].to_datetime)
-            if activityQuarter = currentQuarter
+            if activityQuarter.between?(currentQuarter, currentQuarter)
               @reportActivitiesArray.push(activity)
             end
           when 'This Month'
-            @reportActivitiesArray.push(activity) #not implemented yet!
+            currentMonth = Time.now.month
+            activityMonth = activity["end_date"].to_datetime.month
+            if activityMonth.between?(currentMonth, currentMonth)
+              @reportActivitiesArray.push(activity)
+            end
+            
           when 'Last Year'
             @reportActivitiesArray.push(activity) #not implemented yet!
           when 'Last Quarter'

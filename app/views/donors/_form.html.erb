@@ -5,10 +5,15 @@
   	  <%= f.label :title %>
   	  <%= f.text_field :title, class: 'form-control input-sm' %>
   	</div>
-  	<div class="col-xs-2 col-xs-offset-1">
+  	<div class="col-xs-2">
   	  <%=f.label :nickname %>
   	  <%= f.text_field :nickname, class: 'form-control input-sm' %>
   	</div>
+  	<div class="col-xs-2">
+      <%=f.label :donor_type %>
+        <span class="required-field-marker">*</span>
+        <%=f.select(:donor_type, options_for_select(Donor.donor_types.keys, :selected => @donor.donor_type),{},:class => "form-control")%>
+    </div>
   </div> <!-- row -->
   
   <div class="row form-group">
