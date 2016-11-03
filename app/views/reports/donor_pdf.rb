@@ -11,7 +11,7 @@ class DonorPdf < Prawn::Document
   end
 
   # Source: https://www.sitepoint.com/pdf-generation-rails/
-  # under the first section for puma.
+  # under the first section for prawn.
 
   def header
     text "Donors Report", size: 24, style: :bold, :align => :center
