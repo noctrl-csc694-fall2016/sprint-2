@@ -3,11 +3,16 @@
   <div class="col-sm-10 col-xs-offset-2">
   	<div class="page-header">
   		<h2>Hyper Surf Gift Garden</h2>
+  		<div class="row relative-row">
+        <div class="text-left">
+          <span class="record-count"><%= pluralize(@all_search_results.count, "result") %> located for the surf term "<%= params[:term] %>" .</span>
+        </div>
+      </div>
   	</div>
+  	
   </div>
 </div>
 
-<!--%= will_paginate @donor_search_results %-->
 <section id='donor_search row'>
   <div class="col-sm-8 col-xs-offset-2">
     <div class="panel-group" id="accordion">
@@ -54,6 +59,7 @@
           <% end %>
         </tbody>
       </table>
+      <%= will_paginate @all_search_results, class: "pagination pagination-centered" %>
     </div>
   </div>
 </section>
