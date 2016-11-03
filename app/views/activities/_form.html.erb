@@ -6,7 +6,7 @@
         <span class="required-field-marker">*</span>
         <%= f.text_field :name, class: 'form-control input-sm' %> 
       </div>
-      <div class="col-xs-2">
+      <div class="col-xs-2 ">
       <%=f.label :activity_type %>
         <span class="required-field-marker">*</span>
         <%=f.select(:activity_type, options_for_select(Activity.activity_types.keys, :selected => @activity.activity_type),{},:class => "form-control")%>

@@ -66,7 +66,7 @@
           <% end %>
         </tbody>
       </table>
-      <%= will_paginate @selected_gifts, class: "pagination pagination-centered" %>
+      <%= will_paginate @selected_gifts, :inner_window => 2,  class: "pagination pagination-centered" %>
       <% else %>
       <h3>No gifts located given your search criteria.</h3>
       <% end %>
