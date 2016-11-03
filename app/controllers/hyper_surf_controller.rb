@@ -7,11 +7,11 @@
 
 class HyperSurfController < ApplicationController
   def donors
-    @donor_search_results = Donor.search(params[:search]).paginate(:per_page => 30, :page => params[:page])
+    @donor_search_results = Donor.search(params[:search]).paginate(:per_page => 5, :page => params[:page])
   end
   
   def all
-    @all_search_results = Donor.search(params[:term]).paginate(:per_page => 30, :page => params[:page])
+    @all_search_results = Donor.search(params[:term]).paginate(:per_page => 5, :page => params[:page])
   end
   
   private
