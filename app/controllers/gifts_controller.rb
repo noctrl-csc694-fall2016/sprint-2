@@ -74,12 +74,29 @@ class GiftsController < ApplicationController
       @selected_gifts = @selected_gifts.where(:donor_id => params[:donor_id])
     end
     
-    #select the TOP N gifts --NOT WORKING YET
-    if(params[:topn] == "10")
-      @selected_gifts = @selected_gifts.reorder("amount DESC").limit(10)
+    #select the TOP N gifts -- LIMIT CMD NOT WORKING YET
+    if(params[:topn] != "")
+      @selected_gifts = @selected_gifts.reorder("amount DESC").limit(2)
     end
     
     #still need TIMEFRAME filtering
+    case params[:timeframe]
+          when 'All'
+          when 'This Year'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_year).where("donation_date <= ?", Time.current.end_of_year)
+          when 'This Quarter'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_quarter).where("donation_date <= ?", Time.current.end_of_quarter)
+          when 'This Month'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_month).where("donation_date <= ?", Time.current.end_of_month)
+          when 'Last Year'#not implemented yet!
+          when 'Last Quarter'#not implemented yet!
+          when 'Last Month'      #not implemented yet!
+          when 'Past 2 Years'#not implemented yet!
+          when 'Past 5 Years'#not implemented yet!
+          when 'Past 2 Quarters'#not implemented yet!
+          when 'Past 3 Months'#not implemented yet!
+          when 'Past 6 Months'#not implemented yet!
+    end
     
     #sort results (reorder objects in table)
     case params[:sortby]
