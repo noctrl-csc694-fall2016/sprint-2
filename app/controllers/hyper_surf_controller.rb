@@ -11,14 +11,7 @@ class HyperSurfController < ApplicationController
   end
   
   def all
-    @hypersurf = HyperSurf.new(hypersurf_params)
-    if params[:term].blank?
-      flash[:error] = "Search query is empty."
-    elsif params[:term].length > 3
-      flash[:error] = "Search query must be at least 3 characters long."
-    else
-      render 'all'
-    end 
+    @all_search_results = Donor.search(params[:term]).paginate(:per_page => 30, :page => params[:page])
   end
   
   private
