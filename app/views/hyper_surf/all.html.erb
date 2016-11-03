@@ -27,8 +27,16 @@
         <div id="collapseOne" class="panel-collapse collapse">
           <div class="panel-body">  
             <%= form_tag hyper_surf_all_path, :method => 'get' do %>
-                <%= text_field_tag :term, params[:term] %>
-                <%= submit_tag 'Hyper Surf Gift Garden', class: 'btn btn-success' %>
+                <div class="row form-group">
+                  <div class="col-xs-2">
+                    <%= text_field_tag :term, params[:term] %>
+                  </div>
+                </div>
+                <div class="row form-group">
+                  <div class="col-xs-2">
+                    <%= submit_tag 'Hyper Surf Gift Garden', class: 'btn btn-success' %>
+                  </div>
+                </div>
               <% end %>
           </div>
         </div>
