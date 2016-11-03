@@ -26,7 +26,7 @@
         </li>
       </ul>
 
-      <div class="col-sm-3 col-md-3 pull-right navbar-donna-search">
+      <div class="pull-right navbar-donna-search">
         <%= form_tag(hyper_surf_all_url, :method => "get", id: "search-form", :class => "navbar-form") do %>
           <div class="input-group">
             <%= text_field_tag :term, params[:term], placeholder: "Surf Term" %>

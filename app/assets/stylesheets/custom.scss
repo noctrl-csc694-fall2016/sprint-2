@@ -5,7 +5,7 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 /* Custom Google Fonts */
-@import url('https://fonts.googleapis.com/css?family=Open+Sans|Alex+Brush');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Satisfy');
 
 /* Notes:
   1. Use EM for font sizing
@@ -56,7 +56,7 @@ h1{
 }
 .navbar-donna-brand {
   color: rgb(140, 137, 240);
-  font-family: 'Alex Brush', cursive;
+  font-family: 'Satisfy', cursive;
   
   a{
   	color: rgb(140, 137, 240);
@@ -249,10 +249,10 @@ h1{
     color: $state-danger-text;
   }
 }
-.btn.btn-success{
+.btn.btn-success {
   color: rgb(255, 255, 255);
 }
-a.btn.btn-warning{
+a.btn.btn-warning, a.btn.btn-primary{
   color: rgb(255, 255, 255);
   
   &:hover{
