@@ -50,6 +50,22 @@ Activity.create!( name: "Chicago Cubs World Series",
                   description: "Fun",
                   goal: "1000",
                   notes: "Contact Bob for more information.")
+99.times do |n|
+  name  = Faker::Company.name#"Seed Activity #{n+1}." => "value"
+  start_date = Faker::Date.backward(1825).strftime("%Y-%m-%d").to_datetime
+  end_date = Faker::Date.forward(365).strftime("%Y-%m-%d").to_datetime
+  description = Faker::Lorem.sentence(3, true, 4)
+  goal = Faker::Address.building_number
+  notes = Faker::Company.catch_phrase
+  
+  Activity.create!(
+    name:        name,
+    start_date:  start_date,
+    end_date:    end_date,
+    description: description,
+    goal:        goal,
+    notes:       notes)
+end
 
 #Create sample donors                 
 Donor.create!( first_name: "Joe",
