@@ -59,7 +59,7 @@
           <% end %>
         </tbody>
       </table>
-      <%= will_paginate @all_search_results, class: "pagination pagination-centered" %>
+      <%= will_paginate @all_search_results, :inner_window => 2,  class: "pagination pagination-centered" %>
     </div>
   </div>
 </section>
