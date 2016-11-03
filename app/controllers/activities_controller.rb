@@ -68,7 +68,7 @@ class ActivitiesController < ApplicationController
     #define activity parameters accepted and required for create and update methods
     def activity_params
       params.required(:activity).permit(:name, :start_date, :end_date, :description,
-       :goal, :notes)
+       :goal, :notes, :activity_type)
     end
   
 end

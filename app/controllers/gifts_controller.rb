@@ -63,16 +63,39 @@ class GiftsController < ApplicationController
   
   #list all gifts on index page
   def index
-    # @selected_gifts = Gift.paginate(page: params[:page], per_page: 5)
-    if(params[:activity_id] == "" && params[:donor_id] == "")
-      @selected_gifts = Gift.all.paginate(page: params[:page], per_page: 5)
-    elsif(params[:activity_id] == "")
-      @selected_gifts = Gift.where(:donor_id => params[:donor_id]).paginate(page: params[:page], per_page: 5)
-    elsif(params[:donor_id] == "")
-      @selected_gifts = Gift.where(:activity_id => params[:activity_id]).paginate(page: params[:page], per_page: 5)
-    else
-      @selected_gifts = Gift.where(["activity_id = ? and donor_id = ?", params[:activity_id], params[:donor_id]]).paginate(page: params[:page], per_page: 5)
+    #add all gifts selected_gifts
+    @selected_gifts = Gift.all
+    #pull only those gifts with selected activity
+    if(params[:activity_id] != "")
+      @selected_gifts = @selected_gifts.where(:activity_id => params[:activity_id])
     end
+    #pull only those gifts with selected donor
+    if(params[:donor_id] != "")
+      @selected_gifts = @selected_gifts.where(:donor_id => params[:donor_id])
+    end
+    
+    #select the TOP N gifts --NOT WORKING YET
+    if(params[:topn] == "10")
+      @selected_gifts = @selected_gifts.reorder("amount DESC").limit(10)
+    end
+    
+    #still need TIMEFRAME filtering
+    
+    #sort results (reorder objects in table)
+    case params[:sortby]
+      when 'Name'
+        @selected_gifts = @selected_gifts.reorder("donor_id DESC")
+      when 'Amount'
+        @selected_gifts = @selected_gifts.reorder("amount DESC")
+      when 'Donation Date'
+        @selected_gifts = @selected_gifts.reorder("donation_date DESC")
+      when 'Gift Type'
+        @selected_gifts = @selected_gifts.reorder("gift_type DESC")
+    end
+    
+    #paginate selected gifts list after sorting & filtering
+    @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: 5)
+    
     map_activities_n_donors()
     # for reports
     respond_to do |format|

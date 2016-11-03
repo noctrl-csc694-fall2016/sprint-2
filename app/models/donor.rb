@@ -18,6 +18,8 @@ class Donor < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
+  enum donor_type: [:Individual, :Corporation, :Foundation]  
+                  
   require 'csv'
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
@@ -53,5 +55,17 @@ class Donor < ApplicationRecord
       end # end if else
     end # end foreach
   end
+  
+  def self.search(search)
+    if search
+      #HypersurfDonor....
+      #use lower to make searh case insensitive
+      where('lower(first_name) LIKE lower(?) OR lower(last_name) LIKE lower(?) OR lower(email) LIKE lower(?) OR lower(address) LIKE lower(?)  OR lower(address2) LIKE lower(?)  OR lower(city) LIKE lower(?)  OR lower(state) LIKE lower(?) ', "%#{search}%","%#{search}%", "%#{search}%", "%#{search}%","%#{search}%", "%#{search}%","%#{search}%")
+    else
+      all
+      #Donor.all.scoped
+    end
+  end
+
   
 end

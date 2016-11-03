@@ -6,11 +6,11 @@
   #----------------------------------#
 
 class HyperSurfController < ApplicationController
-  def Donors
-    render 'donors'
+  def donors
+    @donor_search_results = Donor.search(params[:search]).paginate(:per_page => 30, :page => params[:page])
   end
   
-  def All
+  def all
     @hypersurf = HyperSurf.new(hypersurf_params)
     if params[:term].blank?
       flash[:error] = "Search query is empty."
