@@ -5,6 +5,7 @@ class DonorPdf < Prawn::Document
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
+    @giftTotal = '$50000'
     header
     text_content
     table_content
@@ -32,16 +33,28 @@ class DonorPdf < Prawn::Document
     table donor_rows do
       row(0).font_style = :bold
       self.header = true
-      self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 175, 90, 80, 65]
+      self.row_colors = ['FFFFFF']
+      self.column_widths = [50, 175, 120, 110, 85]
+      style(column(4), align: :right)
       end
+    table total_row do
+      row(0).font_style = :bold
+      self.row_colors = ['DDDDDD']
+      self.column_widths = [50, 175, 120, 110, 85]
+      style(column(1), align: :center)
+      style(column(4), align: :right)
+    end
   end
 
   def donor_rows
     [['ID', 'Donor Name', 'City, State', 'Date of Last Gift', 'Gift Total']] +
       @donors.map do |donor|
-      [donor.id.to_s, donor.first_name.to_s + " " + donor.last_name.to_s, 
-      donor.city.to_s + " " + donor.state, donor.updated_at.to_date.to_s, ""]
+      [donor.id.to_s, donor.last_name.to_s + ", " + donor.first_name.to_s, 
+      donor.city.to_s + ", " + donor.state, donor.updated_at.to_date.to_s, ""]
     end
+  end
+  
+  def total_row
+    [['', 'Total', '', '', @giftTotal]]
   end
 end
