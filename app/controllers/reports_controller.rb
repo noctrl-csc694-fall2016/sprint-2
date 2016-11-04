@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
         end
         
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
-        send_data pdf.render, :filename => 'Activities Report.pdf', 
+        send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment', :page_layout => :landscape
     end
   end
@@ -107,12 +107,70 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
       @donors = Donor.all
+      @reportDonorsArray = []
+      # filter out donors based on the parameters put in the form
       @timeframe = params[:times]
       @sortby = params[:sorts]
       @topn = params[:topn]
-          pdf = DonorPdf.new(@donors, @timeframe, @sortby, @topn)
-          send_data pdf.render, :filename => 'Donors Report.pdf', 
-          :type => 'application/pdf', :disposition => 'attachment'
+      @layout = params[:layout]
+      
+      @donors.each do |donor|
+          case @timeframe
+          #based on donation_date!
+          when 'All'
+            @reportDonorsArray.push(donor)
+          when 'This Year'
+            
+          when 'This Quarter'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'This Month'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Last Year'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Last Quarter'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Last Month'      
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Past 2 Years'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Past 5 Years'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Past 2 Quarters'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Past 3 Months'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          when 'Past 6 Months'
+            @reportDonorsArray.push(donor) #not implemented yet!
+          end
+        end
+        
+        case @topn
+        when 'all'
+        when '10'
+          @reportDonorsArray = @reportDonorsArray.first(10)
+        when '20'
+          @reportDonorsArray = @reportDonorsArray.first(20)
+        when '50'
+          @reportDonorsArray = @reportDonorsArray.first(50)
+        when '100'
+          @reportDonorsArray = @reportDonorsArray.first(100)
+        end
+        
+        case @sortby
+          when 'Last Name'
+            @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+          when 'First Name'
+            @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
+          when 'Email'
+            @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
+          when 'State'
+            @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
+        end
+          
+      pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
+      send_data pdf.render, :filename => 'Donors Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+      :type => 'application/pdf', :disposition => 'attachment'
     end
   end
 
@@ -125,8 +183,90 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
         @gifts = Gift.all
-        pdf = GiftPdf.new(@gifts)
-        send_data pdf.render, :filename => 'Gifts Report.pdf', 
+        @reportGiftsArray = []  #re-implement after filters testing is done!!!!!!!!!!!!
+        # filter out donors based on the parameters put in the form
+        @activity = params[:activity]
+        @topn = params[:topn]
+        @timeframe = params[:times]
+        @sortby = params[:sorts]
+        @layout = params[:layout]
+        
+        #first grab all gifts from the chosen activity
+        @activityGiftsArray = []
+        @gifts.each do |gift|
+          if (gift['activity_id'].to_s) == (@activity['id'].to_s)
+            @activityGiftsArray.push(gift)
+          end
+        end
+        
+        #then apply the timeframe filter
+        @activityGiftsArray.each do |gift|
+          case @timeframe
+          when 'All'
+            @gifts.push(gift)
+          when 'This Year'
+            if is_current_year(gift['donation_date'])
+              @gifts.push(gift)  
+            end
+          when 'This Quarter'
+            if ((is_current_quarter(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @gifts.push(gift)  
+            end
+          when 'This Month'
+            if ((is_current_month(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @gifts.push(gift)  
+            end
+          when 'Last Year'
+            @gifts.push(gift) #not implemented yet!
+          when 'Last Quarter'
+            @gifts.push(gift) #not implemented yet!
+          when 'Last Month'      
+            @gifts.push(gift) #not implemented yet!
+          when 'Past 2 Years'
+            @gifts.push(gift) #not implemented yet!
+          when 'Past 5 Years'
+            @gifts.push(gift) #not implemented yet!
+          when 'Past 2 Quarters'
+            @gifts.push(gift) #not implemented yet!
+          when 'Past 3 Months'
+            @gifts.push(gift) #not implemented yet!
+          when 'Past 6 Months'
+            @gifts.push(gift) #not implemented yet!
+          end
+        end
+        
+        #apply sort
+        case @sortby
+          when 'Donor'
+            @gifts.sort! { |a,b| a.donor_id.downcase <=> b.donor_id.downcase }
+          when 'Amount'
+            @gifts.sort! { |a,b| a.amount.downcase <=> b.amount.downcase }
+          when 'Donation Date'
+            @gifts.sort! { |a,b| a.donation_date <=> b.donation_date }
+          when 'Gift Type'
+            @gifts.sort! { |a,b| a.gift_type <=> b.gift_type }
+        end
+        
+        #apply topn filter
+        #case @topn
+        #when 'all'
+        #when '10'
+        #  @gifts = @gifts.first(10)
+        #when '20'
+        #  @gifts = @gifts.first(20)
+        #when '50'
+        #  @gifts = @gifts.first(50)
+        #when '100'
+        #  @gifts = @gifts.first(100)
+        #end
+        
+        #use all @gifts at first to make sure time and top n filters work,
+        #then swtich back to @gifts later to keep it to 1 activity
+        pdf = GiftPdf.new(@gifts, @timeframe, @sortby)
+        send_data pdf.render, :filename => 'Gifts Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
     end
   end

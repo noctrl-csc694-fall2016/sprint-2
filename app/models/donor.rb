@@ -26,7 +26,7 @@ class Donor < ApplicationRecord
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'First Name', 'Last Name', 'Email', 'State']
+  SORTS = [ 'Last Name', 'First Name', 'Email', 'State']
   
   TOPN = [ '10', '20', '50', '100', 'all']
   
