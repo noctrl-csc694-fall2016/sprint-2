@@ -17,4 +17,18 @@ class ImportExportController < ApplicationController
     format.csv { send_data @donor.as_csv, filename: "Donors Export #{Date.today}.csv" }
     end
   end
+  
+  def import_gifts_begin
+    @activities = Activity.all
+  end
+  
+  def import_gifts_validate
+    if params[:file_name].nil?
+      flash[:error] = "Please choose a file."
+      redirect_to import_export_url
+    end
+  end
+  
+  def import_gifts_success
+  end
 end
