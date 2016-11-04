@@ -1,7 +1,7 @@
 class TrashPdf < Prawn::Document
   def initialize(trash)
     super()
-    @trash = trash
+    @trashes = trash
     header
     table_content
   end
@@ -21,8 +21,8 @@ class TrashPdf < Prawn::Document
   
   def trash_rows
     [['Type', 'Content']] +
-      @trash.map do |t|
-      [t.type, t.content]
+      @trashes.map do |t|
+        [t.category, t.content]
     end
   end
   
