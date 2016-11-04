@@ -59,7 +59,7 @@ class DonorsController < ApplicationController
   
   # delete donor
   def destroy
-    @trash = Trash.new(category: "donor", content: Donor.find(params[:id]).inspect)
+    Trash.create(category: "donor", content: Donor.find(params[:id]).inspect)
     Donor.find(params[:id]).destroy
     flash[:success] = "Donor deleted."
     redirect_to donors_path

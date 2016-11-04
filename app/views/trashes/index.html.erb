@@ -7,13 +7,14 @@
   </div>
 </div>
 
-<%= form_tag '/report-trash-pdf', multipart:true do %>
+<%= form_tag '/report-trash-pdf', :method => 'post', multipart:true do %>
   <div class="report-submit">
     <%= submit_tag "Generate Report", class: "btn btn-success" %>
     &nbsp;
     <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
 <% end %>
+
 
 <script>
   $(document).ready(function(){
@@ -23,3 +24,4 @@
     });
 });
 </script>
+

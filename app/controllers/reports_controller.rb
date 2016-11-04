@@ -347,11 +347,10 @@ class ReportsController < ApplicationController
   end
   
   def trash_report
-    
+    @trash = Trash.all
     
     respond_to do |format|
       format.html
-      @trash = Trash.all
       format.pdf do
         pdf = TrashPdf.new(@trash)
         send_data pdf.render, filename: 'trashReport.pdf', type: 'application/pdf', :disposition => 'attachment'
