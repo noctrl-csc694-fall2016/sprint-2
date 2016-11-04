@@ -48,10 +48,9 @@ ActiveRecord::Schema.define(version: 20161102215919) do
     t.integer  "activity_id"
     t.date     "donation_date"
     t.float    "amount"
-    t.integer  "gift_type"
     t.text     "notes"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.float    "pledge"
     t.integer  "check_number"
     t.datetime "check_date"
@@ -60,6 +59,7 @@ ActiveRecord::Schema.define(version: 20161102215919) do
     t.string   "solicited_by"
     t.string   "gift_user"
     t.string   "gift_source"
+    t.integer  "gift_type",     default: 0
     t.index ["activity_id"], name: "index_gifts_on_activity_id"
     t.index ["donor_id"], name: "index_gifts_on_donor_id"
   end

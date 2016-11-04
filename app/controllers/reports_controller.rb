@@ -345,4 +345,18 @@ class ReportsController < ApplicationController
     monthDifference = (Time.now.year * 12 + Time.now.month) - (date.year * 12 + date.month)
     monthDifference.between?(0, 5)
   end
+  
+  def trash_report
+    
+    
+    respond_to do |format|
+      format.html
+      @trash = Trash.all
+      format.pdf do
+        pdf = TrashPdf.new(@trash)
+        send_data pdf.render, filename: 'trashReport.pdf', type: 'application/pdf', :disposition => 'attachment'
+      end
+    end
+  end
+  
 end

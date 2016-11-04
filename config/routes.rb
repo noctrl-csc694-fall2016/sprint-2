@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   
+  get 'trash/index'
+
+  get 'trash/show'
+
   get 'reports/activities'
 
   get 'reports/donors'
@@ -24,6 +28,8 @@ Rails.application.routes.draw do
     collection { post :import }
   end
   
+  resources :trashes, only: [:index]
+  
   get    '/home',    to: 'static_pages#home'
   get    '/help',    to: 'static_pages#help'
   get    '/about',   to: 'static_pages#about'
@@ -41,6 +47,7 @@ Rails.application.routes.draw do
   post   '/report-donors-pdf', to: 'reports#donors_report'
   get    '/report-gifts', to: 'reports#gifts_setup'
   post   '/report-gifts-pdf', to: 'reports#gifts_report'
+  post   '/report-trash-pdf', to: 'reports#trash_report'
   
   get    'hyper-surf/donors', to: 'hyper_surf#donors'
   get    'hyper-surf/all', to: 'hyper_surf#all'
