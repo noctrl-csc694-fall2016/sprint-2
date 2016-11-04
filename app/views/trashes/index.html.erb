@@ -1,0 +1,25 @@
+<% provide(:title, "Trash Report") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+    <div class="page-header">
+      <h2>Trash Report</h2>
+  	</div>
+  </div>
+</div>
+
+<%= form_tag '/report-trash-pdf', multipart:true do %>
+  <div class="report-submit">
+    <%= submit_tag "Generate Report", class: "btn btn-success" %>
+    &nbsp;
+    <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
+  </div>
+<% end %>
+
+<script>
+  $(document).ready(function(){
+    $("input.btn.btn-success").removeAttr("data-disable-with")
+    $("input.btn.btn-success").click(function(){
+        $("form")[0].reset();
+    });
+});
+</script>
