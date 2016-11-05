@@ -7,8 +7,8 @@
         <span class="required-field-marker">*</span>
       </div>
       <%= @donor_id %>
-      <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu' %>
-    <%= link_to 'Find Donors', hyper_surf_donors_path, class: "btn btn-primary"%>
+      <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu'%>
+      <a href="#" class="btn btn-primary" onclick="fetchDonorValue();">Find Donors</a>
     </div>
     <div class="col-xs-2 col-xs-offset-1">
       <div class="line-break">
