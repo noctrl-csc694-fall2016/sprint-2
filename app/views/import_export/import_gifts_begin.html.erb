@@ -10,12 +10,12 @@
 <!-- Content -->
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
-    <h4>Instruction -- coming soon...</h4>
+    <h4>Instruction here</h4>
   </div>
 </div>
 
 <div class="row">
-  <%= form_tag 'import-gifts-validate', :method => 'post', multipart:true do %>
+  <%= form_tag import_gifts_validate_path, :method => 'post', multipart:true do %>
     <div class="row form-group">
       <div class="col-sm-4 col-xs-offset-2">
         <div class="line-break">
@@ -25,7 +25,8 @@
       </div>
       
       <div class="col-sm-4">
-        <%= file_field_tag :file_name %>
+        <%= file_field_tag :file %>
+        <%= file_field_tag :outputfile %>
       </div>
     </div>
     

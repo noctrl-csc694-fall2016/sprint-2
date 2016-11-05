@@ -1,4 +1,6 @@
 class ImportExportController < ApplicationController
+  require 'csv'
+  
   def import
      @activities = Activity.all
   end
@@ -23,10 +25,25 @@ class ImportExportController < ApplicationController
   end
   
   def import_gifts_validate
-    if params[:file_name].nil?
+    @activity = params[:activity]
+    @file = params[:file]
+    if @file.nil?
       flash[:error] = "Please choose a file."
-      redirect_to import_export_url
+      redirect_to import_gifts_begin_url
     end
+    CSV.open('/tmp/newtestgifts.csv', "w", :headers => true) do |output|
+      CSV.foreach(@file.path, :headers => true, :return_headers => true) do |row|
+        if row.header_row?
+          output << (row << "testID")
+        else
+          output << (row << "1")
+        end 
+      end
+    end
+    # @result = []
+    # CSV.foreach(@file.path, :headers => true) do |row|
+    #   @result << (row << "1")
+    # end
   end
   
   def import_gifts_success
