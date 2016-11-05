@@ -22,7 +22,7 @@ class GiftsEditTest < ActionDispatch::IntegrationTest
                                                 donation_date: donation_date,
                                                 amount: amount,
                                                 gift_type: gift_type } }
-    assert_redirected_to gifts_path
+    assert_redirected_to gifts_path(:donor_id =>donor_id, :activity_id => activity_id)
     @gift.reload
     assert_equal donor_id, @gift.donor_id
     assert_equal activity_id, @gift.activity_id
