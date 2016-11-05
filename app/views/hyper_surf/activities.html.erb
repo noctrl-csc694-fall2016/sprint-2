@@ -1,8 +1,8 @@
-<% provide(:title, "Hyper Surf For A Donor") %>
+<% provide(:title, "Hyper Surf For A Activity") %>
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
   	<div class="page-header">
-  		<h2>Hyper Surf For A Donor<small>- Select a row to update the New Gift form</small></h2>
+  		<h2>Hyper Surf For A Activity<small>- Select a row to update the New Gift form</small></h2>
   	</div>
   </div>
 </div>
@@ -14,13 +14,13 @@
         <div class="panel-heading">
           <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-              <span class="glyphicon glyphicon-minus"></span>Filter/Sort Donors
+              <span class="glyphicon glyphicon-minus"></span>Filter/Sort Activities
             </a>
           </h4>
         </div>
         <div id="collapseOne" class="panel-collapse collapse">
           <div class="panel-body">  
-            <%= form_tag hyper_surf_donors_path, :method => 'get' do %>
+            <%= form_tag hyper_surf_activities_path, :method => 'get' do %>
                 <div class="row form-group">
                   <div class="col-xs-2">
                     <%= text_field_tag :search, params[:search] %>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="row form-group">
                   <div class="col-xs-2">
-                    <%= submit_tag 'Hyper Surf Donors', class: 'btn btn-success' %>
+                    <%= submit_tag 'Hyper Surf Activities', class: 'btn btn-success' %>
                   </div>
                 </div>
               <% end %>
@@ -39,29 +39,21 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Email</th>
+            <th>Name</th>
+            <th>End Date</th>
           </tr>
         </thead>
         <tbody>
-          <% @donor_search_results.each do |donor| %>
-          <tr onclick="javascript:returnDonorValue(<%= donor.id %>)">
-            <td>DON<%= donor.id %></td>
-            <td><%= donor.first_name %></td>
-            <td><%= donor.last_name %></td>
-            <td><%= donor.address %></td>
-            <td><%= donor.city %></td>
-            <td><%= donor.state %></td>
-            <td><%= donor.email %></td>
+          <% @activity_search_results.each do |activity| %>
+          <tr onclick="javascript:returnActivityValue(<%= activity.id %>)">
+            <td>ACT<%= activity.id %></td>
+            <td><%= activity.name %></td>
+            <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
           </tr>
           <% end %>
         </tbody>
       </table>
-      <%= will_paginate @donor_search_results, :inner_window => 2,  class: "pagination pagination-centered" %>
+      <%= will_paginate @activity_search_results, :inner_window => 2,  class: "pagination pagination-centered" %>
     </div>
   </div>
 </section>

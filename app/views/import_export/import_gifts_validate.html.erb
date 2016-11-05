@@ -1,0 +1,39 @@
+<% provide(:title, "Validate Gifts Import") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+  	<div class='import-header'>
+  		<h2 class="import-color">Validate Gifts Import <small>&nbsp; Validate the data in an Import Gifts CSV file</small></h2>
+  	</div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="row">
+  <%= form_tag import_gifts_validate_path, :method => 'post', multipart:true do %>
+    <div class="row form-group">
+      <div class="col-sm-8 col-xs-offset-2">
+        <p>Activity: <%= @activity %></p>
+        <p>Please read this file: <b><%= @file.original_filename %></b>. Correct all errors and click "Validate again" when ready.</p>
+      </div>
+    </div>
+    
+    <div class="row form-group">
+      <div class="col-sm-4 col-xs-offset-2">
+        <p>Result: <%= @result.to_s %></p>
+      </div>
+    </div>
+    
+    <div class="row form-group">
+      <div class="col-sm-4 col-xs-offset-2">
+      </div>
+    </div>
+    
+    <div class=" row form-group">
+      <div class="col-xs-8 col-xs-offset-1 text-center">
+        <%= submit_tag "Validate again", class: "btn btn-success" %>
+        &nbsp;
+        <%=link_to "Cancel", '/import-export', class: "btn btn-warning" %>
+      </div>
+    </div>
+  <% end %>
+</div>

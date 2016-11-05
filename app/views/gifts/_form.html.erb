@@ -1,31 +1,32 @@
 <%=form_for(@gift) do |f| %>
   <div class="row form-group">
     <%=render 'shared/gift_error_messages' %>
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <div class="line-break">
         <%=f.label :donor %>
         <span class="required-field-marker">*</span>
       </div>
       <%= @donor_id %>
-      <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu' %>
-    <%= link_to 'Find Donors', hyper_surf_donors_path, class: "btn btn-primary"%>
+      <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu'%>
+      <a href="#" class="btn btn-primary" onclick="fetchDonorValue(); return false;">Find Donors</a>
     </div>
-    <div class="col-xs-2 col-xs-offset-1">
+    <div class="col-xs-3 col-xs-offset-1">
       <div class="line-break">
         <%=f.label :activity %>
         <span class="required-field-marker">*</span>
       </div>
       <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id || params[:activity_id]), include_blank: "Select an activity", class:'form-control input-sm dropdown-menu' %>
+      <a href="#" class="btn btn-primary" onclick="fetchActivityValue(); return false;">Find Activity</a>
     </div>
   </div> <!-- row -->
 
   <div class="row form-group">
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <%=f.label :donation_date %>
       <span class="required-field-marker">*</span>
       <%=f.date_field :donation_date, class: 'form-control input-sm' %>
     </div>
-    <div class="col-xs-2 col-xs-offset-1">
+    <div class="col-xs-3 col-xs-offset-1">
       <%=f.label :amount %>
       <span class="required-field-marker">*</span>
       <div class="input-group">
@@ -36,48 +37,48 @@
   </div> <!-- row -->
 
   <div class="row form-group">
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
         <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => @gift.gift_type),{},:class => "form-control")%>
     </div>
-    <div class="col-xs-2  col-xs-offset-1">
+    <div class="col-xs-3  col-xs-offset-1">
       <%= f.label :solicited_by %>
       <%= f.text_field :solicited_by, class: 'form-control input-sm' %>
     </div>
   </div>
   
   <div class="row form-group">
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <%=f.label :check_date %>
       <%=f.date_field :check_date, class: 'form-control input-sm' %>
     </div>
-    <div class="col-xs-2  col-xs-offset-1">
+    <div class="col-xs-3  col-xs-offset-1">
       <%= f.label :check_number %>
       <%= f.number_field :check_number, class: 'form-control input-sm' %>
     </div>
   </div> <!-- row -->
   
   <div class="row form-group">
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <%= f.label :pledge %>
       <div class="input-group">
         <div class="input-group-addon">$</div>
         <%=f.number_field :pledge, class: 'form-control input-sm' %>
       </div>
     </div>
-    <div class="col-xs-2  col-xs-offset-1">
+    <div class="col-xs-3  col-xs-offset-1">
       <%= f.check_box :anonymous, {:check => @gift.anonymous} %>
       <%= f.label :anonymous %>
     </div>
   </div> <!-- row -->
   
   <div class="row form-group">
-    <div class="col-xs-2 col-xs-offset-2">
+    <div class="col-xs-3 col-xs-offset-2">
       <%= f.label :gift_user %>
       <%= f.text_field :gift_user, class: 'form-control input-sm' %>
     </div>
-    <div class="col-xs-2  col-xs-offset-1">
+    <div class="col-xs-3  col-xs-offset-1">
       <%= f.label :gift_source %>
       <%= f.text_field :gift_source, class: 'form-control input-sm' %>
     </div>
@@ -87,7 +88,7 @@
     <div class="col-xs-4 col-xs-offset-2">
       <%=f.label :memorial_note %>
         </br>
-        <%=f.text_area :memorial_note, placeholder: "Enter notes here...", cols: "115", rows: "2", class: "form_control, input-sm" %>
+        <%=f.text_area :memorial_note, placeholder: "Enter notes here...", cols: "100", rows: "2", class: "form_control, input-sm" %>
     </div>
   </div> <!-- row -->
 
@@ -95,7 +96,7 @@
     <div class="col-xs-4 col-xs-offset-2">
       <%=f.label :notes %>
         </br>
-        <%=f.text_area :notes, placeholder: "Enter notes here...", cols: "115", rows: "5", class: "form_control, input-sm" %>
+        <%=f.text_area :notes, placeholder: "Enter notes here...", cols: "100", rows: "5", class: "form_control, input-sm" %>
     </div>
   </div> <!-- row -->
 
