@@ -69,5 +69,15 @@
       $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
     });
   });
+  // Donor Search Return
+  function fetchDonorValue(){
+    window.open('<%= hyper_surf_donors_path %>','Hyper Surf Donors','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
+  }
+    
+  // Return Info
+  function returnDonorValue(rowSelected) { 
+    window.opener.document.getElementById('gift_donor_id').value= rowSelected;
+    window.close();
+  } 
 </script>
 
