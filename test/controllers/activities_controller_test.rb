@@ -1,3 +1,9 @@
+#----------------------------------#
+# Activities Controller Test
+# original written by: Jason K, Nov 5 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class ActivitiesControllerTest < ActionDispatch::IntegrationTest

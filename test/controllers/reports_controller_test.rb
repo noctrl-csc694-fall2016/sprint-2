@@ -1,19 +1,35 @@
+#----------------------------------#
+# Reports Controller Test
+# original written by: Jason K, Nov 5 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class ReportsControllerTest < ActionDispatch::IntegrationTest
   test "should get activities" do
-    get reports_activities_url
+    get  report_activities_path
     assert_response :success
   end
 
   test "should get donors" do
-    get reports_donors_url
+    get report_donors_path
     assert_response :success
   end
 
   test "should get gifts" do
-    get reports_gifts_url
+    get report_gifts_path
     assert_response :success
   end
+  
+  #test "should get recurring activities" do
+  #  get report_gifts_path
+  #  assert_response :success
+  #end
+  
+  #test "should get lybunt" do
+  #  get report_gifts_path
+  #  assert_response :success
+  #end
 
 end
