@@ -8,7 +8,7 @@
       </div>
       <%= @donor_id %>
       <%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu'%>
-      <a href="#" class="btn btn-primary" onclick="fetchDonorValue();">Find Donors</a>
+      <a href="#" class="btn btn-primary" onclick="fetchDonorValue(); return false;">Find Donors</a>
     </div>
     <div class="col-xs-3 col-xs-offset-1">
       <div class="line-break">
@@ -16,7 +16,7 @@
         <span class="required-field-marker">*</span>
       </div>
       <%=f.select :activity_id,  options_for_select(@activities, :selected => @gift.activity_id || params[:activity_id]), include_blank: "Select an activity", class:'form-control input-sm dropdown-menu' %>
-      <a href="#" class="btn btn-primary" onclick="fetchActivityValue();">Find Activity</a>
+      <a href="#" class="btn btn-primary" onclick="fetchActivityValue(); return false;">Find Activity</a>
     </div>
   </div> <!-- row -->
 
