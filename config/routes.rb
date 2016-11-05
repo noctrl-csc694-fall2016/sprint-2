@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   post   '/trashes-trash-pdf', to: 'trashes#trash_report'
   
   get    'hyper-surf/donors', to: 'hyper_surf#donors'
+  get    'hyper-surf/activities', to: 'hyper_surf#activities'
   get    'hyper-surf/all', to: 'hyper_surf#all'
   
   root 'static_pages#home'
