@@ -30,5 +30,16 @@ class Activity < ApplicationRecord
     #  end # end if !activity.nil?
     #end # end CSV.foreach
   end # end self.import(file)
+  
+  def self.search(search)
+    if search
+      #HypersurfDonor....
+      #use lower to make searh case insensitive
+      where('lower(name) LIKE lower(?) OR lower(description) LIKE lower(?) OR lower(notes) LIKE lower(?)', "%#{search}%","%#{search}%", "%#{search}%")
+    else
+      all
+      #Donor.all.scoped
+    end
+  end
 
 end

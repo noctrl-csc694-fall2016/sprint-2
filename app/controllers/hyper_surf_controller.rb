@@ -10,6 +10,10 @@ class HyperSurfController < ApplicationController
     @donor_search_results = Donor.search(params[:search]).paginate(:per_page => 5, :page => params[:page])
   end
   
+  def activities
+    @activity_search_results = Activity.search(params[:search]).paginate(:per_page => 5, :page => params[:page])
+  end
+  
   def all
     @all_search_results = Donor.search(params[:term]).paginate(:per_page => 5, :page => params[:page])
   end
