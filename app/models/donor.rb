@@ -28,7 +28,7 @@ class Donor < ApplicationRecord
     
   SORTS = [ 'Last Name', 'First Name', 'Email', 'State']
   
-  TOPN = [ '10', '20', '50', '100', 'all']
+  TOPN = [ 'All', '10', '20', '50', '100' ]
   
   # Export Donors
   # outputs all donors as a csv file(all attributes included).
