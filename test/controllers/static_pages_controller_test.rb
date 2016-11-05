@@ -1,3 +1,9 @@
+#----------------------------------#
+# Static Pages Controller Test
+# original written by: Jason K, Nov 5 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
@@ -35,12 +41,6 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
     get reports_path
     assert_response :success
     assert_select "title", "Reports | Gift Garden"
-  end
-  
-  test "should get_Import-Export_path" do
-    get import_export_path
-    assert_response :success
-    assert_select "title", "Import-Export Information | Gift Garden"
   end
 
 end

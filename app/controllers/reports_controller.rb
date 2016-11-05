@@ -1,10 +1,13 @@
 class ReportsController < ApplicationController
   
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Setup Activities Report View
   def activities_setup
     @activities = Activity.all
   end
   
-  #handles requests for reports of activities
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Basic Activities Report
   def activities_report
     #Activity.report(params[:file], params[:activity])
     respond_to do |format|
@@ -93,55 +96,82 @@ class ReportsController < ApplicationController
     end
   end
   
-  #source: http://stackoverflow.com/questions/8414767/
-  def current_quarter_months(date)
-    quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
-    quarters[(date.month - 1) / 3]
-  end
-  
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Setup Donors Report View
   def donors_setup
   end
   
-  #handles requests for reports of donors
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Basic Donors Report
   def donors_report
     respond_to do |format|
       format.html
       @donors = Donor.all
+      @gifts = Gift.all
       @reportDonorsArray = []
-      # filter out donors based on the parameters put in the form
+      @donorGiftLatestDate = '1900-01-01'.to_date
+      @donorGiftsTotals = []
+      
       @timeframe = params[:times]
       @sortby = params[:sorts]
       @topn = params[:topn]
       @layout = params[:layout]
       
       @donors.each do |donor|
-          case @timeframe
-          #based on donation_date!
-          when 'All'
-            @reportDonorsArray.push(donor)
-          when 'This Year'
-            
-          when 'This Quarter'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'This Month'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Last Year'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Last Quarter'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Last Month'      
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Past 2 Years'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Past 5 Years'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Past 2 Quarters'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Past 3 Months'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          when 'Past 6 Months'
-            @reportDonorsArray.push(donor) #not implemented yet!
-          end
+        
+        #flag for if a donor had a gift during the timeframe
+        applicable = 1
+        giftsTotal = 0
+        
+        case @timeframe
+        #based on donation_date!
+        when 'All'
+          # should this include donors with NO gifts?
+          @reportDonorsArray.push(donor)
+        when 'This Year'
+          
+          @gifts.each do |g|
+            if g.donor_id.eql? donor['id'] #belongs to this donor
+              if is_current_year(g['donation_date'].to_datetime) #in timeframe
+                applicable++ #OK to add this donor
+                giftsTotal += g['amount'] #include in total gifts amount
+              end #end is_current_year
+            end #end if donor's gift
+          end #end gift loop
+          
+          add_donor_and_gifts_as_needed(applicable, donor, giftsTotal)
+        when 'This Quarter'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'This Month'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Last Year'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Last Quarter'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Last Month'      
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Past 2 Years'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Past 5 Years'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Past 2 Quarters'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Past 3 Months'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        when 'Past 6 Months'
+          @reportDonorsArray.push(donor) #not implemented yet!
+        end
+      end
+        
+        case @sortby
+          when 'Last Name'
+            @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+          when 'First Name'
+            @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
+          when 'Email'
+            @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
+          when 'State'
+            @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
         end
         
         case @topn
@@ -155,36 +185,41 @@ class ReportsController < ApplicationController
         when '100'
           @reportDonorsArray = @reportDonorsArray.first(100)
         end
-        
-        case @sortby
-          when 'Last Name'
-            @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
-          when 'First Name'
-            @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
-          when 'Email'
-            @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
-          when 'State'
-            @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
-        end
           
-      pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
+      pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
+      @donorGiftsTotals)
       send_data pdf.render, :filename => 'Donors Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
       :type => 'application/pdf', :disposition => 'attachment'
     end
   end
+  
+  def add_donor_and_gifts_as_needed(count, donor, total)
+    if count > 0
+      @reportDonorsArray.push(donor)
+    end
+    if total > 0
+      @donorGiftsTotals.push(total.to_s)
+    else
+      @donorGiftsTotals.push('')
+    end
+  end
 
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Setup Gifts Report View
   def gifts_setup
     @activities = Activity.all
   end
   
-  #handles requests for reports of gifts
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Basic Gifts Report
   def gifts_report
     respond_to do |format|
       format.html
         @gifts = Gift.all
-        @reportGiftsArray = []  #re-implement after filters testing is done!!!!!!!!!!!!
-        # filter out donors based on the parameters put in the form
+        @activities = Activity.all
+        @reportGiftsArray = []  
+        @activityGiftsArray = []
         @activity = params[:activity]
         @topn = params[:topn]
         @timeframe = params[:times]
@@ -192,85 +227,109 @@ class ReportsController < ApplicationController
         @layout = params[:layout]
         
         #first grab all gifts from the chosen activity
-        @activityGiftsArray = []
+        activity = Activity.find(@activity)
         @gifts.each do |gift|
-          if (gift['activity_id'].to_s) == (@activity['id'].to_s)
+          actID = gift['activity_id']
+          if actID.to_s.eql? activity['id'].to_s
             @activityGiftsArray.push(gift)
           end
         end
         
-        #then apply the timeframe filter
+        #apply timeframe filter
         @activityGiftsArray.each do |gift|
           case @timeframe
           when 'All'
-            @gifts.push(gift)
+            @reportGiftsArray.push(gift)
           when 'This Year'
             if is_current_year(gift['donation_date'])
-              @gifts.push(gift)  
+              @reportGiftsArray.push(gift)  
             end
           when 'This Quarter'
             if ((is_current_quarter(gift['donation_date'].to_datetime)) && 
               (is_current_year(gift['donation_date'].to_datetime)))
-              @gifts.push(gift)  
+              @reportGiftsArray.push(gift)  
             end
           when 'This Month'
             if ((is_current_month(gift['donation_date'].to_datetime)) && 
               (is_current_year(gift['donation_date'].to_datetime)))
-              @gifts.push(gift)  
+              @reportGiftsArray.push(gift)  
             end
           when 'Last Year'
-            @gifts.push(gift) #not implemented yet!
+            if is_last_year(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
           when 'Last Quarter'
-            @gifts.push(gift) #not implemented yet!
+            if is_last_quarter(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
           when 'Last Month'      
-            @gifts.push(gift) #not implemented yet!
+            if is_last_month(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
           when 'Past 2 Years'
-            @gifts.push(gift) #not implemented yet!
+            if ((is_last_year(gift['donation_date'].to_datetime)) or
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)
+            end
           when 'Past 5 Years'
-            @gifts.push(gift) #not implemented yet!
+            if is_past_5_years(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
           when 'Past 2 Quarters'
-            @gifts.push(gift) #not implemented yet!
+            if (
+                ((is_current_quarter(gift['donation_date'])) and 
+                (is_current_year(gift['donation_date']))) or
+                (is_last_quarter(gift['donation_date']))
+              )
+              @reportGiftsArray.push(gift)
+            end
           when 'Past 3 Months'
-            @gifts.push(gift) #not implemented yet!
+            if (is_past_3_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
           when 'Past 6 Months'
-            @gifts.push(gift) #not implemented yet!
+            if (is_past_6_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
           end
         end
         
-        #apply sort
+        #apply sort filter
         case @sortby
-          when 'Donor'
-            @gifts.sort! { |a,b| a.donor_id.downcase <=> b.donor_id.downcase }
+          when 'Donor ID'
+            @reportGiftsArray.sort! { |b,a| a.donor_id.to_s <=> b.donor_id.to_s }
           when 'Amount'
-            @gifts.sort! { |a,b| a.amount.downcase <=> b.amount.downcase }
+            @reportGiftsArray.sort! { |a,b| a.amount.to_s <=> b.amount.to_s }
           when 'Donation Date'
-            @gifts.sort! { |a,b| a.donation_date <=> b.donation_date }
+            @reportGiftsArray.sort! { |a,b| a.donation_date <=> b.donation_date }
           when 'Gift Type'
-            @gifts.sort! { |a,b| a.gift_type <=> b.gift_type }
+            @reportGiftsArray.sort! { |a,b| a.gift_type <=> b.gift_type }
         end
         
         #apply topn filter
-        #case @topn
-        #when 'all'
-        #when '10'
-        #  @gifts = @gifts.first(10)
-        #when '20'
-        #  @gifts = @gifts.first(20)
-        #when '50'
-        #  @gifts = @gifts.first(50)
-        #when '100'
-        #  @gifts = @gifts.first(100)
-        #end
+        case @topn
+        when 'all'
+        when '10'
+          @reportGiftsArray = @reportGiftsArray.first(10)
+        when '20'
+          @reportGiftsArray = @reportGiftsArray.first(20)
+        when '50'
+          @reportGiftsArray = @reportGiftsArray.first(50)
+        when '100'
+          @reportGiftsArray = @reportGiftsArray.first(100)
+        end
         
-        #use all @gifts at first to make sure time and top n filters work,
-        #then swtich back to @gifts later to keep it to 1 activity
-        pdf = GiftPdf.new(@gifts, @timeframe, @sortby)
+        #generate pdf file
+        pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby)
         send_data pdf.render, :filename => 'Gifts Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
     end
   end
   
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Methods for timeframe filters for reports
+
   def current_quarter_months(date)
     quarters = [1,2,3,4]
     quarters[(date.month - 1) / 3]
@@ -346,6 +405,14 @@ class ReportsController < ApplicationController
     monthDifference.between?(0, 5)
   end
   
+  #source: http://stackoverflow.com/questions/8414767/
+  def current_quarter_months(date)
+    quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+    quarters[(date.month - 1) / 3]
+  end
+  
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # Trash Report 
   def trash_report
     @trash = Trash.all
     

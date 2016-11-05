@@ -1,3 +1,9 @@
+#----------------------------------#
+# Gifts Controller Test
+# original written by: Jason K, Nov 5 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class GiftsControllerTest < ActionDispatch::IntegrationTest
