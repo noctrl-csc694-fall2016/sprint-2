@@ -22,7 +22,7 @@ class Gift < ApplicationRecord
     
   SORTS = [ 'Donor ID', 'Amount', 'Donation Date', 'Gift Type']
   
-  TOPN = [ '10', '20', '50', '100', 'all']
+  TOPN = [ 'All', '10', '20', '50', '100' ]
   
   # Import Gifts
   def self.import(file, activity)
