@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <% @activity_search_results.each do |activity| %>
-          <tr onclick="javascript:returnDonorValue(<%= activity.id %>)">
+          <tr onclick="javascript:returnActivityValue(<%= activity.id %>)">
             <td>ACT<%= activity.id %></td>
             <td><%= activity.name %></td>
             <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
