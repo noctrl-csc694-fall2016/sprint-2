@@ -9,14 +9,17 @@
 
 <!-- Content -->
 <div class="row">
-  <%= form_tag '/import-gifts-success', :method => 'get', multipart:true do %>
+  <%= form_tag import_gifts_validate_path, :method => 'post', multipart:true do %>
     <div class="row form-group">
-      <div class="col-sm-4 col-xs-offset-2">
+      <div class="col-sm-8 col-xs-offset-2">
+        <p>Activity: <%= @activity %></p>
+        <p>Please read this file: <b><%= @file.original_filename %></b>. Correct all errors and click "Validate again" when ready.</p>
       </div>
     </div>
     
     <div class="row form-group">
       <div class="col-sm-4 col-xs-offset-2">
+        <p>Result: <%= @result.to_s %></p>
       </div>
     </div>
     
