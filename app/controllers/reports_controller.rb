@@ -89,13 +89,13 @@ class ReportsController < ApplicationController
             @reportActivitiesArray.sort! { |b,a| a.goal <=> b.goal }
         end
         
-        pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
-        send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
-        :type => 'application/pdf', :disposition => 'attachment'#, :page_layout => :landscape
+        #pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
+        #send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
+        #:type => 'application/pdf', :disposition => 'attachment'#, :page_layout => :landscape
         
-        #send_data Activity.to_pdf(),
-        #filename: "test report.pdf",
-        #type: "application/pdf"
+        send_data Activity.to_pdf(@reportActivitiesArray, @timeframe, @sortby),
+        filename: 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf',
+        type: "application/pdf"
     end
   end
   

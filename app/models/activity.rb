@@ -42,19 +42,9 @@ class Activity < ApplicationRecord
     end
   end
   
-  def self.to_pdf()
-    pdf = Prawn::Document.new
-    
-    pdf.text  "This is where the new Basic Activity Report will go!", 
-                    :align => :center, :style => :bold, :size => 14
-    pdf.move_down 25
-    
-    pdf.text  "This is a test report for deployment purposes. The actual " + 
-    "basic reports are scheduled to be deployed on " + Date.tomorrow.to_s + 
-    ", with intended formatting and content.",
-                    :align => :left, :size => 12
-    
+  def self.to_pdf(activity, timeframe, sortby)
+    pdf = ActivityPdf.new(activity, timeframe, sortby)
     pdf.render
   end
-
+  
 end
