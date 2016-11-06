@@ -12,6 +12,8 @@ class Activity < ApplicationRecord
   validates :description, presence: true, length: {maximum:255}
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   enum activity_type: [:Event, :Mailer, :Email_Blast, :Community_Event]
+  require 'prawn'
+  require 'prawn/table'
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
@@ -42,9 +44,28 @@ class Activity < ApplicationRecord
     end
   end
   
+  
+  
   def self.to_pdf(activity, timeframe, sortby)
-    pdf = ActivityPdf.new(activity, timeframe, sortby)
+    pdf = Prawn::Document.new
+    @activities = activity
+    @timeframe = timeframe
+    @sortby = sortby
+    
+    pdf.text "Activities Report", size: 24, style: :bold, :align => :center
+    
+    pdf.bounding_box([0, 675], :width => 658, :height => 50) do
+      pdf.text "This GiftGarden report created " + Time.zone.now.to_date.to_s + " by Jane Doe.", size: 15
+      pdf.text "Report options: Timeframe " + @timeframe + ", Sorted by " + @sortby + ".", size: 15
+    end
+    
+    t = make_table([ ["this is the first row"],
+      ["this is the second row"] ])
+    t.draw
+    
     pdf.render
   end
+
   
+
 end
