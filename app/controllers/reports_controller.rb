@@ -500,14 +500,12 @@ class ReportsController < ApplicationController
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   # Trash Report 
   def trash_report
-    @trash = Trash.all
-    
     respond_to do |format|
       format.html
-      format.pdf do
-        pdf = TrashPdf.new(@trash)
-        send_data pdf.render, filename: 'trashReport.pdf', type: 'application/pdf', :disposition => 'attachment'
-      end
+      @trash = Trash.all
+      
+      pdf = TrashPdf.new(@trash)
+      send_data pdf.render, :filename => 'trashReport-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end
   end
   
