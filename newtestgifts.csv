@@ -1,0 +1,7 @@
+donor_id,first_name,last_name,address,address2,city,state,zip,phone,email,notes,title,nickname,country,donor_type,gift_type,amount,donation_date,check_number,gift_user,gift_source
+6,Joee,Brown,300 Main Ave.,,Chicago,IL,60060,330-257-4567,jbrown@hotmail.com,Example donor #6.,,,,,Cash,100,4/14/2015,,Ben,testGifts.csv,new
+5,Brian,Green,200 Main Ave.,,Chicago,IL,60060,330-257-5589,bgreen@hotmail.com,Example donor #5.,,,,,Stock,150,5/8/2016,,Ben,testGifts.csv,
+4,Brian,Brown,100 Main Ave.,,Chicago,IL,60060,330-257-6689,bbrown@hotmail.com,Example donor #4.,,,,,Credit_Card,50,9/15/2016,,Ben,testGifts.csv,
+3,Tim,Lee,55 Summit Ln,,Downers Grove,IL,60555,515-555-5552,timlee@hotmail.com,Example donor #3.,,,,,Check,80,8/7/2016,55,Ben,testGifts.csv,
+2,Jane,Brown,455 Summit Ave,,Downers Grove,IL,60555,815-555-5552,janeb@hotmail.com,Example donor #2.,,,,,Cash,90,9/24/2016,,Ben,testGifts.csv,
+1,Joe,Donor,101 College Lane,APT 2,Naperville,IL,60564,815-555-5551,joe.donor@ncc.edu,Example donor.,,,,,Cash,300,9/30/2016,,Ben,testGifts.csv,conflict
