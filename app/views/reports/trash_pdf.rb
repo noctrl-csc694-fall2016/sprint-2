@@ -15,7 +15,7 @@ class TrashPdf < Prawn::Document
       row(0).font_style = :bold
       self.header = true
       self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 400]
+      self.column_widths = [50, 490]
       end
   end
   

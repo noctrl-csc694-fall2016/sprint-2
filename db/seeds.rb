@@ -129,6 +129,18 @@ Donor.create!( first_name: "Joe",
                   email: "jbrown@hotmail.com",
                   notes: "Example donor #6.")
                   
+#duplicated donor: Joe Donor
+Donor.create!( first_name: "Joe",
+                  last_name: "Donor",
+                  address: "101 College Lane",
+                  address2: "APT 2",
+                  city: "Naperville",
+                  state: "IL",
+                  zip: "60564",
+                  phone: "815-555-5551",
+                  email: "jodonor@ncc.edu",
+                  notes: "Example donor.")
+                  
 #Create sample donations/gifts                 
 Gift.create!( activity_id: 1,
               donor_id: 1,
