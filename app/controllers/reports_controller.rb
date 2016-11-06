@@ -93,8 +93,8 @@ class ReportsController < ApplicationController
         #send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
         #:type => 'application/pdf', :disposition => 'attachment'#, :page_layout => :landscape
         
-        send_data Activity.to_pdf(),
-        filename: "test report.pdf",
+        send_data Activity.to_pdf(@reportActivitiesArray, @timeframe, @sortby),
+        filename: 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf',
         type: "application/pdf"
     end
   end
