@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
         # filter out activities based on the parameters put in the form
         @timeframe = params[:timeframe]
         @sortby = params[:sortby]
-        @layout = params[:layout]
+        #@layout = params[:layout]
         
         @activities.each do |activity|
           case @timeframe
@@ -81,7 +81,6 @@ class ReportsController < ApplicationController
         case @sortby
           when 'Name'
             @reportActivitiesArray.sort! { |a,b| a.name.downcase <=> b.name.downcase }
-            #@reportActivitiesArray.sort_by(Activity.name) #test line for breaking to see params
           when 'Start Date'
             @reportActivitiesArray.sort! { |b,a| a.start_date <=> b.start_date }
           when 'End Date'
@@ -92,7 +91,7 @@ class ReportsController < ApplicationController
         
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
         send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
-        :type => 'application/pdf', :disposition => 'attachment', :page_layout => :landscape
+        :type => 'application/pdf', :disposition => 'attachment'#, :page_layout => :landscape
     end
   end
   
@@ -109,8 +108,7 @@ class ReportsController < ApplicationController
       @donors = Donor.all
       @gifts = Gift.all
       @reportDonorsArray = []
-      @donorGiftLatestDate = '1900-01-01'.to_date
-      @donorGiftsTotals = []
+      @donorGiftsTotal = 0
       
       @timeframe = params[:times]
       @sortby = params[:sorts]
@@ -119,89 +117,177 @@ class ReportsController < ApplicationController
       
       @donors.each do |donor|
         
-        #flag for if a donor had a gift during the timeframe
-        applicable = 1
-        giftsTotal = 0
+        #first grab all gifts from the chosen donor
+        currentDonor = donor
+        @donorGiftsArray = [] #donor's gifts go in here
+        @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
         
-        case @timeframe
-        #based on donation_date!
-        when 'All'
-          # should this include donors with NO gifts?
-          @reportDonorsArray.push(donor)
-        when 'This Year'
+        @gifts.each do |gift|
+          donorID = gift['donor_id']
+          if donorID.to_s.eql? currentDonor['id'].to_s
+            @donorGiftsArray.push(gift)
+          end #end if
+        end #end gifts loop
+        #donor['address2'] = @donorGiftsArray.length #for testing - remove later
+        
+        if @donorGiftsArray.length > 0 
+          addDonor = false  #flag for adding donor to report
           
-          @gifts.each do |g|
-            if g.donor_id.eql? donor['id'] #belongs to this donor
-              if is_current_year(g['donation_date'].to_datetime) #in timeframe
-                applicable++ #OK to add this donor
-                giftsTotal += g['amount'] #include in total gifts amount
-              end #end is_current_year
-            end #end if donor's gift
-          end #end gift loop
-          
-          add_donor_and_gifts_as_needed(applicable, donor, giftsTotal)
-        when 'This Quarter'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'This Month'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Last Year'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Last Quarter'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Last Month'      
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Past 2 Years'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Past 5 Years'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Past 2 Quarters'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Past 3 Months'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        when 'Past 6 Months'
-          @reportDonorsArray.push(donor) #not implemented yet!
-        end
+          #apply timeframe filter
+          case @timeframe
+          when 'All'
+            #should this include donors with NO gifts? currently no
+            @reportDonorsArray.push(donor)
+            #need to add both ALL of this donor's gifts and their gift total
+          when 'This Year'
+            @donorGiftsArray.each do |gift|
+              if is_current_year(gift['donation_date'].to_datetime)
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'This Quarter'
+            @donorGiftsArray.each do |gift|
+              if ((is_current_quarter(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'This Month'
+            @donorGiftsArray.each do |gift|
+              if ((is_current_month(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Last Year'
+            @donorGiftsArray.each do |gift|
+              if is_last_year(gift['donation_date'].to_datetime)
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Last Quarter'
+            @donorGiftsArray.each do |gift|
+              if is_last_quarter(gift['donation_date'].to_datetime)
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Last Month'      
+            @donorGiftsArray.each do |gift|
+              if is_last_month(gift['donation_date'].to_datetime)
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Past 2 Years'
+            @donorGiftsArray.each do |gift|
+              if ((is_last_year(gift['donation_date'].to_datetime)) or
+              (is_current_year(gift['donation_date'].to_datetime)))
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Past 5 Years'
+            @donorGiftsArray.each do |gift|
+              if is_past_5_years(gift['donation_date'].to_datetime)
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Past 2 Quarters'
+            @donorGiftsArray.each do |gift|
+              if (
+                ((is_current_quarter(gift['donation_date'])) and 
+                (is_current_year(gift['donation_date']))) or
+                (is_last_quarter(gift['donation_date']))
+              )
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Past 3 Months'
+            @donorGiftsArray.each do |gift|
+              if (is_past_3_months(gift['donation_date'].to_datetime))
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          when 'Past 6 Months'
+            @donorGiftsArray.each do |gift|
+              if (is_past_6_months(gift['donation_date'].to_datetime))
+                addDonor = true
+                @giftsWithinTimeArray.push(gift)
+              end
+            end
+            add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
+          end #end switch for timeframe
+        end #end donorGiftsArray length check
+      end #end donors loop
+        
+      #apply sortby filter
+      case @sortby
+        when 'Last Name'
+          @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+        when 'First Name'
+          @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
+        when 'Email'
+          @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
+        when 'State'
+          @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
       end
-        
-        case @sortby
-          when 'Last Name'
-            @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
-          when 'First Name'
-            @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
-          when 'Email'
-            @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
-          when 'State'
-            @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
-        end
-        
-        case @topn
-        when 'all'
-        when '10'
-          @reportDonorsArray = @reportDonorsArray.first(10)
-        when '20'
-          @reportDonorsArray = @reportDonorsArray.first(20)
-        when '50'
-          @reportDonorsArray = @reportDonorsArray.first(50)
-        when '100'
-          @reportDonorsArray = @reportDonorsArray.first(100)
-        end
+      
+      #apply topn filter
+      case @topn
+      when 'all'
+      when '10'
+        @reportDonorsArray = @reportDonorsArray.first(10)
+      when '20'
+        @reportDonorsArray = @reportDonorsArray.first(20)
+      when '50'
+        @reportDonorsArray = @reportDonorsArray.first(50)
+      when '100'
+        @reportDonorsArray = @reportDonorsArray.first(100)
+      end
           
       pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
-      @donorGiftsTotals)
+        @donorGiftsTotal)
       send_data pdf.render, :filename => 'Donors Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
       :type => 'application/pdf', :disposition => 'attachment'
     end
   end
   
-  def add_donor_and_gifts_as_needed(count, donor, total)
-    if count > 0
+  def add_donor_and_gifts_if_applicable(isOK, donor, giftsArray)
+    if isOK #add donor if one of the gifts was within the timeframe
+      #determine the latest gift date and add that to the report
+      lastGiftDate = '1900-01-01'.to_date
+      giftsTotalAmount = 0
+      giftsArray.each do |gift|
+        if gift['donation_date'] > lastGiftDate
+          lastGiftDate = gift['donation_date']
+        end
+        giftsTotalAmount = giftsTotalAmount + gift['amount']
+      end
+      #add the last gift date using title field of donor
+      donor['title'] = lastGiftDate.to_s
+      #add the total gifts amount using nickname field of donor
+      donor['nickname'] = '$' + giftsTotalAmount.to_i.to_s
+      @donorGiftsTotal = @donorGiftsTotal + giftsTotalAmount.to_i
       @reportDonorsArray.push(donor)
-    end
-    if total > 0
-      @donorGiftsTotals.push(total.to_s)
-    else
-      @donorGiftsTotals.push('')
     end
   end
 
@@ -406,10 +492,10 @@ class ReportsController < ApplicationController
   end
   
   #source: http://stackoverflow.com/questions/8414767/
-  def current_quarter_months(date)
-    quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
-    quarters[(date.month - 1) / 3]
-  end
+  #def current_quarter_months(date)
+  #  quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+  #  quarters[(date.month - 1) / 3]
+  #end
   
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   # Trash Report 

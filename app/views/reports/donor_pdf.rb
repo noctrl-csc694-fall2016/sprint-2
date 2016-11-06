@@ -1,12 +1,11 @@
 class DonorPdf < Prawn::Document
-  def initialize(donor, timeframe, sortby, topn, giftTotals)
+  def initialize(donor, timeframe, sortby, topn, giftTotal)
     super()
     @donors = donor
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
-    @giftTotals = giftTotals
-    @giftTotal = '$50000'
+    @giftTotal = '$' + giftTotal.to_s
     header
     text_content
     table_content
@@ -54,7 +53,7 @@ class DonorPdf < Prawn::Document
     [['ID', 'Donor Name', 'City, State', 'Date of Last Gift', 'Gift Total']] +
       @donors.map do |donor|
       [donor.id.to_s, donor.last_name.to_s + ", " + donor.first_name.to_s, 
-      donor.city.to_s + ", " + donor.state, '(last gift date)', @giftTotals[count].to_s]
+      donor.city.to_s + ", " + donor.state, donor.title, donor.nickname]
     end
   end
   
