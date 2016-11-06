@@ -10,16 +10,17 @@
 <!-- Content -->
 <%= form_tag '/report-activities-pdf', multipart:true do %>
   <section class='report-container'>
-    <div class="report-third-left">
+    <div class="report-left-half">
       <span class='report-tab'>Timeframe:</span>
         <%= select_tag 'timeframe', options_for_select(Activity::TIMES) %>
     </div>
 
-    <div class="report-third-middle">
+    <div class="report-right-half">
       <span class='report-tab'>Sort By:</span>
         <%= select_tag 'sortby', options_for_select(Activity::SORTS) %>
     </div>
 
+    <!--
     <div class="report-third-right">
       <span class='report-tab'>Layout:</span><br />
       <%= radio_button_tag(:layout, "portrait", checked = true) %>
@@ -27,6 +28,7 @@
       <%= radio_button_tag(:layout, "landscape") %>
       <%= label_tag(:layout_landscape, "Long/Landscape") %>
     </div>
+    -->
   </section>
   <br /><br />
   <div class="report-submit">
