@@ -1,0 +1,28 @@
+<!--form to build filter/sort options-->
+<%= form_tag({controller: "activities", action: "index"}, method: :get) do %>
+  <div class="row form-group">
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Timeframe (End Date)</p>
+      </div>
+      <%= select_tag(:timeframe, options_for_select(Activity::TIMES), class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Top Goal $</p>
+      </div>
+      <%= select_tag(:topn, options_for_select(Activity::TOPN), class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Sort By</p>
+      </div>
+      <%= select_tag(:sortby, options_for_select(Activity::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2">
+      <%= submit_tag 'GO', class: 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>

@@ -71,4 +71,18 @@ class Donor < ApplicationRecord
     
   end
   
+  #returns the total dollar amount a donor has donated
+  def gift_total_amount_per_donor()
+    selected_gifts = Gift.where(:donor_id => self.id)
+    sum = 0
+    selected_gifts.each do |g|
+      sum+=g.amount
+    end
+    return sum
+  end
+  #portions taken from http://awaxman11.github.io/blog/2013/10/11/sorting-a-rails-resource-based-on-a-calculated-value/
+  def self.sorted_by_total_gift_amount
+    Donor.all.sort_by(&:gift_total_amount_per_donor).reverse
+  end
+  
 end

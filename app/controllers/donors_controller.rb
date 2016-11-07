@@ -5,6 +5,8 @@ class DonorsController < ApplicationController
   # major contributions by:
   #         
   #----------------------------------#
+ include DonorsHelper
+ 
  
  # creates new donor object for New Donor screen
   def new
@@ -47,7 +49,152 @@ class DonorsController < ApplicationController
   
   # list all donors on index page
   def index
-    @donors = Donor.paginate(page: params[:page], per_page: 5)
+    @selected_donors = Donor.all
+     
+    #TIMEFRAME filtering
+    @timeframe_donors = [] #initialize array to store ids of donors making donations within timeframe
+    case params[:timeframe]
+          when 'All'
+          when 'This Year'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                if last_gift_by_donation_date(donor).donation_date.year == Time.current.year
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'This Quarter'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= Time.current.beginning_of_quarter) && (@donation_date <= Time.current.end_of_quarter)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'This Month'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                if last_gift_by_donation_date(donor).donation_date.month == Time.current.month
+                @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+         when 'Last Year'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                @start_year = Time.current.beginning_of_year - 1.year - 1.day
+                @end_year = Time.current.beginning_of_year - 1.day
+                if (@donation_date >= @start_year) && (@donation_date <= @end_year)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Last Quarter'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                @start_quarter = Time.current.beginning_of_quarter - 3.months - 1.day
+                @end_quarter = Time.current.end_of_quarter - 3.months
+                if (@donation_date >= @start_quarter) && (@donation_date <= @end_quarter)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Last Month'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                @start_month = Time.current.beginning_of_month - 1.month - 1.day
+                @end_month = Time.current.end_of_month - 1.day
+                if (@donation_date >= @start_month) && (@donation_date <= @end_month)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Past 2 Years'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= 2.years.ago.to_date)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Past 5 Years'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= 5.years.ago.to_date)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Past 2 Quarters'
+            @past_2_quarters_begin = Time.current.beginning_of_quarter - 3.months
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= @past_2_quarters_begin)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Past 3 Months'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= 3.months.ago.to_date)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+          when 'Past 6 Months'
+            @selected_donors.each do |donor|
+              if last_gift_by_donation_date(donor)
+                @donation_date = last_gift_by_donation_date(donor).donation_date
+                if (@donation_date >= 6.months.ago.to_date)
+                  @timeframe_donors.push(donor.id)
+                end
+              end
+            end
+            @selected_donors = @selected_donors.where(id: @timeframe_donors)
+    end
+    
+    #select the TOP N donors, by total gift amount
+    if(params[:topn] != "" && params[:topn] != "All")
+      @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
+    end
+    
+    #sort results (reorder objects in table)
+    if(params[:topn] && params[:sortby])
+      @selected_donors = Donor.where(id: @selected_donors)
+    end
+    case params[:sortby]
+      when 'Last Name'
+        @selected_donors = @selected_donors.reorder("last_name")
+      when 'First Name'
+        @selected_donors = @selected_donors.reorder("first_name")
+      when 'Email'
+        @selected_donors = @selected_donors.reorder("email")
+      when 'State'
+        @selected_donors = @selected_donors.reorder("state")
+    end
+    
+    #paginate selected donors list after sorting & filtering
+     @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 5)
+    
     respond_to do |format|
       format.html
         format.pdf do
