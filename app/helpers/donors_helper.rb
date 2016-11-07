@@ -42,6 +42,22 @@ module DonorsHelper
     return last_gift
   end
   
+  #returns the last gift that a donor made, by created_at date
+  def last_gift_by_donation_date(donor)
+    selected_gifts = Gift.where(:donor_id => donor)
+    last_gift = nil
+    selected_gifts.each do |g|
+      if last_gift.nil?
+        last_gift = g
+      else
+        if g.donation_date > last_gift.donation_date
+          last_gift = g
+        end
+      end
+    end 
+    return last_gift
+  end
+  
   #returns the last gift $ amount a donor has given, or 0 if no 
   #gifts have been made
   def last_gift_amount(donor)

@@ -12,7 +12,7 @@
         	  <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Gift</span>
         	<% end %>
           <div>
-            <%=link_to "All Activities", activities_url %>&nbsp; | &nbsp;<%=link_to "All Donors", donors_url %>
+            <%=link_to "All Activities", activities_url + "?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO" %>&nbsp; | &nbsp;<%=link_to "All Donors", donors_url + "?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO" %>
           </div>
         </div>
       </div>
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<!--dropdown for activity and donor-->
+<!--dropdown for filter/sort options-->
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
     <div class="panel-group" id="accordion">

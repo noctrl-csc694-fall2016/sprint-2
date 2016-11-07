@@ -3,7 +3,8 @@ class ActivitiesController < ApplicationController
   # GiftGarden Activities Controller
   # original written by: Wei H, Oct 15 2016
   # major contributions by:
-  #
+  #                     Pat M Oct 26 2016
+  #                     Andy W Nov 7 2016
   #----------------------------------#
   
   # defines a new activity
@@ -41,7 +42,66 @@ class ActivitiesController < ApplicationController
   
   #list all activities on index page		
   def index		
-     @activities = Activity.paginate(page: params[:page], per_page: 5)		
+    
+    #add all activities to selected_activities
+    @selected_activities = Activity.all
+    
+    #TIMEFRAME filtering
+    case params[:timeframe]
+          when 'All'
+          when 'This Year'
+            @selected_activities = @selected_activities.where(end_date: Time.current.beginning_of_year..Time.current.end_of_year)
+          when 'This Quarter'
+            @selected_activities = @selected_activities.where(end_date: Time.current.beginning_of_quarter..Time.current.end_of_quarter)
+          when 'This Month'
+            @selected_activities = @selected_activities.where(end_date: Time.current.beginning_of_month..Time.current.end_of_month)
+          when 'Last Year'
+            @start_year = Time.current.beginning_of_year - 1.year - 1.day
+            @end_year = Time.current.beginning_of_year - 1.day
+            @selected_activities = @selected_activities.where(end_date: @start_year..@end_year)
+          when 'Last Quarter'
+            @start_quarter = Time.current.beginning_of_quarter - 3.months - 1.day
+            @end_quarter = Time.current.end_of_quarter - 3.months
+            @selected_activities = @selected_activities.where(end_date: @start_quarter..@end_quarter)
+          when 'Last Month'
+            @start_month = Time.current.beginning_of_month - 1.month - 1.day
+            @end_month = Time.current.end_of_month - 1.day
+            @selected_activities = @selected_activities.where(end_date: @start_month..@end_month)
+          when 'Past 2 Years'
+            @selected_activities = @selected_activities.where("end_date >= ?", 2.years.ago.to_date)
+          when 'Past 5 Years'
+            @selected_activities = @selected_activities.where("end_date >= ?", 5.years.ago.to_date)
+          when 'Past 2 Quarters'
+            @selected_activities = @selected_activities.where("end_date >= ?", 1.quarter.ago.to_date)
+          when 'Past 3 Months'
+            @selected_activities = @selected_activities.where("end_date >= ?", 3.months.ago.to_date)
+          when 'Past 6 Months'
+            @selected_activities = @selected_activities.where("end_date >= ?", 6.months.ago.to_date)
+    end
+    
+    #select the TOP N activities, ordered by goal amount
+    if(params[:topn] != "" && params[:topn] != "All")
+      @selected_activities = @selected_activities.reorder("goal DESC")
+      @activity_ids = @selected_activities.select("id").limit(params[:topn].to_i)
+      @selected_activities = @selected_activities.where(id: @activity_ids)
+    end
+    
+    #sort results (reorder objects in table)
+    case params[:sortby]
+      when 'Name'
+        @selected_activities = @selected_activities.reorder("name")
+      when 'Start Date'
+        @selected_activities = @selected_activities.reorder("start_date DESC")
+      when 'End Date'
+        @selected_activities = @selected_activities.reorder("end_date DESC")
+      when 'Goal'
+        @selected_activities = @selected_activities.reorder("goal DESC")
+    end
+    
+    #paginate selected activities list after sorting & filtering
+     @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 5)		
+     
+     
      respond_to do |format|		
        format.html		
         format.pdf do		
