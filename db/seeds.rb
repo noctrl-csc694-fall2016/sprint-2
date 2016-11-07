@@ -6,7 +6,9 @@
   # original written by: Wei H, Oct 14 2016
   # major contributions by:
   #             Andy W, Oct 18 2016
+  #             Pat M, Nov 3, 2016
   #----------------------------------#
+  
 
 # Create sample activties
 Activity.create!( name: "Golf Outing 2015",
@@ -283,3 +285,17 @@ Gift.create!( activity_id: 3,
               donation_date: "2016-12-12",
               amount: 20,
               gift_type: "Cash")
+              
+#create sample users
+10.times do |n|
+  email = "example-#{n+1}@noctrl.edu"
+  username  = "sample-user-#{n+1}"
+  permission_level = 1
+  password_digest = User.digest('foobar')
+  
+  User.create!(
+    email:            email,
+    username:         username,
+    password_digest:  password_digest,
+    permission_level: permission_level)
+end

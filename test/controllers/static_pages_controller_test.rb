@@ -10,7 +10,7 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
   test 'should get_root_path' do
     get root_path
     assert_response :success
-    assert_select "title", "Home | Gift Garden"
+    assert_select "title", "Log In | Gift Garden"
   end
   
   test "should get home" do

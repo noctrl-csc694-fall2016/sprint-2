@@ -18,11 +18,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right navbar-donna-search">
         <li class="dropdown pull-right">
+          <% if logged_in? %>
 	        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
 	        <ul class="dropdown-menu">
 		        <li><a href="#">Settings</a></li>
-		        <li><a href="#">Logout</a></li>
+		        <li><%= link_to "Logout", logout_path, method: "delete" %></li>
 	        </ul>
+	        <% end %>
         </li>
       </ul>
 
