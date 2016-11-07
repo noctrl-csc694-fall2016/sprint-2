@@ -67,5 +67,8 @@ class Donor < ApplicationRecord
     end
   end
 
+  def self.to_pdf(day)
+    
+  end
   
 end
