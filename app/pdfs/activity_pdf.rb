@@ -20,7 +20,7 @@ class ActivityPdf < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position], :width => 658, :height => 50) do
-      text "This GiftGarden report created " + Time.zone.now.to_date.to_s + " by Jane Doe.", size: 15
+      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + " by Jane Doe.", size: 15
       text "Report options: Timeframe " + @timeframe + ", Sorted by " + @sortby + ".", size: 15
     end
 
