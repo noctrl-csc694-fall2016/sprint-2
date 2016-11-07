@@ -74,14 +74,7 @@ class GiftsController < ApplicationController
       @selected_gifts = @selected_gifts.where(:donor_id => params[:donor_id])
     end
     
-    #select the TOP N gifts, ordered by gift amount
-    if(params[:topn] != "")
-      @selected_gifts = @selected_gifts.reorder("amount DESC")
-      @gift_ids = @selected_gifts.select("id").limit(params[:topn].to_i)
-      @selected_gifts = @selected_gifts.where(id: @gift_ids)
-    end
-    
-    #still need TIMEFRAME filtering
+    #TIMEFRAME filtering
     case params[:timeframe]
           when 'All'
           when 'This Year'
@@ -107,11 +100,19 @@ class GiftsController < ApplicationController
           when 'Past 5 Years'
             @selected_gifts = @selected_gifts.where("donation_date >= ?", 5.years.ago.to_date)
           when 'Past 2 Quarters'
-            @selected_gifts = @selected_gifts.where("donation_date >= ?", 1.quarter.ago.to_date)
+            @past_2_quarters_begin = Time.current.beginning_of_quarter - 3.months
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", @past_2_quarters_begin)
           when 'Past 3 Months'
             @selected_gifts = @selected_gifts.where("donation_date >= ?", 3.months.ago.to_date)
           when 'Past 6 Months'
             @selected_gifts = @selected_gifts.where("donation_date >= ?", 6.months.ago.to_date)
+    end
+    
+    #select the TOP N gifts, ordered by gift amount
+    if(params[:topn] != "")
+      @selected_gifts = @selected_gifts.reorder("amount DESC")
+      @gift_ids = @selected_gifts.select("id").limit(params[:topn].to_i)
+      @selected_gifts = @selected_gifts.where(id: @gift_ids)
     end
     
     #sort results (reorder objects in table)

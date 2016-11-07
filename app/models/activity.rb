@@ -19,6 +19,8 @@ class Activity < ApplicationRecord
     
   SORTS = [ 'Name', 'Start Date', 'End Date', 'Goal']
   
+  TOPN = [ 'All', '10', '20', '50', '100' ]
+  
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|
     #  activity_hash = row.to_hash
