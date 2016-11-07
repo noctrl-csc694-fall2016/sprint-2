@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  include SessionsHelper
   
   # Include the CSV module for CSV output.  Source: https://www.lockyy.com/posts/rails-4/exporting-csv-files-in-rails
   # require File.expand_path('../boot', __FILE__)

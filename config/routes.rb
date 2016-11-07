@@ -1,5 +1,21 @@
 Rails.application.routes.draw do
 
+  get 'users/index'
+
+  get 'users/show'
+
+  get 'users/edit'
+
+  get 'users/create'
+
+  get 'users/update'
+
+  get 'sessions/new'
+
+  get 'sessions/create'
+
+  get 'sessions/destroy'
+
   get 'reports/activities'
 
   get 'reports/donors'
@@ -52,5 +68,9 @@ Rails.application.routes.draw do
   get    'hyper-surf/activities', to: 'hyper_surf#activities'
   get    'hyper-surf/all', to: 'hyper_surf#all'
   
-  root 'static_pages#home'
+  get    'login'                  => 'sessions#new'
+  post   'login'                  => 'sessions#create'
+  delete 'logout'                 => 'sessions#destroy'
+  
+  root 'sessions#new'
 end
