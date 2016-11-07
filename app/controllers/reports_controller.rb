@@ -272,7 +272,10 @@ class ReportsController < ApplicationController
       end
       
       if @layout == 'landscape'
-        
+        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
+        send_data pdf.render, :filename => 'Donor Contact Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+        :type => 'application/pdf', :disposition => 'attachment'
       else
         pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
         @donorGiftsTotal)
