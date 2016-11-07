@@ -91,11 +91,7 @@ class ReportsController < ApplicationController
         
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
         send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
-        :type => 'application/pdf', :disposition => 'attachment'#, :page_layout => :landscape
-        
-        #send_data Activity.to_pdf(@reportActivitiesArray, @timeframe, @sortby),
-        #filename: 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf',
-        #type: "application/pdf"
+        :type => 'application/pdf', :disposition => 'attachment'
     end
   end
   
@@ -140,9 +136,10 @@ class ReportsController < ApplicationController
           #apply timeframe filter
           case @timeframe
           when 'All'
-            #should this include donors with NO gifts? currently no
-            @reportDonorsArray.push(donor)
-            #need to add both ALL of this donor's gifts and their gift total
+            #should this include donors with NO gifts? currently it doesn't
+            #all option adds both ALL of this donor's gifts and their gift total
+            addDonor = true
+            add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
           when 'This Year'
             @donorGiftsArray.each do |gift|
               if is_current_year(gift['donation_date'].to_datetime)
@@ -239,6 +236,13 @@ class ReportsController < ApplicationController
             end
             add_donor_and_gifts_if_applicable(addDonor, donor, @giftsWithinTimeArray)
           end #end switch for timeframe
+        else
+          #apply timeframe filter
+          case @timeframe
+          when 'All'
+            #donors with no gifts are still added in this filter
+            add_donor_with_no_gifts(donor)
+          end
         end #end donorGiftsArray length check
       end #end donors loop
         
@@ -266,12 +270,16 @@ class ReportsController < ApplicationController
       when '100'
         @reportDonorsArray = @reportDonorsArray.first(100)
       end
-          
-      pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
+      
+      if @layout == 'landscape'
+        
+      else
+        pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
         @donorGiftsTotal)
-      send_data pdf.render, :filename => 'Donors Report' + " "  + 
+        send_data pdf.render, :filename => 'Donors Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
-      :type => 'application/pdf', :disposition => 'attachment'
+        :type => 'application/pdf', :disposition => 'attachment'
+      end
     end
   end
   
@@ -293,6 +301,12 @@ class ReportsController < ApplicationController
       @donorGiftsTotal = @donorGiftsTotal + giftsTotalAmount.to_i
       @reportDonorsArray.push(donor)
     end
+  end
+  
+  def add_donor_with_no_gifts(donor)
+    donor['title'] = ''
+    donor['nickname'] = ''
+    @reportDonorsArray.push(donor)
   end
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
