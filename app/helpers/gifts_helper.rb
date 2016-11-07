@@ -3,4 +3,5 @@ module GiftsHelper
   def get_gift_id(gift)
     return "gft" + gift.id.to_s
   end
+  
 end

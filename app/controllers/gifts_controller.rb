@@ -74,28 +74,44 @@ class GiftsController < ApplicationController
       @selected_gifts = @selected_gifts.where(:donor_id => params[:donor_id])
     end
     
-    #select the TOP N gifts -- LIMIT CMD NOT WORKING YET
+    #select the TOP N gifts, ordered by gift amount
     if(params[:topn] != "")
-      @selected_gifts = @selected_gifts.reorder("amount DESC").limit(2)
+      @selected_gifts = @selected_gifts.reorder("amount DESC")
+      @gift_ids = @selected_gifts.select("id").limit(params[:topn].to_i)
+      @selected_gifts = @selected_gifts.where(id: @gift_ids)
     end
     
     #still need TIMEFRAME filtering
     case params[:timeframe]
           when 'All'
           when 'This Year'
-            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_year).where("donation_date <= ?", Time.current.end_of_year)
+            @selected_gifts = @selected_gifts.where(donation_date: Time.current.beginning_of_year..Time.current.end_of_year)
           when 'This Quarter'
-            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_quarter).where("donation_date <= ?", Time.current.end_of_quarter)
+            @selected_gifts = @selected_gifts.where(donation_date: Time.current.beginning_of_quarter..Time.current.end_of_quarter)
           when 'This Month'
-            @selected_gifts = @selected_gifts.where("donation_date >= ?", Time.current.beginning_of_month).where("donation_date <= ?", Time.current.end_of_month)
-          when 'Last Year'#not implemented yet!
-          when 'Last Quarter'#not implemented yet!
-          when 'Last Month'      #not implemented yet!
-          when 'Past 2 Years'#not implemented yet!
-          when 'Past 5 Years'#not implemented yet!
-          when 'Past 2 Quarters'#not implemented yet!
-          when 'Past 3 Months'#not implemented yet!
-          when 'Past 6 Months'#not implemented yet!
+            @selected_gifts = @selected_gifts.where(donation_date: Time.current.beginning_of_month..Time.current.end_of_month)
+          when 'Last Year'
+            @start_year = Time.current.beginning_of_year - 1.year - 1.day
+            @end_year = Time.current.beginning_of_year - 1.day
+            @selected_gifts = @selected_gifts.where(donation_date: @start_year..@end_year)
+          when 'Last Quarter'
+            @start_quarter = Time.current.beginning_of_quarter - 3.months - 1.day
+            @end_quarter = Time.current.end_of_quarter - 3.months
+            @selected_gifts = @selected_gifts.where(donation_date: @start_quarter..@end_quarter)
+          when 'Last Month'
+            @start_month = Time.current.beginning_of_month - 1.month - 1.day
+            @end_month = Time.current.end_of_month - 1.day
+            @selected_gifts = @selected_gifts.where(donation_date: @start_month..@end_month)
+          when 'Past 2 Years'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", 2.years.ago.to_date)
+          when 'Past 5 Years'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", 5.years.ago.to_date)
+          when 'Past 2 Quarters'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", 1.quarter.ago.to_date)
+          when 'Past 3 Months'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", 3.months.ago.to_date)
+          when 'Past 6 Months'
+            @selected_gifts = @selected_gifts.where("donation_date >= ?", 6.months.ago.to_date)
     end
     
     #sort results (reorder objects in table)
