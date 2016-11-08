@@ -56,16 +56,16 @@ class ActivitiesController < ApplicationController
           when 'This Month'
             @selected_activities = @selected_activities.where(end_date: Time.current.beginning_of_month..Time.current.end_of_month)
           when 'Last Year'
-            @start_year = Time.current.beginning_of_year - 1.year - 1.day
-            @end_year = Time.current.beginning_of_year - 1.day
+            @start_year = 1.year.ago.beginning_of_year - 1.day
+            @end_year = 1.year.ago.end_of_year
             @selected_activities = @selected_activities.where(end_date: @start_year..@end_year)
           when 'Last Quarter'
             @start_quarter = Time.current.beginning_of_quarter - 3.months - 1.day
             @end_quarter = Time.current.end_of_quarter - 3.months
             @selected_activities = @selected_activities.where(end_date: @start_quarter..@end_quarter)
           when 'Last Month'
-            @start_month = Time.current.beginning_of_month - 1.month - 1.day
-            @end_month = Time.current.end_of_month - 1.day
+            @start_month = 1.month.ago.beginning_of_month - 1.day
+            @end_month = 1.month.ago.end_of_month
             @selected_activities = @selected_activities.where(end_date: @start_month..@end_month)
           when 'Past 2 Years'
             @selected_activities = @selected_activities.where("end_date >= ?", 2.years.ago.to_date)
