@@ -87,8 +87,8 @@ class DonorsController < ApplicationController
             @selected_donors.each do |donor|
               if last_gift_by_donation_date(donor)
                 @donation_date = last_gift_by_donation_date(donor).donation_date
-                @start_year = Time.current.beginning_of_year - 1.year - 1.day
-                @end_year = Time.current.beginning_of_year - 1.day
+                @start_year = 1.year.ago.beginning_of_year - 1.day
+                @end_year = 1.year.ago.end_of_year - 1.day
                 if (@donation_date >= @start_year) && (@donation_date <= @end_year)
                   @timeframe_donors.push(donor.id)
                 end
@@ -111,8 +111,8 @@ class DonorsController < ApplicationController
             @selected_donors.each do |donor|
               if last_gift_by_donation_date(donor)
                 @donation_date = last_gift_by_donation_date(donor).donation_date
-                @start_month = Time.current.beginning_of_month - 1.month - 1.day
-                @end_month = Time.current.end_of_month - 1.day
+                @start_month = 1.month.ago.beginning_of_month - 1.day
+                @end_month = 1.month.ago.end_of_month
                 if (@donation_date >= @start_month) && (@donation_date <= @end_month)
                   @timeframe_donors.push(donor.id)
                 end
