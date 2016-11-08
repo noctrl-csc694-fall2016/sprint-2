@@ -27,16 +27,24 @@
       
       <div class="col-sm-4">
         <%= file_field_tag :file %>
-        <%= file_field_tag :outputfile %>
       </div>
     </div>
     
     <div class=" row form-group">
       <div class="col-xs-8 col-xs-offset-1 text-center">
-        <%= submit_tag "Begin Import", class: "btn btn-success" %>
+        <%= submit_tag "Go", class: "btn btn-success" %>
         &nbsp;
         <%=link_to "Cancel", '/import-export', class: "btn btn-warning" %>
       </div>
     </div>
   <% end %>
 </div>
+
+<script>
+  $(document).ready(function(){
+    $("input.btn.btn-success").removeAttr("data-disable-with")
+    $("input.btn.btn-success").click(function(){
+        $("form")[0].reset();
+    });
+});
+</script>
