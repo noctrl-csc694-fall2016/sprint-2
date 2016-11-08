@@ -117,7 +117,7 @@ class GiftsController < ApplicationController
     
     #sort results (reorder objects in table)
     case params[:sortby]
-      when 'Name'
+      when 'Donor ID'
         @selected_gifts = @selected_gifts.reorder("donor_id DESC")
       when 'Amount'
         @selected_gifts = @selected_gifts.reorder("amount DESC")
