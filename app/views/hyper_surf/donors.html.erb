@@ -40,6 +40,7 @@
           </div>
         </div>
       </div>
+      <% if @donor_search_results.count != 0 %>
       <table class="table table-striped table-hover table-bordered table-responsive">
         <thead>
           <tr>
@@ -67,6 +68,9 @@
         </tbody>
       </table>
       <%= will_paginate @donor_search_results, :inner_window => 2,  class: "pagination pagination-centered" %>
+      <% else %>
+        <h3 class="no-records-found">No donors located given your search criteria.</h3>
+      <% end %>
     </div>
   </div>
 </section>
