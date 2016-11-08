@@ -109,7 +109,7 @@ class GiftsController < ApplicationController
     end
     
     #select the TOP N gifts, ordered by gift amount
-    if(params[:topn] != "")
+    if(params[:topn] != "" && params[:topn] != "All")
       @selected_gifts = @selected_gifts.reorder("amount DESC")
       @gift_ids = @selected_gifts.select("id").limit(params[:topn].to_i)
       @selected_gifts = @selected_gifts.where(id: @gift_ids)

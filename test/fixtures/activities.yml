@@ -1,5 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+#----------------------------------#
+  # Activities Fixtures for Tests
+  # original written by: Wei H Oct 22 2016
+  # major contributions by:
+  #             
+  #----------------------------------#
+
 golf:
   name: Golf Outing
   start_date: 2016-10-12 18:40:46

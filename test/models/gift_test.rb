@@ -1,10 +1,17 @@
 require 'test_helper'
 
+  #----------------------------------#
+  # Gift Model Test
+  # original written by: Andy W Nov 8 2016
+  # major contributions by:
+  #             
+  #----------------------------------#
+
+
 class GiftTest < ActiveSupport::TestCase
 
   def setup
-    @gift = Gift.new(donation_date: "2016-02-10".to_date, amount: 720.0,
-                      gift_type: "Check")
+    @gift = gifts(:one)
   end
   
   test "notes should not be too long" do 
