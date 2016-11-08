@@ -69,7 +69,7 @@
       </table>
       <%= will_paginate @selected_activities, :inner_window => 2, class: "pagination pagination-centered" %>
       <% else %>
-      <h3>No activities located given your search criteria.</h3>
+      <h3 class="no-records-found">No activities located given your search criteria.</h3>
       <% end %>
     </div>
   </div>
