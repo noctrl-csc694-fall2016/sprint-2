@@ -1,8 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
+ #----------------------------------#
+  # Gifts Fixtures for Tests
+  # original written by: Andy W Nov 7 2016
+  # major contributions by:
+  #             
+  #----------------------------------#
+
 one:
   donor: andy
   activity: golf
+  donation_date: 2016-10-12 18:40:46
   amount: 1500.00
   gift_type: 'cash'
   notes: Sample Donation

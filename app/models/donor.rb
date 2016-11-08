@@ -80,9 +80,11 @@ class Donor < ApplicationRecord
     end
     return sum
   end
+  
+  #sorts donor list by computed total gift amount
   #portions taken from http://awaxman11.github.io/blog/2013/10/11/sorting-a-rails-resource-based-on-a-calculated-value/
   def self.sorted_by_total_gift_amount
-    Donor.all.sort_by(&:gift_total_amount_per_donor).reverse
+    Donor.all.sort_by(&:gift_total_amount_per_donor)
   end
   
 end

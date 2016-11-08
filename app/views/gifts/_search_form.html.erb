@@ -17,13 +17,13 @@
       <div class="line-break">
         <p>Timeframe</p>
       </div>
-      <%= select_tag(:timeframe, options_for_select(Gift::TIMES), include_blank: "All", class: 'form-control input-sm') %>
+      <%= select_tag(:timeframe, options_for_select(Gift::TIMES), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
         <p>Top Gift $</p>
       </div>
-      <%= select_tag(:topn, options_for_select(Gift::TOPN), include_blank: "All", class: 'form-control input-sm') %>
+      <%= select_tag(:topn, options_for_select(Gift::TOPN), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
