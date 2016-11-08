@@ -32,6 +32,6 @@ module ActivitiesHelper
   
   #returns the public/visible id for the activity
   def get_activity_id(activity)
-    return "act" + activity.id.to_s
+    return "ACT" + activity.id.to_s
   end
 end
