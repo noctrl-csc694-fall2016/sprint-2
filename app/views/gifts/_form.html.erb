@@ -31,7 +31,7 @@
       <span class="required-field-marker">*</span>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <%=f.number_field :amount, class: 'form-control input-sm' %>
+        <%=f.number_field :amount, class: 'form-control input-sm', value: number_with_precision(f.object.amount, precision: 2) %>
       </div>
     </div>
   </div> <!-- row -->
@@ -64,7 +64,7 @@
       <%= f.label :pledge %>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <%=f.number_field :pledge, class: 'form-control input-sm' %>
+        <%=f.number_field :pledge, class: 'form-control input-sm', value: number_with_precision(f.object.pledge, precision: 2) %>
       </div>
     </div>
     <div class="col-xs-3  col-xs-offset-1">

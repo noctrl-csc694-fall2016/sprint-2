@@ -26,7 +26,7 @@
         <span class="required-field-marker">*</span>
         <div class="input-group">
           <div class="input-group-addon">$</div>
-          <%= f.number_field :goal, class: 'form-control input-sm' %> 
+          <%= f.number_field :goal, class: 'form-control input-sm', value: number_with_precision(f.object.goal, precision: 2) %> 
         </div>
       </div>
     </div>

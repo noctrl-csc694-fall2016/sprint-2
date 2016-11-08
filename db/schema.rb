@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161107185809) do
+ActiveRecord::Schema.define(version: 20161108031759) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
     t.date     "start_date"
     t.date     "end_date"
-    t.float    "goal"
     t.text     "description"
     t.text     "notes"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.integer  "activity_type"
+    t.decimal  "goal",          precision: 8, scale: 2, default: "0.0"
   end
 
   create_table "donors", force: :cascade do |t|
@@ -47,11 +47,9 @@ ActiveRecord::Schema.define(version: 20161107185809) do
     t.integer  "donor_id"
     t.integer  "activity_id"
     t.date     "donation_date"
-    t.float    "amount"
     t.text     "notes"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.float    "pledge"
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
     t.integer  "check_number"
     t.datetime "check_date"
     t.boolean  "anonymous"
@@ -59,7 +57,9 @@ ActiveRecord::Schema.define(version: 20161107185809) do
     t.string   "solicited_by"
     t.string   "gift_user"
     t.string   "gift_source"
-    t.integer  "gift_type",     default: 0
+    t.integer  "gift_type",                             default: 0
+    t.decimal  "amount",        precision: 8, scale: 2, default: "0.0"
+    t.decimal  "pledge",        precision: 8, scale: 2, default: "0.0"
     t.index ["activity_id"], name: "index_gifts_on_activity_id"
     t.index ["donor_id"], name: "index_gifts_on_donor_id"
   end
