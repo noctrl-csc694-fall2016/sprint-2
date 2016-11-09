@@ -32,8 +32,11 @@ class ImportExportController < ApplicationController
   def import_gifts_validate
     @activity = params[:activity]
     @file = params[:file]
-    testfile = File.join Rails.root, "/tmp/import/import_gifts.csv" # just for testing
-    
+    if @file.nil?
+      testfile = File.join Rails.root, "/tmp/import/import_gifts.csv"  # just for testing
+    else
+      testfile = @file.path
+    end
     # comment out for test
     # if @file.nil?
     #   flash[:error] = "Please choose a file."
@@ -87,9 +90,9 @@ class ImportExportController < ApplicationController
         end 
       end
     end
-    
     # all donors and gifts are added
     if error == false
+      flash[:success] = "Gifts imported successfully."
       redirect_to root_path
     else  # some donors or gifts can not be added, export csv file for review
       send_data csv_string, 
@@ -98,6 +101,7 @@ class ImportExportController < ApplicationController
     end
   end
   
-  def import_gifts_success
+  def import_gifts_next
+    @activities = Activity.all
   end
 end
