@@ -41,9 +41,9 @@
       <div class="pull-right navbar-donna-search">
         <%= form_tag(hyper_surf_all_url, :method => "get", id: "search-form", :class => "navbar-form") do %>
           <div class="input-group">
-            <%= text_field_tag :term, params[:term], placeholder: "Surf Term" %>
+            <%= text_field_tag :term, params[:term], placeholder: "Hyper Surf Term" %>
             <div class="input-group-btn search-field-button">
-              <%= submit_tag "Surf!", :name => nil, :class=>"btn btn-success min-btn-height" %><i class="glyphicon glyphicon-search"></i></button>
+              <%= submit_tag "Hyper Surf", :name => nil, :class=>"btn btn-success min-btn-height" %><i class="glyphicon glyphicon-search"></i></button>
             </div>
           </div>
         <% end %>
