@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 20161108031759) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "username"
-    t.integer  "permission_level"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "permission_level", default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

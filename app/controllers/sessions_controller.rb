@@ -14,13 +14,13 @@ class SessionsController < ApplicationController
   #  is unsuccessful.
   def create
     # Find the user by their user ID
-    user = User.where(:email => params[:session][:email].downcase).first
+    user = User.where(:username => params[:session][:username].downcase).first
     
     # If the user exists and the password is valid, send them to the home page
     if user && user.authenticate(params[:session][:password])
       # Store the user_id in the session
       log_in user
-      flash[:success] = "Welcome #{user.username}"
+      flash[:success] = "Welcome back #{user.username}!"
       redirect_to home_path
     else
       # Otherwise, keep them on the login page.
