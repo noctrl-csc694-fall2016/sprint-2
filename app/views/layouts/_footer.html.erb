@@ -74,26 +74,5 @@
     });
   });
   
-  // Donor Search Return
-  function fetchDonorValue(){
-    window.open('<%= hyper_surf_donors_path %>','Hyper Surf Donors','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
-  };
-    
-  // Return Info
-  function returnDonorValue(rowSelected) { 
-    window.opener.document.getElementById('gift_donor_id').value = rowSelected;
-    window.close();
-  }; 
-  
-  // Activity Search Return
-  function fetchActivityValue(){
-    window.open('<%= hyper_surf_activities_path %>','Hyper Surf Activities','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
-  };
-    
-  // Return Info
-  function returnActivityValue(rowSelected) { 
-    window.opener.document.getElementById('gift_activity_id').value = rowSelected;
-    window.close();
-  };
 </script>
 
