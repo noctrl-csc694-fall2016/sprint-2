@@ -407,7 +407,7 @@ a.btn.btn-danger{
 
 /* Row Grid Override */
 .row{
-  margin-right: -5px;
+  max-width: 100%;
 }
 .relative-row {
     position: relative;
@@ -426,6 +426,7 @@ div.alert {
     z-index:99;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 .panel-group .panel{
   margin-bottom: 10px;
