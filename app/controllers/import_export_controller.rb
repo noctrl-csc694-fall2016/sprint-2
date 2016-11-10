@@ -33,18 +33,12 @@ class ImportExportController < ApplicationController
     @activity = params[:activity]
     @file = params[:file]
     if @file.nil?
-      testfile = File.join Rails.root, "/tmp/import/import_gifts.csv"  # just for testing
-    else
-      testfile = @file.path
+      flash[:error] = "Please choose a file."
+      redirect_to import_gifts_begin_url
+      return
     end
-    # comment out for test
-    # if @file.nil?
-    #   flash[:error] = "Please choose a file."
-    #   redirect_to import_gifts_begin_url
-    #   return
-    # end
     
-    # @warning_msg = [] # can warning message be shown?  If not, delete warning_msg.
+    # @warning_msg = [] # can warning message be shown?  If not, delete warning_msg anr row.
     row_count = 0
     error = false
     attributes = ["donor_id",	"first_name",	"last_name", "address",	"address2",	
@@ -52,8 +46,7 @@ class ImportExportController < ApplicationController
     "country",	"donor_type",	"gift_type",	"amount",	"donation_date",	
     "check_number",	"gift_user",	"gift_source", "new_id"]
     csv_string = CSV.generate(:headers => true) do |output|
-      # CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| # uncomment this line to replace the following line
-      CSV.foreach(testfile, :headers => true, :return_headers => true, :col_sep => ',') do |row| # just for testing
+      CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| # uncomment this line to replace the following line
         if row.header_row?
           output << attributes
         else

@@ -143,6 +143,7 @@ class GiftsController < ApplicationController
   
   #delete gift
   def destroy
+    Trash.create!(:trash_type => "gift", :content => Gift.find(params[:id]).inspect)
     Gift.find(params[:id]).destroy
     flash[:success] = "Gift deleted."
     redirect_to gifts_path(activity_id: "", donor_id: "")
