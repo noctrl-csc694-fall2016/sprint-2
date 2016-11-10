@@ -135,7 +135,6 @@ h1{
 
 /* Page Content */
 .container-fluid{
-  padding-right: 0px;
   padding-left: 0px;
 }
 .container-donna {
@@ -430,4 +429,16 @@ div.alert {
 }
 .panel-group .panel{
   margin-bottom: 10px;
+}
+
+/* About Page */
+.row-spacing-gallery{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* Home */
+.jumbo-text{
+  font-size: 1.5em;
+  margin-left: 15px;
 }
