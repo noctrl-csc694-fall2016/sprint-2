@@ -19,6 +19,9 @@
       <div class="col-xs-1 text-right">
         <%= link_to "Help",    help_path %>
       </div>
+      <div class="col-xs-1 text-right">
+        <div id="google_translate_element"></div>
+      </div>
     </div>
   </div>
 </footer>
@@ -73,6 +76,10 @@
       $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
     });
   });
-  
+</script>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+  }
 </script>
 
