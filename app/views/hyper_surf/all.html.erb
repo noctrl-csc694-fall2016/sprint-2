@@ -5,7 +5,7 @@
   		<h2>Hyper Surf Gift Garden</h2>
   		<div class="row relative-row">
         <div class="text-left">
-          <span class="record-count"><%= pluralize(@all_search_results.count, "result") %> located for the surf term "<%= params[:term] %>".</span>
+          <span class="record-count"><%= pluralize(@fullResultSet.count, "result") %> located for the surf term "<%= params[:term] %>".</span>
         </div>
       </div>
   	</div>
@@ -44,30 +44,21 @@
       <table class="table table-striped table-hover table-bordered table-responsive">
         <thead>
           <tr>
+            <th>Type</th>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Email</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>
-          <% @all_search_results.each do |surf| %>
-          <tr>
-            <td>DON<%= surf.id %></td>
-            <td><%= surf.first_name %></td>
-            <td><%= surf.last_name %></td>
-            <td><%= surf.address %></td>
-            <td><%= surf.city %></td>
-            <td><%= surf.state %></td>
-            <td><%= surf.email %></td>
+          <% @fullResultSet.each do |result| %>
+          <tr data-link="/donors/<%= result[3] %>/edit">
+            <td><%= result[0] %></td>
+            <td><%= result[1] %></td>
+            <td><%= result[2] %></td>
           </tr>
-          <% end %>
+        <% end %>
         </tbody>
       </table>
-      <%= will_paginate @all_search_results, :inner_window => 2,  class: "pagination pagination-centered" %>
     </div>
   </div>
 </section>
