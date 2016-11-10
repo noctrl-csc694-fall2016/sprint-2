@@ -9,9 +9,9 @@
         <span class="icon-bar"></span>
       </button>
       <% if logged_in? %>
-      <%= link_to '/home', class: "navbar-brand navbar-brand-image" do %><%= image_tag("tulips-logo.gif", height: "118",  alt: "Gift Garden Logo") %><% end %>
+      <%= link_to '/home', class: "navbar-brand navbar-brand-image" do %><%= image_tag("custom-logo.png", height: "118",  alt: "Gift Garden Logo") %><% end %>
       <% else %>
-      <%= link_to root_path, class: "navbar-brand navbar-brand-image" do %><%= image_tag("tulips-logo.gif", height: "118",  alt: "Gift Garden Logo") %><% end %>
+      <%= link_to root_path, class: "navbar-brand navbar-brand-image" do %><%= image_tag("custom-logo.png", height: "118",  alt: "Gift Garden Logo") %><% end %>
       <% end %>
       <div class="navbar-brand navbar-donna-brand">
         <% if logged_in? %>
