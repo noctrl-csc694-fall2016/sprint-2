@@ -1,14 +1,52 @@
 class UsersController < ApplicationController
+  before_action :logged_in
+  before_action :user_exists, except: [:index, :new, :create, :prune]
+  before_action :is_admin, except: [:update, :edit]
+  
+  #Diplays all users, each user in a row
   def index
+     #display superadmin only if superadmin is logged in
+    if is_super? 
+     @users = User.all.order("(id)")
+    else
+     @users = User.where("id >= 2", true).order("(id)")
+    end
+    
+    #show users sorted by user id
+    @users.sort { |a,b| a.id <=> b.id }
+    
+    #paginate selected users list
+    @users = @users.paginate(page: params[:page], per_page: 10)
+    
+  end
+  
+  def new
+    @user = User.new
   end
 
   def show
+    @user = User.find(params[:id])
+    
+    #tell user superadmin does not exist to hide his superduper secret existence
+    if !is_super? && @user.id == 1
+      flash[:danger] = "User does not exist"
+      redirect_to home_path
+    end
   end
 
   def edit
   end
 
+  # creates new user with permitted user params defined below in private section
+  # or renders for again with error messages
   def create
+    @user = User.new(new_user_params)
+    if @user.save
+      flash[:success] = "User added successfully!"
+      redirect_to '/users'
+    else
+      render 'new'
+    end
   end
 
   #The Update method has 5 cases
@@ -28,7 +66,7 @@ class UsersController < ApplicationController
     
       if(@user.update_attributes(user_params))
         flash[:success] = "Your account has been updated."
-        redirect_to action: "edit"
+        redirect_to home_path
       else
         flash[:danger] = "Passwords invalid or do not match"
         redirect_to action: "edit"
@@ -53,7 +91,7 @@ class UsersController < ApplicationController
     end
     
     def new_user_params
-      params.require(:user).permit(:username, :email, :permission_level, :password, :password_confirmation)
+      params.required(:user).permit(:username, :email, :password, :password_confirmation, :permission_level)
     end
     
     def admin_params

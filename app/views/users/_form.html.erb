@@ -1,0 +1,47 @@
+<%= form_for(@user) do |f| %>
+
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%= f.label :username %>
+      <span class="required-field-marker">*</span>
+      <%= f.text_field :username, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
+
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%= f.label :email %>
+      <%= f.text_field :email, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
+  
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
+  
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%= f.label :password_confirmation %>
+      <%= f.password_field :password_confirmation, class: 'form-control input-sm' %>
+    </div>
+  </div>   <!-- row -->
+  
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%= f.label :permission_level, "User Level:" %>
+      <%= f.select :permission_level, [['Standard','0'],['Admin','1']], {:include_blank => true}, {:class => 'form-control'} %>
+    </div>
+  </div> <!-- row -->
+  
+	<div class=" row form-group">
+    <div class="col-xs-8 col-xs-offset-1 text-center">
+      <%= f.submit yield(:button_text), class: "btn btn-success" %>
+      &nbsp;
+      <%= link_to "Cancel", users_path, class: "btn btn-warning" %>
+    </div>
+  </div>   <!-- row -->
+ 	
+<% end %>
