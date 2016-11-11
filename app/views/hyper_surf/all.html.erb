@@ -51,10 +51,10 @@
         </thead>
         <tbody>
           <% @fullResultSet.each do |result| %>
-          <tr data-link="/donors/<%= result[3] %>/edit">
+          <tr data-link="<%= result[3] %>">
             <td><%= result[0] %></td>
             <td><%= result[1] %></td>
-            <td><%= result[2] %></td>
+            <td><%= simple_format(result[2]) %></td>
           </tr>
         <% end %>
         </tbody>
