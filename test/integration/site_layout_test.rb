@@ -4,7 +4,7 @@
   # major contributions by:
   #                     Pat M Oct 24 2016
   #                     Andy W Oct 25, 2016
-  #                     Jaosn K Nov 7 2016
+  #                     Jason K Nov 7 2016
   #----------------------------------#
 require 'test_helper'
 
