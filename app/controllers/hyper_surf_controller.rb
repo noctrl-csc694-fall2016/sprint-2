@@ -232,7 +232,21 @@ class HyperSurfController < ApplicationController
       searchResults[0] = "Content"
       searchResults[1] = "-"
       searchResults[2] = "Reports Page: General reports quickly and easily"
-      searchResults[3] = "/help"
+      searchResults[3] = "/reports"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+     # Misc Checks For Import Export
+    if (searchTerm.downcase == "import") || (searchTerm.downcase == "export") || (searchTerm.downcase == "csv") || (searchTerm.downcase == "excel") || (searchTerm.downcase == "the weight") || (searchTerm.downcase == "mailchip") || (searchTerm.downcase == "constant contact") || (searchTerm.downcase == "data load") || (searchTerm.downcase == "backup")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Import/Export Page: Import data into the system and export out to key third-parties"
+      searchResults[3] = "/import-export"
       
       # Pass Into Result
       @fullResultSet << searchResults
@@ -266,7 +280,7 @@ class HyperSurfController < ApplicationController
       @fullResultSet << searchResults
     end
     
-    # Misc Checks For Donors
+    # Misc Checks For Gifts
     if (searchTerm.downcase == "gifts") || (searchTerm.downcase == "gift") || (searchTerm.downcase == "create gifts") || (searchTerm.downcase == "update gifts") || (searchTerm.downcase == "delete gifts")
       # Primary Array
       searchResults = Array.new(4)
@@ -280,7 +294,7 @@ class HyperSurfController < ApplicationController
       @fullResultSet << searchResults
     end
     
-    # Misc Checks For Donors
+    # Misc Checks For Home
     if (searchTerm.downcase == "home") || (searchTerm.downcase == "home page") || (searchTerm.downcase == "the beginning")
       # Primary Array
       searchResults = Array.new(4)
