@@ -69,8 +69,6 @@ Rails.application.routes.draw do
   get    'hyper-surf/activities', to: 'hyper_surf#activities'
   get    'hyper-surf/all', to: 'hyper_surf#all'
   
-  
-  
   get    'login'                  => 'sessions#new'
   post   'login'                  => 'sessions#create'
   delete 'logout'                 => 'sessions#destroy'

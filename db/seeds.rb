@@ -319,7 +319,7 @@ User.create!( email:              "weih@noctrl.edu",
               username:           "weih",
               password_digest:    User.digest('password'),
               permission_level:   1)
-              
+
 10.times do |n|
   email = "example#{n+1}@noctrl.edu"
   username  = "example#{n+1}"

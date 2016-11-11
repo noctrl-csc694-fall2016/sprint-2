@@ -4,8 +4,11 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 }, 
     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
     uniqueness: { case_sensitive: false }
+  validates :password_digest, presence: true, length: {minimum: 8 }  
     
   has_secure_password
+  
+  TYPES = [ 0, 1 ]
   
   # Returns the hash digest of the given string.
   def User.digest(string)
@@ -13,5 +16,5 @@ class User < ApplicationRecord
                                                 BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
-    
+
 end
