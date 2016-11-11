@@ -115,16 +115,10 @@ class HyperSurfController < ApplicationController
         resultsFound = true
       end
       
-      
-      # Search activity on enums
-      # Parse string to enum
-      #searchEnumValue = 0
-      #searchActivityTypeEnum = false
-     
-      #if ((searchTerm.downcase == "Event") || (searchTerm.downcase == "Events"))
-      #  searchEnumValue = 1
-      #  searchActivityTypeEnum = true
-      #end
+      # Search activity type (IE: Mailer)
+      if (((a.activity_type.to_s.downcase).include? searchTerm.downcase) && (!resultsFound))
+        resultsFound = true
+      end
       
       # Update array if we match
       if resultsFound == true
@@ -150,6 +144,16 @@ class HyperSurfController < ApplicationController
       # Assume no match on each loop
       resultsFound = false
       
+      # Search gift on ID Only (IE: 1)
+      if (((g.id.to_s).include? searchTerm) && (!resultsFound))
+        resultsFound = true
+      end
+      
+      # Search activity on "GFT"ID Only (IE: ACT1)
+      if ((("gft" + g.id.to_s).include? searchTerm.downcase) && (!resultsFound))
+        resultsFound = true
+      end
+      
       # Check Donation First Name (IE: Brian)
       if (((Donor.find(g.donor).first_name.downcase).include? searchTerm.downcase) && (!resultsFound))
         resultsFound = true
@@ -168,6 +172,11 @@ class HyperSurfController < ApplicationController
       
       # Check Donation Activity (IE: Some Event)
       if (((Activity.find(g.activity).name.downcase).include? searchTerm.downcase) && (!resultsFound))
+        resultsFound = true
+      end
+      
+      # Search Gift Type (IE: Cash)
+      if (((g.gift_type.to_s.downcase).include? searchTerm.downcase) && (!resultsFound))
         resultsFound = true
       end
       
