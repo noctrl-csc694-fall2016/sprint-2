@@ -195,6 +195,119 @@ class HyperSurfController < ApplicationController
         @fullResultSet << searchResults
       end
     end
+    
+    # Misc Checks For About Page
+    if (searchTerm.downcase == "about") || (searchTerm.downcase == "developers") || (searchTerm.downcase == "more information") || (searchTerm.downcase == "the scoop")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "About Page: Learn about Gift Garden and those who made an impact on this project"
+      searchResults[3] = "/about"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Help Page
+    if (searchTerm.downcase == "help") || (searchTerm.downcase == "help me") || (searchTerm.downcase == "lost") || (searchTerm.downcase == "what the heck")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Help Page: Find help articles and contact information for assistance in regards to your travels on Gift Garden"
+      searchResults[3] = "/help"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Reports
+    if (searchTerm.downcase == "reports") || (searchTerm.downcase == "exotic reports") || (searchTerm.downcase == "basic reports") || (searchTerm.downcase == "data dump") || (searchTerm.downcase == "pour some data on me")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Reports Page: General reports quickly and easily"
+      searchResults[3] = "/help"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Activities
+    if (searchTerm.downcase == "activities") || (searchTerm.downcase == "activity") || (searchTerm.downcase == "create activity") || (searchTerm.downcase == "update activity") || (searchTerm.downcase == "delete activity")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Surf Activities: Manage Activities within Donna Donner"
+      searchResults[3] = "/activities?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Donors
+    if (searchTerm.downcase == "donors") || (searchTerm.downcase == "donor") || (searchTerm.downcase == "create donors") || (searchTerm.downcase == "update donors") || (searchTerm.downcase == "delete donors")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Surf Donors: Manage Donors within Donna Donner"
+      searchResults[3] = "/donors?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Donors
+    if (searchTerm.downcase == "gifts") || (searchTerm.downcase == "gift") || (searchTerm.downcase == "create gifts") || (searchTerm.downcase == "update gifts") || (searchTerm.downcase == "delete gifts")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Surf Gifts: Manage Gifts within Donna Donner"
+      searchResults[3] = "/gifts?utf8=✓&activity_id=&donor_id=&timeframe=&topn=&sortby=&commit=GO"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Donors
+    if (searchTerm.downcase == "home") || (searchTerm.downcase == "home page") || (searchTerm.downcase == "the beginning")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Home Page"
+      searchResults[3] = "/home"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Easter Eggs
+    if (searchTerm.downcase == "uuddlrlrbass") || (searchTerm.downcase == "Konami Code") || (searchTerm.downcase == "Infinite Lives")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "Do you like hunting for Easter Eggs?"
+      searchResults[3] = "/home"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
   end
   
   private
