@@ -238,7 +238,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Reports Page: General reports quickly and easily"
+      searchResults[2] = "Reports Page: Generate reports quickly and easily"
       searchResults[3] = "/reports"
       
       # Pass Into Result
