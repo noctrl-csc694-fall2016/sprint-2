@@ -34,7 +34,13 @@ class UsersController < ApplicationController
     end
   end
 
+  #Called when a user selects "Settings".  If the user is admin, they are
+  #redirected to 'show', just as if they cliked themself on the user list.
   def edit
+    @user = User.find(params[:id])
+    if @user.permission_level == 1
+      redirect_to action: "show"
+    end
   end
 
   # creates new user with permitted user params defined below in private section
@@ -59,31 +65,77 @@ class UsersController < ApplicationController
   #Admins can delete other accounts, update passwords and permission levels
   #
   def update
-          @user = User.find(params[:id])
+    @user = User.find(params[:id])
     
+    if is_super? 
+      #confirm password then update users info
+      if current_user.authenticate(params[:user][:current_password]) && @user.update_attributes(admin_params)
+        flash[:success] = "User " + @user.username + " has been updated."
+        redirect_to user_list_path
+      else
+        flash[:danger] = "Passwords invalid or do not match"
+        redirect_to action: "show"
+      end
+    #admin edits other user  
+    elsif is_admin? && current_user.username != @user.username
+      #confirm password then update users info
+      if current_user.authenticate(params[:user][:current_password]) && 
+        @user.update_attributes(admin_params)
+        flash[:success] = "User " + @user.username + " has been updated."
+        redirect_to user_list_path
+      else
+        flash[:danger] = "Passwords invalid or do not match"
+        redirect_to action: "show"
+      end
+    #admin edits self
+    elsif is_admin? && current_user.username == @user.username
+      #confirm password then update user's info
+      if current_user.authenticate(params[:user][:current_password]) && @user.update_attributes(admin_params)
+        flash[:success] = "Your account has been updated."
+        redirect_to show_path
+      else
+        flash[:danger] = "Passwords invalid or do not match"
+        redirect_to action: "show"
+      end
     #user edits self
-    if current_user.username == @user.username
-    
+    elsif current_user.username == @user.username
       if(@user.update_attributes(user_params))
         flash[:success] = "Your account has been updated."
         redirect_to home_path
       else
         flash[:danger] = "Passwords invalid or do not match"
-        redirect_to action: "edit"
+        redirect_to action: "show"
       end
-      
     #user edits other
     else
       flash[:danger] = "You do not have permission to update that user"
       redirect_to home_path
-      
+    end
+  end
+  
+  #destroy is an action that admins can use to delete accounts
+  #but not themselves. Super admin is hidden from all others.
+  def destroy
+    #check user is not deleting self
+    if User.find(params[:id]).username != current_user.username
+      if User.find(params[:id]) == 1
+        flash[:danger] = "User does not exist"
+        redirect_to home_path
+      else  
+        name = User.find(params[:id]).username
+        User.find(params[:id]).destroy
+        flash[:success] = "Successfully deleted user " + name.to_s
+        redirect_to users_url
+      end
+    else
+      flash[:danger] = "You cannot delete yourself"
+      redirect_to action: "show"
     end
   end
   
   
   #password and password confirmation are BCrypt defaults.  They must be called
-  #by these names for BCrypt to recognize them
-  #They are not part of the user model
+  #by these names for BCrypt to recognize them. They aren't part of user model.
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def super_params

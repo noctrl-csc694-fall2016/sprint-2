@@ -1,6 +1,6 @@
 <!-- Begin main content -->
 <div class="container">
-    <div class="row not-implemented-yet">
+    <div class="row">
          <div class="col-md-8 col-md-offset-2 col-xs-12 well extra-spacing">
             <div class='col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2'>
                 <h2>Edit User</h2>
@@ -20,7 +20,7 @@
                     
                     <div class="form-group">
                     <label>User Level:</label>
-                        <%= f.select :permission_level, [['Entry','0'],['Standard','1'],['Admin','2']] , {}, {:class => 'form-control'}%>
+                        <%= f.select :permission_level, [['Standard','0'],['Admin','1']] , {}, {:class => 'form-control'}%>
                     </div>
     
                     
@@ -36,13 +36,12 @@
     
                     <div class="form-group">
                         <div class="col-xs-12 text-center">
-                        <%= f.submit "Update User", class: "btn btn-success btn-wide" %>
-                        <%= link_to "Cancel", "/users", class: "btn btn-danger btn-wide" %>
-                    </div>
+                            <%= f.submit "Update User", class: "btn btn-success btn-wide" %>
+                            <%= link_to "Cancel", "/users", class: "btn btn-danger btn-wide" %>
+                        </div>
                     </div>
                     <br>
                     <br>
-                    <!--
                     <div class="form-group">
                         <div class="col-xs-12 text-center">
                             <% if current_user.id != @user.id %>
@@ -50,19 +49,8 @@
                             <% end %>
                         </div>
                     </div>
-                    -->
-                    <p style='color:darkred; text-align: center;'>
-                        <br/>
-                        [This form is not yet fully operational. Updates coming soon!]
-                    </p>
                 <% end %>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    $( document ).ready(function() {
-        $('.not-implemented-yet :input').prop('disabled', true);
-    });
-</script>
