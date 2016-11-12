@@ -6,68 +6,69 @@
   #----------------------------------#
 
 class HyperSurfController < ApplicationController
-  def donors
-    @donor_search_results = Donor.search(params[:search]).paginate(:per_page => 5, :page => params[:page])
-  end
-  
-  def activities
-    @activity_search_results = Activity.search(params[:search]).paginate(:per_page => 5, :page => params[:page])
-  end
-  
+  #----------------------------------#
+  # HyperSurf.All Method
+  # Queries each model within the application
+  # and bulds an array where specific fields 
+  # contain values that are located within the query
+  # The method then returns an array to be displayed
+  #----------------------------------#
   def all
     # Get Search Var
     searchTerm = params[:term].downcase
     # Prime a return
     @fullResultSet = Array.new
     
+    #----------------------------------#
     # Search The Donors
+    #----------------------------------#
     donors = Donor.all
     donors.each do |d|
       # Assume no match on each loop
       resultsFound = false 
     
       # Search donor on ID Only (IE: 1)
-      if (((d.id.to_s).include? searchTerm) && (!resultsFound))
+      if ((!resultsFound) && ((d.id.to_s).include? searchTerm))
         resultsFound = true
       end
       
       # Search donor on "DON"ID Only (IE: DON1)
-      if ((("don" + d.id.to_s).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && (("don" + d.id.to_s).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on First Name (IE: John)
-      if (((d.first_name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.first_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on Last Name (IE: Smith)
-      if (((d.last_name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.last_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on Full Name (IE: John Smith)
-      if (((d.first_name.downcase + " " + d.last_name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.first_name.downcase + " " + d.last_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on City (IE: Plainfield)
-      if (((d.city.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.city.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on State (IE: IL or Illinois)
-      if (((d.state.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.state.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search donor on Zip (IE: 60544)
-      if (((d.zip.to_s).include? searchTerm) && (!resultsFound))
+      if ((!resultsFound) && ((d.zip.to_s).include? searchTerm))
         resultsFound = true
       end
       
       # Search donor on E-Mail (IE: JohnSmith@gmail.com)
-      if (((d.email.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((d.email.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
@@ -87,7 +88,9 @@ class HyperSurfController < ApplicationController
       end
     end
     
+    #----------------------------------#
     # Search Activities
+    #----------------------------------#
     activities = Activity.all
     
     # Loop on the activities
@@ -96,27 +99,27 @@ class HyperSurfController < ApplicationController
       resultsFound = false
        
       # Search activitivy on ID Only (IE: 1)
-      if (((a.id.to_s).include? searchTerm) && (!resultsFound))
+      if ((!resultsFound) && ((a.id.to_s).include? searchTerm))
         resultsFound = true
       end
       
       # Search activity on "ACT"ID Only (IE: ACT1)
-      if ((("act" + a.id.to_s).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && (("act" + a.id.to_s).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search activity on title (IE: "Turkey")
-      if (((a.name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((a.name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
         
       # Search activity on desc. (IE: "Bowling")
-      if (((a.description.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((a.description.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search activity type (IE: Mailer)
-      if (((a.activity_type.to_s.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((a.activity_type.to_s.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
@@ -136,7 +139,9 @@ class HyperSurfController < ApplicationController
       end
     end
     
+    #----------------------------------#
     # Search Gifts
+    #----------------------------------#
     gifts = Gift.all
     
      # Loop on the gifts
@@ -145,38 +150,38 @@ class HyperSurfController < ApplicationController
       resultsFound = false
       
       # Search gift on ID Only (IE: 1)
-      if (((g.id.to_s).include? searchTerm) && (!resultsFound))
+      if ((!resultsFound) && ((g.id.to_s).include? searchTerm))
         resultsFound = true
       end
       
       # Search activity on "GFT"ID Only (IE: ACT1)
-      if ((("gft" + g.id.to_s).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && (("gft" + g.id.to_s).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation First Name (IE: Brian)
-      if (((Donor.find(g.donor).first_name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((Donor.find(g.donor).first_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Last Name (IE: Brian Brown)
-      if (((Donor.find(g.donor).last_name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((Donor.find(g.donor).last_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Full Name (IE: Brian Brown)
       giftFullName = (Donor.find(g.donor).first_name.downcase) + " " + (Donor.find(g.donor).last_name.downcase)
-      if ((giftFullName.include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && (giftFullName.include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Activity (IE: Some Event)
-      if (((Activity.find(g.activity).name.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((Activity.find(g.activity).name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Search Gift Type (IE: Cash)
-      if (((g.gift_type.to_s.downcase).include? searchTerm.downcase) && (!resultsFound))
+      if ((!resultsFound) && ((g.gift_type.to_s.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
@@ -196,7 +201,9 @@ class HyperSurfController < ApplicationController
       end
     end
     
+    #----------------------------------#
     # Misc Checks For About Page
+    #----------------------------------#
     if (searchTerm.downcase == "about") || (searchTerm.downcase == "developers") || (searchTerm.downcase == "more information") || (searchTerm.downcase == "the scoop")
       # Primary Array
       searchResults = Array.new(4)
