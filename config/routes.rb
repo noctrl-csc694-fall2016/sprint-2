@@ -73,6 +73,8 @@ Rails.application.routes.draw do
   post   'login'                  => 'sessions#create'
   delete 'logout'                 => 'sessions#destroy'
   
+  get    'user-list'              => 'users#index'
+  
   resources :users
   
   root 'sessions#new'
