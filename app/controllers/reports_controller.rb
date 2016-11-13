@@ -91,11 +91,12 @@ class ReportsController < ApplicationController
           when 'Goal'
             @reportActivitiesArray.sort! { |b,a| a.goal <=> b.goal }
         end
-        
+
         #generate the pdf file for the report
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
-        send_data pdf.render, :filename => 'Activity Report' + " " + Time.now.to_date.to_s + '.pdf', 
+        send_data pdf.render, :filename => 'Activities Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
+        flash[:success] = "Activity report generated."
     end
   end
   
@@ -283,7 +284,7 @@ class ReportsController < ApplicationController
       #landscape donors report will be the full contact report
       if @layout == 'landscape'
         pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
-        send_data pdf.render, :filename => 'Donor Contact Report' + " "  + 
+        send_data pdf.render, :filename => 'Donors Full Contact Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       else
@@ -313,7 +314,7 @@ class ReportsController < ApplicationController
       #add the last gift date using title field of donor
       donor['title'] = lastGiftDate.to_s
       #add the total gifts amount using nickname field of donor
-      donor['nickname'] = '$' + giftsTotalAmount.to_i.to_s
+      donor['nickname'] = giftsTotalAmount.to_i.to_s
       @donorGiftsTotal = @donorGiftsTotal + giftsTotalAmount.to_i
       @reportDonorsArray.push(donor)
     end
@@ -445,7 +446,7 @@ class ReportsController < ApplicationController
         end
         
         #generate pdf file
-        pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby)
+        pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
         send_data pdf.render, :filename => 'Gifts Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'

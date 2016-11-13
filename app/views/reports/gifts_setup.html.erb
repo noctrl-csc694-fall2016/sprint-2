@@ -2,8 +2,9 @@
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
     <div class="page-header">
-      <h2>Gifts Report <small>
-      All Gifts within a timeframe are saved to a PDF file.</small></h2>
+      <h2>Gifts Report <small>&nbsp;
+      All Gifts within the specifications are saved to a PDF file: <br />
+      <b>Gifts Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
   	</div>
   </div>
 </div>
@@ -40,7 +41,7 @@
   </section><br />
   
   <div class="report-submit">
-    <%= submit_tag "Generate Report", class: "btn btn-success" %>
+    <%= submit_tag "Report", class: "btn btn-success" %>
     &nbsp;
     <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
