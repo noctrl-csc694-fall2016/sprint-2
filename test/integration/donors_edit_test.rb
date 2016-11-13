@@ -1,3 +1,9 @@
+#----------------------------------#
+# Donors Edit Integration Test
+# original written by: 
+# major contributions by: Andy W, Wei H
+#
+#----------------------------------#
 require 'test_helper'
 
 class DonorsEditTest < ActionDispatch::IntegrationTest

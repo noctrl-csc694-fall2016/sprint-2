@@ -38,5 +38,9 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", root_path, count: 3
     assert_select "a[href=?]", help_path
     assert_select "a[href=?]", about_path
+    assert_select "a[href=?]", new_gift_path, count: 0
+    assert_select "a[href=?]", activities_path, count: 0
+    assert_select "a[href=?]", reports_path, count: 0
+    assert_select "a[href=?]", import_export_path, count: 0
   end
 end
