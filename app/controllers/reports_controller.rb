@@ -478,9 +478,6 @@ class ReportsController < ApplicationController
   # One Donor Report
   # Per a given selected donor, return a report of contact information and all gifts
   def one_donor_report
-    # Prep final variable
-    @one_donor_data = Array.new
-      
     respond_to do |format|
       format.html
       
@@ -488,10 +485,7 @@ class ReportsController < ApplicationController
       donor_profile = Donor.find(params[:donor])
       
       # Requestor Data
-      requestorData = Array.new(1)
-      requestorData[0] = current_user.username
-      # Push data
-      @one_donor_data << requestorData
+      requestorData = current_user.username
       
       # Store our donor profile
       donorData = Array.new(9)
@@ -502,19 +496,23 @@ class ReportsController < ApplicationController
       donorData[4] = donor_profile.address2
       donorData[5] = donor_profile.city 
       donorData[6] = donor_profile.state
-      donorData[7] = donor_profile.zip
+      donorData[7] = donor_profile.zip.to_s
       donorData[8] = donor_profile.phone
       donorData[9] = donor_profile.email
       
-      # Pass array into final array
-      @one_donor_data << donorData
+      # Get gifts
+      selectedGiftsArray = Array.new
       
-      # Get only donors gifts
-      gifts = Gift.where(:donor_id => params[:donor])
-      @one_donor_data << gifts
-       
+      selectedGifts = Gift.where(:donor_id => params[:donor])
+      selectedGiftsCount = selectedGifts.count.to_s
+      selectedGiftsSum = selectedGifts.sum(:amount).to_s
+      #first grab all gifts from the chosen activity
+      selectedGifts.each do |gift|
+        selectedGiftsArray.push(gift)
+      end
+      
       #generate pdf file
-      pdf = OneDonorPdf.new(@one_donor_data)
+      pdf = OneDonorPdf.new(requestorData, donorData, selectedGiftsArray, selectedGiftsCount, selectedGiftsSum)
       send_data pdf.render, :filename => 'One Donor Report - ' + donor_profile.full_name + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end 
   end
