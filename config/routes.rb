@@ -67,9 +67,7 @@ Rails.application.routes.draw do
   post   '/report-one-donor-pdf', to: 'reports#one_donor_report'
   post   '/trashes-trash-pdf', to: 'reports#trash_report'
   
-  get    'hyper-surf/donors', to: 'hyper_surf#donors'
-  get    'hyper-surf/activities', to: 'hyper_surf#activities'
-  get    'hyper-surf/all', to: 'hyper_surf#all'
+  get    '/hyper-surf/all', to: 'hyper_surf#all'
   
   get    'login'                  => 'sessions#new'
   post   'login'                  => 'sessions#create'

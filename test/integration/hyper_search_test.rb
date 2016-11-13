@@ -7,8 +7,26 @@
 require 'test_helper'
 
 class HyperSearchTest < ActionDispatch::IntegrationTest
-    # Need to rebuild test for working search with results
-    
-    # Need to rebuild test for no results search
+  def setup
+    @user = users(:michael)
+  end
   
+  test "should get search page with results" do
+    log_in_as(@user)
+    get hyper_surf_all_path, params: {term: "1"}
+    assert_template 'hyper_surf/all'
+    assert_select "title", "Hyper Surf Gift Garden | Gift Garden"
+    assert_select "span.record-count", "3 results located for the surf term \"1\"."
+    assert_response :success
+  end
+  
+  test "should get search page with no results" do
+    log_in_as(@user)
+    get hyper_surf_all_path, params: {term: "|||||||"}
+    assert_template 'hyper_surf/all'
+    assert_select "title", "Hyper Surf Gift Garden | Gift Garden"
+    assert_select "span.record-count", "0 results located for the surf term \"|||||||\"."
+    assert_response :success
+  end  
+    
 end

@@ -10,6 +10,7 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @user = users(:michael)
+    @user_regular = users(:bob)
   end
   
   test "should get users index when logged in" do
