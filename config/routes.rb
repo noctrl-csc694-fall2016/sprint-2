@@ -63,6 +63,8 @@ Rails.application.routes.draw do
   post   '/report-donors-pdf', to: 'reports#donors_report'
   get    '/report-gifts', to: 'reports#gifts_setup'
   post   '/report-gifts-pdf', to: 'reports#gifts_report'
+  get    '/report-one-donor', to: 'reports#one_donor_setup'
+  post   '/report-one-donor-pdf', to: 'reports#one_donor_report'
   post   '/trashes-trash-pdf', to: 'reports#trash_report'
   
   get    'hyper-surf/donors', to: 'hyper_surf#donors'
