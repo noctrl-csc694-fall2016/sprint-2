@@ -1,3 +1,9 @@
+#----------------------------------#
+# Activities Edit Integration Test
+# original written by: 
+# major contributions by: Wei H, Andy W
+#
+#----------------------------------#
 require 'test_helper'
 
 class ActivitiesEditTest < ActionDispatch::IntegrationTest

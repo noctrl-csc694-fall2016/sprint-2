@@ -1,3 +1,9 @@
+#----------------------------------#
+# Sessions Controller Test
+# original written by: Pat M, Nov 7 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
