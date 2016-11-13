@@ -1,17 +1,28 @@
 class ImportExportController < ApplicationController
+  #----------------------------------#
+  # GiftGarden Activities Controller
+  # original written by:Pat M, Oct 25 2016
+  # major contributions by:
+  #                     Wei H Oct 26 2016
+  #----------------------------------#
   require 'csv'
   
+  #import gifts from a .csv file
+  #this is the 'simple' gift import method
   def import
      @activities = Activity.all
   end
   
+  #import donors from a .csv file
   def importDonors
   end
 
+  #import in kind gifts from a .csv file
   def inkind
     @activities = Activity.all
   end
 
+  #export donors to a .csv file
   def export
     @donor = Donor.order(:created_at)
     respond_to do |format|
@@ -20,6 +31,7 @@ class ImportExportController < ApplicationController
     end
   end
   
+  #smart gifts import - begin
   def import_gifts_begin
     @activities = Activity.all
   end
@@ -94,6 +106,7 @@ class ImportExportController < ApplicationController
     end
   end
   
+  #smart gifts import - next
   def import_gifts_next
     @activities = Activity.all
   end

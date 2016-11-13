@@ -9,13 +9,14 @@
 
 <!-- Content -->
 <%= form_tag '/report-donors-pdf', multipart:true do %>
+
 <section class='report-container'>
   <div class="report-left-half">
-    <span class='report-tab'>Timeframe:</span>
+    <span class='report-tab'>Timeframe:</span><br />
     <%= select_tag 'times', options_for_select(Donor::TIMES) %>
   </div>
   <div class="report-right-half">
-    <span class='report-tab'>Top N:</span>
+    <span class='report-tab'>Top N:</span><br />
     <%= select_tag 'topn', options_for_select(Donor::TOPN) %>
   </div>
 </section>
@@ -23,8 +24,7 @@
 <section class='report-container'>
   <div class="report-left-half">
     <br />
-    <span class='report-tab'>Sort By:</span>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class='report-tab'>Sort By:</span><br />
     <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
   </div>
   <div class="report-right-half">
@@ -37,15 +37,17 @@
     <%= radio_button_tag(:layout, "landscape") %>
     <%= label_tag(:layout_landscape, "Full Contact") %>
   </div>
-</section>
-<br /><br />
+</section><br /><br />
+
 <div class="report-submit">
   <%= submit_tag "Generate Report", class: "btn btn-success" %>
   &nbsp;
   <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
 </div>
+
 <% end %>
 
+<!-- Allows Report button to be used repeatedly, and resets the form. -->
 <script>
   $(document).ready(function(){
     $("input.btn.btn-success").removeAttr("data-disable-with")
