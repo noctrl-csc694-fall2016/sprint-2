@@ -467,6 +467,58 @@ class ReportsController < ApplicationController
     end
   end
   
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  #SetupOne Donor Report View
+  #renders the basic activities report view
+  def one_donor_setup
+    @donors = Donor.all
+  end
+  
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # One Donor Report
+  # Per a given selected donor, return a report of contact information and all gifts
+  def one_donor_report
+    # Prep final variable
+    @one_donor_data = Array.new
+      
+    respond_to do |format|
+      format.html
+      
+      # Grab and store donor data
+      donor_profile = Donor.find(params[:donor])
+      
+      # Requestor Data
+      requestorData = Array.new(1)
+      requestorData[0] = current_user.username
+      # Push data
+      @one_donor_data << requestorData
+      
+      # Store our donor profile
+      donorData = Array.new(9)
+      donorData[0] = "DON" + donor_profile.id.to_s
+      donorData[1] = donor_profile.first_name
+      donorData[2] = donor_profile.last_name
+      donorData[3] = donor_profile.address
+      donorData[4] = donor_profile.address2
+      donorData[5] = donor_profile.city 
+      donorData[6] = donor_profile.state
+      donorData[7] = donor_profile.zip
+      donorData[8] = donor_profile.phone
+      donorData[9] = donor_profile.email
+      
+      # Pass array into final array
+      @one_donor_data << donorData
+      
+      # Get only donors gifts
+      gifts = Gift.where(:donor_id => params[:donor])
+      @one_donor_data << gifts
+       
+      #generate pdf file
+      pdf = OneDonorPdf.new(@one_donor_data)
+      send_data pdf.render, :filename => 'One Donor Report - ' + donor_profile.full_name + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+    end 
+  end
+  
   
   private
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
