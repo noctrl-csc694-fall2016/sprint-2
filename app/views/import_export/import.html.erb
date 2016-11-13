@@ -14,11 +14,11 @@
     <h4>Donors</h4>
     <div id='donorsImportDiv' class='import-html import-export-label'>
 	    <%= form_tag import_donors_path, multipart: true do %>
-	    <span class='import-export-label'>Choose a file to import Donors.</span>
-	    <br /><br />
-      <%= file_field_tag :file %>
-      <br />
-      <%= submit_tag "Import Donors from CSV" %>
+  	    <span class='import-export-label'>Choose a file to import Donors.</span>
+  	    <br /><br />
+        <%= file_field_tag :file %>
+        <br />
+        <%= submit_tag "Import Donors from CSV" %>
 	    <% end %>
     </div>
     <br /><br /><br /><br />
@@ -28,15 +28,13 @@
     <h4>Gifts</h4>
     <div class='import-export-label'>
 	    <%= form_tag import_gifts_path, multipart:true do %>
-		  <span class='import-export-label'>Choose Activity:</span>
-		  <%= select_tag "activity",
-		  options_from_collection_for_select(@activities, "id", "name") %>
-		  <br /><br />
-		
-		  <%= file_field_tag :file %>
-		
-      <br />
-      <%= submit_tag "Import Gifts from CSV" %>
+  		  <span class='import-export-label'>Choose Activity:</span>
+  		  <%= select_tag "activity",
+  		  options_from_collection_for_select(@activities, "id", "name") %>
+  		  <br /><br />
+  		  <%= file_field_tag :file %>
+        <br />
+        <%= submit_tag "Import Gifts from CSV" %>
 	    <% end %>
 	  </div>
   </div>

@@ -20,7 +20,7 @@ module SessionsHelper
   
   def is_admin
     if !is_admin?
-      flash[:danger] = "You are not an admin"
+      flash[:danger] = "Unauthorized operation: You are not an admin."
       redirect_to home_path
     end
   end
@@ -51,9 +51,10 @@ module SessionsHelper
     @current_user = nil
   end
   
+  #warns user if they attempt to perform an operation they don't have rights to.
   def should_view_user(uid)
     if current_user.id != uid && !is_admin?
-      flash[:danger] = "You are not authorized to view this page"
+      flash[:danger] = "Unauthorized operation: You are not an admin."
       redirect_to home_path
     end
   end
