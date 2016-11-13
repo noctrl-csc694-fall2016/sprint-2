@@ -21,7 +21,9 @@ class ActivityPdf < Prawn::Document
 
     bounding_box([0, y_position], :width => 658, :height => 50) do
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + " by Jane Doe.", size: 15
-      text "Report options: Timeframe " + @timeframe + ", Sorted by " + @sortby + ".", size: 15
+      
+      text "Report options: " + timeframe_exalanation(@timeframe) + 
+      ", sorted by " + @sortby + ".", size: 15
     end
 
   end
@@ -32,7 +34,7 @@ class ActivityPdf < Prawn::Document
       row(0).font_style = :bold
       self.header = true
       self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [40, 175, 90, 80, 65, 65]
+      self.column_widths = [65, 175, 75, 85, 75, 65]
       style(column(3), align: :right)
       style(column(4), align: :right)
       style(column(5), align: :right)
@@ -58,10 +60,9 @@ class ActivityPdf < Prawn::Document
         gifts.each do |gift|
           giftTotal += gift.amount.to_i
         end
-        giftTotal = '$' + giftTotal.to_s
+        giftTotal = format_currency(giftTotal, false)
       end
       
-       #clean fields up if needed
       goal = '$' + activity.goal.to_s
       2.times do goal.chop! end #takes off the .0 for goals
       
@@ -80,8 +81,62 @@ class ActivityPdf < Prawn::Document
       end
       
       #define the content that goes in each column per activity    
-      [activity.id.to_s, activity.name.to_s, activity.end_date.to_s, 
-        goal, giftTotal, progressPercentage]
+      [("ACT" + activity.id.to_s), activity.name.to_s, activity.end_date.to_s, 
+        format_currency(activity.goal, true), giftTotal, progressPercentage]
       end
+  end
+  
+  #custom currency formatting method for reports
+  #handles any monetary amounts under $1bn
+  def format_currency(amount, chopOff)
+    result = amount.to_s
+    if chopOff
+      2.times do result.chop! end #takes off the .0
+    end
+    if result.length <= 3
+      result = "$" + result
+    elsif result.length >= 4 && result.length <=6
+      idx = result.length - 3
+      result = "$" + result[0,idx] + "," + result[(idx)..(idx + 2)]
+    elsif result.length >= 7 && result.length <=9
+      idx = result.length - 6
+      result = "$" + result[0,idx] + "," + result[(idx)..(idx + 2)] + "," + 
+        result[(idx + 3)..(idx + 5)]
+    end
+    return result
+  end
+  
+  #timeframe 'more-English-like' conversion
+  def timeframe_exalanation(range)
+    result = ""
+    case range
+      when "All"
+        result += "All Activities listed"
+      when "This Year"
+        result += "This year's Activities"
+      when "This Quarter"
+        result += "This quarter's Activities"
+      when "This Month"
+        result += "This month's Activities"
+      when "Last Year"
+        result += "Last year's Activities"
+      when "Last Quarter"
+        result += "Last quarter's Activities"
+      when "Last Month"   
+        result += "Last month's Activities"
+      when "Past 2 Years"
+        result += "Activities from " + Time.now.year.to_s + " and " + 
+          (Time.now.year - 1).to_s
+      when "Past 5 Years"
+        result += "Activities from " + (Time.now.year - 4).to_s + " to " + 
+          Time.now.year.to_s
+      when "Past 2 Quarters"
+        result += "Activities from the Past 2 quarters"
+      when "Past 3 Months"
+        result += "Activities from the Past 3 months"
+      when "Past 6 Months"
+        result += "Activities from the Past 6 months"
+    end
+    result
   end
 end
