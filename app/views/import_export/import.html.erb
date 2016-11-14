@@ -31,6 +31,7 @@
   			  <span class='import-export-label'>Choose Activity:</span>
   			  <%= select_tag "activity",
   			  options_from_collection_for_select(@activities, "id", "name") %>
+  			  <!--%= select :activity,  options_for_select(@activities.sort!, :id), "Select an activity", class:'form-control input-sm dropdown-menu' %-->
   			  <br /><br />
   			
   			  <%= file_field_tag :file %>

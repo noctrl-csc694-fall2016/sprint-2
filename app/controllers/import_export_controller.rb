@@ -2,14 +2,14 @@ class ImportExportController < ApplicationController
   require 'csv'
   
   def import
-     @activities = Activity.all
+     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
   
   def importDonors
   end
 
   def inkind
-    @activities = Activity.all
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
 
   def export
@@ -21,7 +21,7 @@ class ImportExportController < ApplicationController
   end
   
   def import_gifts_begin
-    @activities = Activity.all
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
   
   # reference https://richonrails.com/articles/importing-csv-files
@@ -95,6 +95,6 @@ class ImportExportController < ApplicationController
   end
   
   def import_gifts_next
-    @activities = Activity.all
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
 end

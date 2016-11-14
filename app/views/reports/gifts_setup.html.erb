@@ -11,8 +11,10 @@
 <%= form_tag '/report-gifts-pdf', multipart:true do %>
   <section class='report-container'>
     <div class='report-third-left'>
-      <span class='report-tab'>Activity:</span><%= select_tag "activity",
+      <span class='report-tab'>Activity:</span>
+      <%= select_tag "activity",
   			  options_from_collection_for_select(@activities, "id", "name") %>
+      <!--%= select :activity_id,  options_for_select(@activities, :activity_id ) %-->
     </div>
   </section>
   <br />

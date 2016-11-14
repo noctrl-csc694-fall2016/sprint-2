@@ -17,7 +17,7 @@ class GiftsController < ApplicationController
   # donors/ids and activities/ids for select boxes on Edit Gift screen
   def edit
     @gift = Gift.find(params[:id])
-    map_activities_n_donors()
+    #map_activities_n_donors()
   end
   
   # Import Gifts: calls import method from the Gift model
@@ -38,7 +38,7 @@ class GiftsController < ApplicationController
   # [map] code defines donors/ids and activities/ids for select boxes on New Gift screen
   def create
     @gift = Gift.new(gift_params)
-    map_activities_n_donors()
+    #map_activities_n_donors()
     if @gift.save
       flash[:success] = "Gift added successfully!"
       redirect_to gifts_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
@@ -52,7 +52,7 @@ class GiftsController < ApplicationController
   # [map] code defines donors/ids and activities/ids for select boxes on Edit Gift screen
   def update
     @gift = Gift.find(params[:id])
-    map_activities_n_donors()
+    #map_activities_n_donors()
     if @gift.update(gift_params)
        flash[:success] = "Gift updated successfully!"
        redirect_to gifts_path(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
@@ -157,9 +157,9 @@ class GiftsController < ApplicationController
                                     :gift_user, :gift_source, :memorial_note, :notes)
     end
     
-    def map_activities_n_donors()
-      @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
-      @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
-    end
-    
+  def map_activities_n_donors()
+    @donors = Donor.all.map { |donor| [ " #{donor.last_name}, #{donor.first_name} (DON#{donor.id})", donor.id ] }
+    @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
+  end
+  
 end

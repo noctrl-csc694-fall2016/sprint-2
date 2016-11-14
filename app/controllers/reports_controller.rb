@@ -315,7 +315,10 @@ class ReportsController < ApplicationController
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   # Setup Gifts Report View
   def gifts_setup
-    @activities = Activity.all
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
+    #@activities = Activity.all
+    #@activities = Activity.all.sortby(:name)
+    #@activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
   end
   
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -324,6 +327,8 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
         @gifts = Gift.all
+        #@founders.map{|founder| [founder.founder_name, founder.id]}.sort{|a,b| a.founder_name.downcase <=> b.founder_name.downcase
+        #@activities = Activity.all.map { |activity| [ activity.name, activity.id ] }.sort{|a,b| a.name.downcase <=> b.name.downcase }
         @activities = Activity.all
         @reportGiftsArray = []  
         @activityGiftsArray = []
