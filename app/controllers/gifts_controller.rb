@@ -138,7 +138,7 @@ class GiftsController < ApplicationController
     if(params[:pageby] != "")
       @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: params[:pageby])
     else
-      @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: 5)
+      @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: 10)
     end	
 
     map_activities_n_donors()

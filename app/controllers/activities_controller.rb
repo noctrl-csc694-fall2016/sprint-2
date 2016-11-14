@@ -108,7 +108,7 @@ class ActivitiesController < ApplicationController
     if(params[:pageby] != "")
       @selected_activities = @selected_activities.paginate(page: params[:page], per_page: params[:pageby])
     else
-      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 5)
+      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 10)
     end	
      
      
