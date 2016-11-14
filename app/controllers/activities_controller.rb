@@ -101,14 +101,6 @@ class ActivitiesController < ApplicationController
         @selected_activities = @selected_activities.reorder("end_date DESC")
       when 'Goal $'
         @selected_activities = @selected_activities.reorder("goal DESC")
-      when 'Progress'
-        #@selected_activities.each do |activity|
-        #  @act_progress << {
-        #      :id => activity.id,
-        #      :progress => progress(activity)
-        #    }
-        #end
-        #@selected_activities = @selected_activities.reorder(:progress)
     end
     
     #paginate selected activities list after sorting & filtering

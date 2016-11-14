@@ -61,7 +61,7 @@
             <td><%= activity.name %></td>
             <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
             <td><%= number_to_currency(activity.goal) %></td>
-            <td><%= progress(activity) %>%</td>
+            <td><%= progress(activity).to_i %>%</td>
             <td><%= donor_count_per_activity(activity)%></td> 
           </tr>
           <% end %>
