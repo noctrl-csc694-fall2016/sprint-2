@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   #----------------------------------#
-  # GiftGarden Activities Controller
+  # GiftGarden Sessions Controller
   # original written by: Pat M, Nov 7 2016
   # major contributions by:
   #

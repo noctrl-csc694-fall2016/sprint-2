@@ -10,7 +10,7 @@
 		      <%=link_to "Add New Gift for this Donor", new_gift_path(donor_id: @donor.id) %></span>
   		  </div>
   		  <div>
-          <%=link_to "All Gifts for this Donor", "/gifts?utf8=✓&activity_id=&donor_id=" + @donor.id.to_s + "&timeframe=&topn=&sortby=&commit=GO" %>
+          <%=link_to "All Gifts for this Donor", "/gifts?utf8=✓&activity_id=&donor_id=" + @donor.id.to_s + "&donor_id=&timeframe=All&sortby=&pageby=&commit=GO" %>
         </div>
   		</aside>
   	</div>

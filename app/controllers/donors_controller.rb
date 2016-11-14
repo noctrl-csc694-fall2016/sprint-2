@@ -180,9 +180,9 @@ class DonorsController < ApplicationController
     end
     
     #select the TOP N donors, by total gift amount
-    if(params[:topn] != "" && params[:topn] != "All")
-      @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
-    end
+    #if(params[:topn] != "" && params[:topn] != "All")
+    #  @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
+    #end
     
     #sort results (reorder objects in table)
     if(params[:topn] && params[:sortby])
@@ -197,7 +197,7 @@ class DonorsController < ApplicationController
         @selected_donors = @selected_donors.reorder("state")
     end
     
-    #paginate selected activities list after sorting & filtering
+    #paginate selected donors list after sorting & filtering
     #use selected amount per page
     if(params[:pageby] != "")
       @selected_donors = @selected_donors.paginate(page: params[:page], per_page: params[:pageby])
