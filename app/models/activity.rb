@@ -21,6 +21,8 @@ class Activity < ApplicationRecord
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
+  PAGEBY = ['10 Per Page', '20 Per Page', '50 Per Page', '100 Per Page']
+  
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|
     #  activity_hash = row.to_hash

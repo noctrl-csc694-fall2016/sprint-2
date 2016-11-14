@@ -65,6 +65,12 @@ class GiftsController < ApplicationController
   def index
     #add all gifts selected_gifts
     @selected_gifts = Gift.all
+    
+    #check for all parameters in page call
+    if (params.has_key?(:activity_id) && params.has_key?(:donor_id) && params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:commit)) == false
+      redirect_to gifts_url + "?utf8=%E2%9C%93&activity_id=&donor_id=&timeframe=&topn=&sortby=&commit=GO"
+    end
+    
     #pull only those gifts with selected activity
     if(params[:activity_id] != "")
       @selected_gifts = @selected_gifts.where(:activity_id => params[:activity_id])

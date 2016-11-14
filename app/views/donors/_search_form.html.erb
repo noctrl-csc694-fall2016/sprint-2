@@ -9,15 +9,15 @@
     </div>
     <div class="col-xs-3">
       <div class="line-break">
-        <p>Top Donors</p>
-      </div>
-      <%= select_tag(:topn, options_for_select(Donor::TOPN), class: 'form-control input-sm') %>
-    </div>
-    <div class="col-xs-3">
-      <div class="line-break">
         <p>Sort By</p>
       </div>
       <%= select_tag(:sortby, options_for_select(Donor::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-3">
+      <div class="line-break">
+        <p>Donors</p>
+      </div>
+      <%= select_tag(:pageby, options_for_select(Donor::PAGEBY), class: 'form-control input-sm') %>
     </div>
   </div>
   <div class="row form-group">

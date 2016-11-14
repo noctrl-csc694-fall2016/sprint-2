@@ -9,15 +9,15 @@
     </div>
     <div class="col-xs-3">
       <div class="line-break">
-        <p>Top Goal $</p>
-      </div>
-      <%= select_tag(:topn, options_for_select(Activity::TOPN), class: 'form-control input-sm') %>
-    </div>
-    <div class="col-xs-3">
-      <div class="line-break">
         <p>Sort By</p>
       </div>
       <%= select_tag(:sortby, options_for_select(Activity::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-3">
+      <div class="line-break">
+        <p>Activities</p>
+      </div>
+      <%= select_tag(:pageby, options_for_select(Activity::PAGEBY), class: 'form-control input-sm') %>
     </div>
   </div>
   <div class="row form-group">
