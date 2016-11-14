@@ -18,7 +18,7 @@ class Activity < ApplicationRecord
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'Name', 'End Date', 'Progress']
+  SORTS = [ 'Name', 'End Date', 'Goal $', 'Progress']
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
@@ -27,6 +27,16 @@ class Activity < ApplicationRecord
   def set_default_dates
     self.start_date = Time.now.beginning_of_year unless self.start_date.present?
     self.end_date = DateTime.parse("2099-12-31 00:00:00") unless self.end_date.present?
+  end
+  
+  def progress
+    selected_gifts = Gift.where(:activity_id => self.id)
+    sum = 0.0
+    selected_gifts.each do |g|
+      sum+=g.amount
+    end
+    return (sum/self.goal).round(4)*100 unless self.goal == 0
+    return "N/A"
   end
   
   def self.import(file)

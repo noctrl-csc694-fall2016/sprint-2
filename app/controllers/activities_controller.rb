@@ -6,6 +6,7 @@ class ActivitiesController < ApplicationController
   #                     Pat M Oct 26 2016
   #                     Andy W Nov 7 2016
   #----------------------------------#
+  include ActivitiesHelper
   
   # defines a new activity
   def new
@@ -98,8 +99,16 @@ class ActivitiesController < ApplicationController
         @selected_activities = @selected_activities.reorder("start_date DESC")
       when 'End Date'
         @selected_activities = @selected_activities.reorder("end_date DESC")
-      when 'Goal'
+      when 'Goal $'
         @selected_activities = @selected_activities.reorder("goal DESC")
+      when 'Progress'
+        #@selected_activities.each do |activity|
+        #  @act_progress << {
+        #      :id => activity.id,
+        #      :progress => progress(activity)
+        #    }
+        #end
+        #@selected_activities = @selected_activities.reorder(:progress)
     end
     
     #paginate selected activities list after sorting & filtering
