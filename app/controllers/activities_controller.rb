@@ -46,6 +46,11 @@ class ActivitiesController < ApplicationController
     #add all activities to selected_activities
     @selected_activities = Activity.all
     
+    #check for all parameters in page call
+    if (params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:pageby) && params.has_key?(:commit)) == false
+      redirect_to activities_url + "?utf8=%E2%9C%93&timeframe=All&sortby=All&pageby=&commit=GO"
+    end
+    
     #TIMEFRAME filtering
     case params[:timeframe]
           when 'All'
@@ -79,13 +84,6 @@ class ActivitiesController < ApplicationController
             @selected_activities = @selected_activities.where("end_date >= ?", 6.months.ago.to_date)
     end
     
-    #select the TOP N activities, ordered by goal amount
-    if(params[:topn] != "" && params[:topn] != "All")
-      @selected_activities = @selected_activities.reorder("goal DESC")
-      @activity_ids = @selected_activities.select("id").limit(params[:topn].to_i)
-      @selected_activities = @selected_activities.where(id: @activity_ids)
-    end
-    
     #sort results (reorder objects in table)
     case params[:sortby]
       when 'Name'
@@ -99,7 +97,12 @@ class ActivitiesController < ApplicationController
     end
     
     #paginate selected activities list after sorting & filtering
-     @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 5)		
+    #use selected amount per page
+    if(params[:pageby] != "")
+      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: params[:pageby])
+    else
+      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 5)
+    end	
      
      
      respond_to do |format|		

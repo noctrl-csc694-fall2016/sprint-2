@@ -24,6 +24,8 @@ class Gift < ApplicationRecord
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
+  PAGEBY = ['10 Per Page', '20 Per Page', '50 Per Page', '100 Per Page']
+  
   # Import Gifts
   def self.import(file, activity)
     

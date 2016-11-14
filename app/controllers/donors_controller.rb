@@ -49,7 +49,14 @@ class DonorsController < ApplicationController
   
   # list all donors on index page
   def index
+    
+    #add all donors to selected_donors
     @selected_donors = Donor.all
+    
+    #check for all parameters in page call
+    if (params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:pageby) && params.has_key?(:commit)) == false
+      redirect_to donors_url + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
+    end
      
     #TIMEFRAME filtering
     @timeframe_donors = [] #initialize array to store ids of donors making donations within timeframe
@@ -184,16 +191,19 @@ class DonorsController < ApplicationController
     case params[:sortby]
       when 'Last Name'
         @selected_donors = @selected_donors.reorder("last_name")
-      when 'First Name'
-        @selected_donors = @selected_donors.reorder("first_name")
       when 'Email'
         @selected_donors = @selected_donors.reorder("email")
       when 'State'
         @selected_donors = @selected_donors.reorder("state")
     end
     
-    #paginate selected donors list after sorting & filtering
-     @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 5)
+    #paginate selected activities list after sorting & filtering
+    #use selected amount per page
+    if(params[:pageby] != "")
+      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: params[:pageby])
+    else
+      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 5)
+    end	
     
     respond_to do |format|
       format.html
