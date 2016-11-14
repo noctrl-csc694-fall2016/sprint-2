@@ -17,7 +17,7 @@ class GiftsController < ApplicationController
   # donors/ids and activities/ids for select boxes on Edit Gift screen
   def edit
     @gift = Gift.find(params[:id])
-    #map_activities_n_donors()
+    map_activities_n_donors()
   end
   
   # Import Gifts: calls import method from the Gift model
@@ -156,7 +156,8 @@ class GiftsController < ApplicationController
                                     :solicited_by, :check_date, :check_number, :pledge, :anonymous, 
                                     :gift_user, :gift_source, :memorial_note, :notes)
     end
-    
+  
+  #Formats lists for all donors and activities  
   def map_activities_n_donors()
     @donors = Donor.all.map { |donor| [ " #{donor.last_name}, #{donor.first_name} (DON#{donor.id})", donor.id ] }
     @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
