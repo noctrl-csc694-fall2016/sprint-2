@@ -9,18 +9,50 @@
   </div>
   <!-- Content -->
   <div class="row col-xs-offset-2">
-    <p>Welcome To Donna Donor! A web application built by North Central College CSC 694 Class of Fall 2016!</p>
+    <p>Welcome To Gift Garden! A web application built by North Central College CSC 694 Class of Fall 2016!</p>
 
-    <b>Team</b>
-    <ul>
-      <li>Bill K</li>
-      <li>Andy W</li>
-      <li>Mike D</li>
-      <li>Pat M</li>
-      <li>Wei H</li>
-      <li>Jason K</li>
-    </ul>
-    <div style="height: 900px;">
-      &nbsp;
+    <div class="row">
+      <h3>Production</h3>
+      <div class="col-sm-3">
+        <h4>Team</h4>
+        <ul>
+          <li>Bill K</li>
+          <li>Andy W</li>
+          <li>Mike D</li>
+          <li>Pat M</li>
+          <li>Wei H</li>
+          <li>Jason K</li>
+        </ul>
+      </div>
+      <div class="col-sm-3">
+        <h4>Assistance From</h4>
+        <ul>
+          <li>Teresa B, Artwork</li>
+        </ul>
+      </div>
     </div>
+    
+    <div class="row">
+      <h3>Sample Artwork</h3>
+      A number of pieces used within the application were crafted by Teresa B.  Samples of their artwork are below.  You may click on an thumbnail to open up a full size version in a new tab/window.
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/butterfly1_original.png', target: '_blank' do %><%= image_tag("art/butterfly1.png", height: "150",  alt: "Butterfly 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/butterfly2_original.png', target: '_blank' do %><%= image_tag("art/butterfly2.png", height: "150",  alt: "Butterfly 2") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/flower1_original.png', target: '_blank' do %><%= image_tag("art/flower1.png", height: "150",  alt: "Flower 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/flower2_original.png', target: '_blank' do %><%= image_tag("art/flower2.png", height: "150",  alt: "Flower 2") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/logo1_original.png', target: '_blank' do %><%= image_tag("art/logo1.png", height: "150",  alt: "Logo 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/logo2_original.png', target: '_blank' do %><%= image_tag("art/logo2.png", height: "150",  alt: "Logo 2") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/logo3_original.png', target: '_blank' do %><%= image_tag("art/logo3.png", height: "150",  alt: "Logo 1") %><% end %></div>
+      <div class="col-sm-4"></div>
+    </div>
+    
+    
+
   </div>

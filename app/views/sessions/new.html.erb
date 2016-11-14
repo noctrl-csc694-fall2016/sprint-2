@@ -6,8 +6,8 @@
             <br>
                 <%= form_for(:session, url: login_path) do |f| %>
                 <div class="form-group">
-                    <%= f.label :email %>
-                    <%= f.text_field :email, class: 'form-control' %>
+                    <%= f.label :username %>
+                    <%= f.text_field :username, class: 'form-control' %>
                 </div>
                 <div class="form-group">
                     <%= f.label :password %>
@@ -20,9 +20,6 @@
                 <% end %>
             <br>
             <p class="text-center">Forgot your password? Need an account? Please contact your administrator for assistance.</p>
-            <br>
-            <p class="text-center">Sample Login:</p>
-            <p class="text-center">example-3@noctrl.edu / foobar</p>
         </div>
         
     </div>

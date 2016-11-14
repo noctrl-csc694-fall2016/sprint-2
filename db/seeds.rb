@@ -286,16 +286,47 @@ Gift.create!( activity_id: 3,
               amount: 20,
               gift_type: "Cash")
               
-#create sample users
+#create sample users; id of 1 is super admin (profbill)
+#permissions are 
+#level 0 = standard user (default)
+#level 1 = admin
+User.create!( email:              "profbill@noctrl.edu",
+              username:           "profbill",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+              
+User.create!( email:              "andyw@noctrl.edu",
+              username:           "andyw",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+              
+User.create!( email:              "jasonk@noctrl.edu",
+              username:           "jasonk",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+              
+User.create!( email:              "miked@noctrl.edu",
+              username:           "miked",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+              
+User.create!( email:              "patm@noctrl.edu",
+              username:           "patm",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+              
+User.create!( email:              "weih@noctrl.edu",
+              username:           "weih",
+              password_digest:    User.digest('password'),
+              permission_level:   1)
+
 10.times do |n|
-  email = "example-#{n+1}@noctrl.edu"
-  username  = "sample-user-#{n+1}"
-  permission_level = 1
-  password_digest = User.digest('foobar')
+  email = "example#{n+1}@noctrl.edu"
+  username  = "example#{n+1}"
+  password_digest = User.digest('password')
   
   User.create!(
     email:            email,
     username:         username,
-    password_digest:  password_digest,
-    permission_level: permission_level)
+    password_digest:  password_digest)
 end

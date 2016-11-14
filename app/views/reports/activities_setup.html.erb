@@ -3,41 +3,37 @@
   <div class="col-sm-10 col-xs-offset-2">
     <div class="page-header">
       <h2>Activities Report <small>&nbsp;
-      All Activities within a timeframe are saved to a PDF file.</small></h2>
+      All Activities within the specifications are saved to a PDF file: <br />
+      <b>Activity Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
   	</div>
   </div>
 </div>
 <!-- Content -->
 <%= form_tag '/report-activities-pdf', multipart:true do %>
+
   <section class='report-container'>
     <div class="report-left-half">
-      <span class='report-tab'>Timeframe:</span>
+      <span class='report-tab'>Timeframe:</span><br />
         <%= select_tag 'timeframe', options_for_select(Activity::TIMES) %>
     </div>
-
-    <div class="report-right-half">
-      <span class='report-tab'>Sort By:</span>
-        <%= select_tag 'sortby', options_for_select(Activity::SORTS) %>
+  </section><br />
+  
+  <section class='report-container'>
+    <div class="report-left-half">
+      <span class='report-tab'>Sort By:</span><br />
+      <%= select_tag 'sortby', options_for_select(Activity::SORTS) %>
     </div>
-
-    <!--
-    <div class="report-third-right">
-      <span class='report-tab'>Layout:</span><br />
-      <%= radio_button_tag(:layout, "portrait", checked = true) %>
-      <%= label_tag(:layout_portrait, "Regular/Portrait") %><br />
-      <%= radio_button_tag(:layout, "landscape") %>
-      <%= label_tag(:layout_landscape, "Long/Landscape") %>
-    </div>
-    -->
-  </section>
-  <br /><br />
+  </section><br />
+  
   <div class="report-submit">
-    <%= submit_tag "Generate Report", class: "btn btn-success" %>
+    <%= submit_tag "Report", class: "btn btn-success" %>
     &nbsp;
     <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
+  
 <% end %>
 
+<!-- Allows Report button to be used repeatedly, and resets the form. -->
 <script>
   $(document).ready(function(){
     $("input.btn.btn-success").removeAttr("data-disable-with")
@@ -46,4 +42,3 @@
     });
 });
 </script>
-

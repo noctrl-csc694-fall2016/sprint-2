@@ -89,4 +89,9 @@ class Donor < ApplicationRecord
     Donor.all.sort_by(&:gift_total_amount_per_donor)
   end
   
+  #returns a full name string as "Smith, John"
+  def full_name
+    "#{last_name}, #{first_name}"
+  end
+  
 end

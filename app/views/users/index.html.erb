@@ -1,2 +1,54 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<% provide(:title, "Surf Users") %>
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-2">
+  	<div class="page-header">
+  		<h2>Surf Users <small>&nbsp; Select a row to view or edit that user</small></h2>
+  		<div class="row relative-row">
+    		<div class="text-left bottom-vertical-align">
+          <span class="record-count">There are <%= pluralize(@users.count, "users") %>.</span>
+    		</div>
+    		<div class="text-right">
+    		  <div>
+    		    <%= link_to('/users/new') do %>
+  			    <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New User</span>
+  		    <% end %>
+    		  </div>
+    		</div>
+  		</div>
+  	</div>
+  </div>
+</div>
+
+<!-- Table of Users -->
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-2">
+    <div class="panel-group" id="accordion">
+      <% if @users.count >= 1 %>
+        <table class="table table-striped table-hover table-bordered table-responsive">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @users.each do |user| %>
+            <tr data-link="<%=user_path(user) %>">
+              <td><%= get_user_id(user) %></td>
+              <td><%= user.username %></td>
+              <td><%= user.email %></td>
+              <td><%= get_user_type(user).to_s %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= will_paginate @users, :inner_window => 2, class: "pagination pagination-centered" %>
+      <% else %>
+        <h3 class="no-records-found">No users found!</h3>
+      <% end %>
+    </div>
+  </div>
+</div>
+      

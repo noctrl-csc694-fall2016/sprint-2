@@ -2,52 +2,53 @@
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
     <div class="page-header">
-      <h2>Gifts Report <small>
-      All Gifts within a timeframe are saved to a PDF file.</small></h2>
+      <h2>Gifts Report <small>&nbsp;
+      All Gifts within the specifications are saved to a PDF file: <br />
+      <b>Gifts Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
   	</div>
   </div>
 </div>
-<!-- Content -->
+
+<!-- Form Content -->
 <%= form_tag '/report-gifts-pdf', multipart:true do %>
-  <section class='report-container'>
-    <div class='report-third-left'>
-      <span class='report-tab'>Activity:</span><%= select_tag "activity",
-  			  options_from_collection_for_select(@activities, "id", "name") %>
-    </div>
-  </section>
-  <br />
+
   <section class='report-container'>
     <div class='report-left-half'>
-      <span class='report-tab'>Top N:</span>
+      <span class='report-tab'>Activity:</span><br />
+      <%= select_tag "activity", options_from_collection_for_select(@activities, "id", "name") %>
+    </div>
+  </section><br />
+  
+  <section class='report-container'>
+    <div class='report-left-half'>
+      <span class='report-tab'>Timeframe:</span><br />
+      <%= select_tag 'times', options_for_select(Gift::TIMES) %>
+    </div>
+  </section><br />
+  
+  <section class='report-container'>
+    <div class='report-left-half'>
+      <span class='report-tab'>Sort By:</span><br />
+      <%= select_tag 'sorts', options_for_select(Gift::SORTS) %>
+    </div>
+  </section><br />
+  
+  <section class='report-container'>
+    <div class='report-left-half'>
+      <span class='report-tab'>Top N:</span><br />
       <%= select_tag 'topn', options_for_select(Gift::TOPN) %>
     </div>
-    <div class="report-half-right">
-      <span class='report-tab'>Sort By:</span>
-        <%= select_tag 'sorts', options_for_select(Gift::SORTS) %>
-    </div>
-  </section>
-  <section class='report-container'>
-    <div class='report-left-half'>
-      <span class='report-tab'>Timeframe:</span>
-        <%= select_tag 'times', options_for_select(Gift::TIMES) %>
-    </div>
-    <div class="report-right-half">
-      <span class='report-tab'>Layout:</span><br />
-      <%= radio_button_tag(:layout, "portrait", checked = true) %>
-      <%= label_tag(:layout_portrait, "Regular/Portrait") %><br />
-      <%= radio_button_tag(:layout, "landscape") %>
-      <%= label_tag(:layout_landscape, "Long/Landscape") %>
-    </div>
-  </section>
-  <br /><br />
+  </section><br />
+  
   <div class="report-submit">
-    <%= submit_tag "Generate Report", class: "btn btn-success" %>
+    <%= submit_tag "Report", class: "btn btn-success" %>
     &nbsp;
     <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
 <% end %>
+<!-- end Form Content -->
 
-
+<!-- Allows Report button to be used repeatedly, and resets the form. -->
 <script>
   $(document).ready(function(){
     $("input.btn.btn-success").removeAttr("data-disable-with")

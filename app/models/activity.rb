@@ -11,13 +11,13 @@ class Activity < ApplicationRecord
   validates :name, presence: true, length: {maximum:255}
   validates :description, presence: true, length: {maximum:255}
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}
-  enum activity_type: [:Event, :Mailer, :'Email Blast', :'Community Event']
+  enum activity_type: [:General, :Community, :Corporate, :Grants, :Mailer, :'Email Blast', :'Faith-based', :'Fund-raiser']
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'Name', 'Start Date', 'End Date', 'Goal']
+  SORTS = [ 'Name', 'End Date', 'Progress']
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   

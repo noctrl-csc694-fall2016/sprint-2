@@ -22,9 +22,13 @@
     </div>
   </div>
 </footer>
+
 <script>
   $(document).ready(function(){
-    /* Shorten the banner on scroll */
+    /*
+      Shorten the banner/header by adjusting CSS elements once the page scroll passes 60px.
+      Upon returning to 0-59 pixels, restore all values to default.
+    */
     $(window).scroll(function() {
       var x = $(window).scrollTop();
       if (x >= 60) {
@@ -44,18 +48,15 @@
       }
     });
     
-    /* Bottom Align Specific Tags 
-    (http://stackoverflow.com/questions/13841387/how-do-i-bottom-align-grid-elements-in-bootstrap-fluid-layout)
+    /* 
+      Bottom Align Specific Tags via adding top-margin via calculation of parent DIV height values
+      (http://stackoverflow.com/questions/13841387/how-do-i-bottom-align-grid-elements-in-bootstrap-fluid-layout)
     */
     //for each element that is classed as 'pull-down', set its margin-top to the difference between its own height and the height of its parent
     $('.vertical-align-bottom').each(function() {
       var $this = $(this);
       $this.css('margin-top', $this.parent().height() - $this.height())
     });
-    
-    /* Adds Tooltip */
-    /* (Pat M) this was throwing a console error, so I commented out for now */ 
-    //$('[data-toggle="tooltip"]').tooltip();
     
     /*
     This Javascript function enables hyperlink selection of an entire row
@@ -66,34 +67,15 @@
       window.location = this.dataset.link
     })
     
-    // Replace Icons
+    /*
+      Icon Replacement Script
+      Upon clicking on a accoridion header, the +/- will switch to the opposite on click
+    */
   	$('.collapse').on('shown.bs.collapse', function(){
       $(this).parent().find(".glyphicon-plus").removeClass("glyphicon-plus").addClass("glyphicon-minus");
     }).on('hidden.bs.collapse', function(){
       $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
     });
   });
-  
-  // Donor Search Return
-  function fetchDonorValue(){
-    window.open('<%= hyper_surf_donors_path %>','Hyper Surf Donors','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
-  };
-    
-  // Return Info
-  function returnDonorValue(rowSelected) { 
-    window.opener.document.getElementById('gift_donor_id').value = rowSelected;
-    window.close();
-  }; 
-  
-  // Activity Search Return
-  function fetchActivityValue(){
-    window.open('<%= hyper_surf_activities_path %>','Hyper Surf Activities','toolbar=no,location=no,menubar=no,scrollbars=yes,resizable=no');
-  };
-    
-  // Return Info
-  function returnActivityValue(rowSelected) { 
-    window.opener.document.getElementById('gift_activity_id').value = rowSelected;
-    window.close();
-  };
 </script>
 

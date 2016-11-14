@@ -116,7 +116,7 @@ class ActivitiesController < ApplicationController
   
   #delete activity
   def destroy
-    Trash.create(:category => "activity", :content => Activity.find(params[:id]).inspect)
+    Trash.create!(:trash_type => "activity", :content => Activity.find(params[:id]).inspect)
     Activity.find(params[:id]).destroy
     flash[:success] = "Activity deleted."
     redirect_to activities_path

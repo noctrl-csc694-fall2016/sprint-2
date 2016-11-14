@@ -1,3 +1,9 @@
+#----------------------------------#
+# Gifts Edit Integration Test
+# original written by: 
+# major contributions by: Wei H, Andy W, Jason K
+#
+#----------------------------------#
 require 'test_helper'
 
 class GiftsEditTest < ActionDispatch::IntegrationTest

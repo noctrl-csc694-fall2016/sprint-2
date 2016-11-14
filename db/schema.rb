@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161108031759) do
+ActiveRecord::Schema.define(version: 20161110005613) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20161108031759) do
   end
 
   create_table "trashes", force: :cascade do |t|
-    t.string   "category"
+    t.string   "trash_type"
     t.string   "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -75,9 +75,9 @@ ActiveRecord::Schema.define(version: 20161108031759) do
     t.string   "email"
     t.string   "password_digest"
     t.string   "username"
-    t.integer  "permission_level"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.integer  "permission_level", default: 0
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

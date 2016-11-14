@@ -18,6 +18,45 @@
 - http://www.noupe.com/wp-content/uploads/2012/02/cpspringbybenson.jpg
 */
 
+/* 
+  Named Colors 
+*/
+
+/* Custom Defined Colors */
+// Common Colors
+$primary-blue: rgb(140, 137, 240);
+$primary-copper: rgb(204, 107, 54);
+
+// Accent Colors
+$accent-blue: rgb(172, 168, 242);
+$accent-blue-gray: rgb(188, 205, 221);
+$accent-dark-purple: rgb(50, 42, 63);
+$footer-green: rgb(121, 186, 36);
+
+// Textual
+$text-gray: rgb(105,105,105);
+$hover-yellow: rgb(255,255,204);
+$hover-brown: rgb(97, 52, 13);
+$text-purple: rgb(73, 64, 155);
+
+// One Off Colors
+$icon-green: rgb(127, 165, 66);
+$icon-red: rgb(189, 31, 31);
+$link-dollar: rgb(133,187,101);
+$hover-light-gray: rgb(224, 230, 244);
+$hover-medium-gray: rgb(195, 207, 233);
+$hover-off-red: rgb(252, 227, 236);
+
+/* Standard Colors */
+$red: rgb(255, 0, 0);
+$white: rgb(255, 255, 255);
+$black: rgb(0,0,0);
+
+
+/* 
+  Defined Styles 
+*/
+
 /* Core CSS */
 body {
   margin-top: 10px;
@@ -41,31 +80,31 @@ h1{
 /* Header */
 .navbar-donna {
   padding-top: 8px;
-  background-color: rgb(255,255,255);
+  background-color: $white;
   height: 128px;
-  border-bottom: 2px solid rgb(172, 168, 242);
+  border-bottom: 2px solid $accent-blue;
 }
 .navbar-donna-search {
   margin-top: 40px;
   a{
-    color: rgb(140, 137, 240);
+    color: $primary-blue;
   }
   &:hover{
-  	color: rgb(140, 137, 240);
+  	color: $primary-blue;
   }
 }
 .navbar-donna-brand {
-  color: rgb(140, 137, 240);
+  color: $primary-blue;
   font-family: 'Satisfy', cursive;
   
   a{
-  	color: rgb(140, 137, 240);
+  	color: $primary-blue;
   }
   
   a.glow, a.glow:hover, a.glow:focus
   {
   	text-decoration: none;
-  	color: rgb(140, 137, 240);
+  	color: $primary-blue;
 	  text-shadow: none;
 	  -webkit-transition: 500ms linear 0s;
 	  -moz-transition: 500ms linear 0s;
@@ -75,8 +114,8 @@ h1{
   }
   a.glow:hover, a.glow:focus
   {
-  	color: rgb(140, 137, 240);
-  	text-shadow: -1px 1px 8px rgb(255,255,204), 1px -1px 8px rgb(140, 137, 240);
+  	color: $primary-blue;
+  	text-shadow: -1px 1px 8px $hover-yellow, 1px -1px 8px $primary-blue;
   }
 }
 .navbar-header .navbar-brand{
@@ -84,7 +123,7 @@ h1{
   padding: 0px 15px 15px 15px;
 }
 .page-header{
-  border-bottom: 1px solid rgb(188, 205, 221);
+  border-bottom: 1px solid $accent-blue-gray;
 }
 .search-field-button{
   padding-left: 5px;
@@ -95,23 +134,26 @@ h1{
 }
 
 /* Page Content */
+.container-fluid{
+  padding-left: 0px;
+}
 .container-donna {
   padding-top: 120px;
   margin-bottom: 120px;
   a {
-	 color: rgb(204, 107, 54);
+	 color: $primary-copper;
   }
   a:hover{
-  	color: rgb(97, 52, 13);
+  	color: $hover-brown;
   	text-decoration: underline;
   }
   
   table{
   	a {
-  	  color: rgb(204, 107, 54);
+  	  color: $primary-copper;
   	}
 	  a:hover{
-	    color: rgb(97, 52, 13);
+	    color: $hover-brown;
 	    text-decoration: underline;
 	  }
   }
@@ -120,7 +162,7 @@ h1{
   h1, h2, h3, h4, h5, h6{
   	font-weight: bold;
 	  font-style: italic;
-	  color: rgb(50, 42, 63);
+	  color: $accent-dark-purple;
   }
   
   /* Image Source: http://www.clipartbest.com/cliparts/biy/Knn/biyKnn4iL.png
@@ -133,7 +175,7 @@ h1{
 .row-donna-home-icons {
   padding: 25px;
   font-size: 1.75;
-  color: rgb(105,105,105);
+  color: $text-gray;
 }
 .icon-donna {
   font-size: 1.75em;
@@ -143,19 +185,19 @@ h1{
   font-size: 1.75em;
 }
 .icon-donna-new {
-  color: rgba(127, 165, 66, 1.0);
+  color: $icon-green;
 }
 .icon-donna-delete {
-  color: rgba(189, 31, 31, 1.0);
+  color: $icon-red;
 }
 .icon-donna-surf {
-  color: rgb(73, 64, 155);
+  color: $text-purple;
 }
 .icon-donna-reports {
-  color: rgb(172, 168, 242);
+  color: $accent-blue;
 }
 .icon-donna-importexport {
-  color: rgb(204, 107, 54);
+  color: $primary-copper;
 }
 .contactDiv {
   text-align:center;
@@ -175,7 +217,7 @@ h1{
   margin-top: 20px;
 }
 .report-text {
-  color: rgb(105,105,105);
+  color: $text-gray;
 }
 .report-title {
   font-size: 32px;
@@ -189,7 +231,7 @@ h1{
 .report-icon {
   font-size: 28px;
   padding-right: 12px;
-  color: rgb(105,105,105);
+  color: $text-gray;
 }
 
 /* Import-export css - just use report css when possible */
@@ -197,14 +239,14 @@ h1{
   margin-top: 40px;
 }
 .import-color {
-  color: rgb(73, 64, 155);		/* import is purple */
+  color: $text-purple;
 }
 .import-icon {
   font-size: 28px;
   padding-right: 12px;
 }
 .export-color {
-  color: rgb(204, 107, 54);		/* export is funky copper */
+  color: $primary-copper;		
 }
 .export-icon {
   font-size: 28px;
@@ -219,7 +261,7 @@ h1{
   margin-top: 40px;
 }
 .navbar-donna-login-title {
-  color: rgb(105,105,105);
+  color: $text-gray;
 }
 .row-login {
   padding-top: 100px;
@@ -227,19 +269,19 @@ h1{
 
 /* Page Action Buttons */
 .primary-action-link {
-  color: rgb(133,187,101);
+  color: $link-dollar;
   font-size: 1.5em;
 }
 
 /* Forms */
 .required-field-marker {
-  color: rgb(204, 107, 54);
+  color: $primary-copper;
   font-weight: bold;
 }
 #error_explanation {
-  color: rgb(255, 0, 0);
+  color: $red;
   ul {
-    color: rgb(255, 0, 0);
+    color: $red;
     margin: 0 0 30px 0;
   }
 }
@@ -250,17 +292,17 @@ h1{
   }
 }
 .btn.btn-success {
-  color: rgb(255, 255, 255);
+  color: $white;
 }
 a.btn.btn-warning, a.btn.btn-primary{
-  color: rgb(255, 255, 255);
+  color: $white;
   
   &:hover{
     text-decoration: none;
   }
 }
 a.btn.btn-danger{
-  color: rgb(255, 255, 255);
+  color: $white;
   
   &:hover{
     text-decoration: none;
@@ -302,7 +344,7 @@ a.btn.btn-danger{
   width: 100%;
   height: 30px;
   position: fixed; /* Sticky Footer */
-  background-color: rgb(121, 186, 36);
+  background-color: $footer-green;
   font-size: 1.0em;
   z-index: 9999999;
   
@@ -315,29 +357,29 @@ a.btn.btn-danger{
   a{
   	color: 	rgb(74,69,231);
   	text-shadow:
-   -.1px -.1px 0 #000,  
-    .1px -.1px 0 #000,
-    -.1px .1px 0 #000,
-     .1px .1px 0 #000;
+   -.1px -.1px 0 $black,  
+    .1px -.1px 0 $black,
+    -.1px .1px 0 $black,
+     .1px .1px 0 $black;
   }
   a:hover{
-  	color: rgb(50, 42, 63);
+  	color: $accent-dark-purple;
   	text-decoration: underline;
   }
 }
 
 /* Tables */
 .table-striped > tbody > tr:nth-of-type(odd){
-  background-color: rgb(224, 230, 244);
+  background-color: $hover-light-gray;
 }
 .table-striped > tbody > tr:nth-of-type(odd):hover td{
-  background-color: rgb(195, 207, 233);
+  background-color: $hover-medium-gray;
 }
 .table-striped tbody tr:nth-child(even):hover td {
-   background-color: rgb(252, 227, 236);
+   background-color: $hover-off-red;
 }
 .pagination > .active > a, .pagination > .active > a:hover, .pagination > .active > a:focus, .pagination > .active > span, .pagination > .active > span:hover, .pagination > .active > span:focus{
-  background-color: rgb(140, 137, 240);
+  background-color: $primary-blue;
 }
 
 /* Misc */
@@ -364,7 +406,7 @@ a.btn.btn-danger{
 
 /* Row Grid Override */
 .row{
-  margin-right: -5px;
+  max-width: 100%;
 }
 .relative-row {
     position: relative;
@@ -383,7 +425,25 @@ div.alert {
     z-index:99;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 .panel-group .panel{
   margin-bottom: 10px;
+}
+
+/* About Page */
+.row-spacing-gallery{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+/* Home */
+.jumbo-text{
+  font-size: 1.5em;
+  margin-left: 15px;
+}
+
+/* Google */
+#google_translate_element a, {
+  text-decoration: none;
 }

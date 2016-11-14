@@ -1,19 +1,19 @@
 <!--form to build filter/sort options-->
 <%= form_tag({controller: "donors", action: "index"}, method: :get) do %>
   <div class="row form-group">
-    <div class="col-xs-2">
+    <div class="col-xs-3">
       <div class="line-break">
         <p>Timeframe (Last Donation)</p>
       </div>
       <%= select_tag(:timeframe, options_for_select(Donor::TIMES), class: 'form-control input-sm') %>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-3">
       <div class="line-break">
         <p>Sort By</p>
       </div>
       <%= select_tag(:sortby, options_for_select(Donor::SORTS), include_blank: " ", class: 'form-control input-sm') %>
     </div>
-    <div class="col-xs-2">
+    <div class="col-xs-3">
       <div class="line-break">
         <p>Donors</p>
       </div>

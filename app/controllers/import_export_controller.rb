@@ -1,17 +1,28 @@
 class ImportExportController < ApplicationController
+  #----------------------------------#
+  # GiftGarden Activities Controller
+  # original written by:Pat M, Oct 25 2016
+  # major contributions by:
+  #                     Wei H Oct 26 2016
+  #----------------------------------#
   require 'csv'
   
+  #import gifts from a .csv file
+  #this is the 'simple' gift import method
   def import
      @activities = Activity.all
   end
   
+  #import donors from a .csv file
   def importDonors
   end
 
+  #import in kind gifts from a .csv file
   def inkind
     @activities = Activity.all
   end
 
+  #export donors to a .csv file
   def export
     @donor = Donor.order(:created_at)
     respond_to do |format|
@@ -20,6 +31,7 @@ class ImportExportController < ApplicationController
     end
   end
   
+  #smart gifts import - begin
   def import_gifts_begin
     @activities = Activity.all
   end
@@ -32,16 +44,13 @@ class ImportExportController < ApplicationController
   def import_gifts_validate
     @activity = params[:activity]
     @file = params[:file]
-    testfile = File.join Rails.root, "/tmp/import/import_gifts.csv" # just for testing
+    if @file.nil?
+      flash[:error] = "Please choose a file."
+      redirect_to import_gifts_begin_url
+      return
+    end
     
-    # comment out for test
-    # if @file.nil?
-    #   flash[:error] = "Please choose a file."
-    #   redirect_to import_gifts_begin_url
-    #   return
-    # end
-    
-    # @warning_msg = [] # can warning message be shown?  If not, delete warning_msg.
+    # @warning_msg = [] # can warning message be shown?  If not, delete warning_msg anr row.
     row_count = 0
     error = false
     attributes = ["donor_id",	"first_name",	"last_name", "address",	"address2",	
@@ -49,8 +58,7 @@ class ImportExportController < ApplicationController
     "country",	"donor_type",	"gift_type",	"amount",	"donation_date",	
     "check_number",	"gift_user",	"gift_source", "new_id"]
     csv_string = CSV.generate(:headers => true) do |output|
-      # CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| # uncomment this line to replace the following line
-      CSV.foreach(testfile, :headers => true, :return_headers => true, :col_sep => ',') do |row| # just for testing
+      CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| # uncomment this line to replace the following line
         if row.header_row?
           output << attributes
         else
@@ -87,9 +95,9 @@ class ImportExportController < ApplicationController
         end 
       end
     end
-    
     # all donors and gifts are added
     if error == false
+      flash[:success] = "Gifts imported successfully."
       redirect_to root_path
     else  # some donors or gifts can not be added, export csv file for review
       send_data csv_string, 
@@ -98,6 +106,8 @@ class ImportExportController < ApplicationController
     end
   end
   
-  def import_gifts_success
+  #smart gifts import - next
+  def import_gifts_next
+    @activities = Activity.all
   end
 end

@@ -1,2 +1,56 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<!-- Begin main content -->
+<div class="container">
+    <div class="row">
+         <div class="col-md-8 col-md-offset-2 col-xs-12 well extra-spacing">
+            <div class='col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2'>
+                <h2>Edit User</h2>
+                <p>Change the user's password or level. The user can also be removed from the system.</p>
+                <br>
+                <%= form_for (@user), html: {class: "nifty form"} do |f| %>
+                    <h5>Username:
+                        <%= @user.username %></h5>
+                    <h5>Email:
+                        <%= @user.email %></h5>
+    
+                    <br>
+                    <div class="form-group">
+                    <%= f.label :current_password, "Admin Password:" %>
+                    <%= f.password_field :current_password, class: 'form-control' %>
+                    </div>
+                    
+                    <div class="form-group">
+                    <label>User Level:</label>
+                        <%= f.select :permission_level, [['Standard','0'],['Admin','1']] , {}, {:class => 'form-control'}%>
+                    </div>
+    
+                    
+                    <div class="form-group">
+                    <%= f.label :password, "New Password:"%>
+                    <%= f.password_field :password, class: 'form-control' %>
+                    </div>
+                    
+                    <div class="form-group">
+                    <%= f.label :password_confirmation, "Confirm:" %>
+                    <%= f.password_field :password_confirmation, class: 'form-control' %>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-xs-12 text-center">
+                            <%= f.submit "Update User", class: "btn btn-success btn-wide" %>
+                            <%= link_to "Cancel", "/users", class: "btn btn-danger btn-wide" %>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <div class="col-xs-12 text-center">
+                            <% if current_user.id != @user.id %>
+                                <%= link_to "Remove User", @user, method: :delete, class: 'text-danger'%>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

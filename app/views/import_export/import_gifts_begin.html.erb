@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
   	<div class='import-header'>
-  		<h2 class="import-color">Import Gifts CSV <small>&nbsp; Import Gifts from a CSV file.</small></h2>
+  		<h2 class="import-color">Upload Gifts CSV <small>&nbsp; Upload gifts from a CSV file and validate.</small></h2>
   	</div>
   </div>
 </div>
@@ -14,7 +14,8 @@
   </div>
 </div>
 
-&nbsp
+&nbsp;
+
 <div class="row">
   <%= form_tag import_gifts_validate_path, multipart:true do %>
     <div class="row form-group">
@@ -26,15 +27,18 @@
       </div>
       
       <div class="col-sm-4">
+        <div class="line-break">
+          <p>Select a file:</p>
+        </div>
         <%= file_field_tag :file %>
       </div>
     </div>
     
     <div class=" row form-group">
       <div class="col-xs-8 col-xs-offset-1 text-center">
-        <%= submit_tag "Go", class: "btn btn-success" %>
+        <%= submit_tag "Validate", class: "btn btn-success" %>
         &nbsp;
-        <%=link_to "Cancel", '/import-export', class: "btn btn-warning" %>
+        <%=link_to "Next", import_gifts_next_path, class: "btn btn-warning" %>
       </div>
     </div>
   <% end %>
