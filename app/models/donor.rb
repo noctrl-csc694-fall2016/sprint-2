@@ -30,7 +30,7 @@ class Donor < ApplicationRecord
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
-  PAGEBY = ['10 Per Page', '20 Per Page', '50 Per Page', '100 Per Page']
+  PAGEBY = ['10', '20', '50', '100']
   
   # Export Donors
   # outputs all donors as a csv file(all attributes included).
@@ -81,12 +81,6 @@ class Donor < ApplicationRecord
       sum+=g.amount
     end
     return sum
-  end
-  
-  #sorts donor list by computed total gift amount
-  #portions taken from http://awaxman11.github.io/blog/2013/10/11/sorting-a-rails-resource-based-on-a-calculated-value/
-  def self.sorted_by_total_gift_amount
-    Donor.all.sort_by(&:gift_total_amount_per_donor)
   end
   
   #returns a full name string as "Smith, John"

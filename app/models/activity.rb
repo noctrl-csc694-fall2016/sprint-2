@@ -6,6 +6,7 @@ class Activity < ApplicationRecord
   #             Wei H, Oct 15 2016
   #             Pat M, Oct 17 2016
   #----------------------------------#
+  before_create :set_default_dates
   has_many :gifts, dependent: :destroy
   default_scope -> {order(id: :desc)}
   validates :name, presence: true, length: {maximum:255}
@@ -21,7 +22,12 @@ class Activity < ApplicationRecord
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
-  PAGEBY = ['10 Per Page', '20 Per Page', '50 Per Page', '100 Per Page']
+  PAGEBY = ['10', '20', '50', '100']
+  
+  def set_default_dates
+    self.start_date = Time.now.beginning_of_year unless self.start_date.present?
+    self.end_date = DateTime.parse("2099-12-31 00:00:00") unless self.end_date.present?
+  end
   
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|
