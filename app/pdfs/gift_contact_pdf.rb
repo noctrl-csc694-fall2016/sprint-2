@@ -1,6 +1,6 @@
-class GiftPdf < Prawn::Document
+class GiftContactPdf < Prawn::Document
   def initialize(gift, timeframe, sortby, topn)
-    super()
+    super(:page_layout => :landscape) #makes report landscape
     @gifts = gift
     @timeframe = timeframe
     @sortby = sortby
@@ -10,12 +10,15 @@ class GiftPdf < Prawn::Document
     text_content
     table_content
   end
-
+  
   # Source: https://www.sitepoint.com/pdf-generation-rails/
   # under the first section for prawn.
   
   def header
-    text "Gifts Report", size: 24, style: :bold, :align => :center
+    image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
+    width: 79, height: 79
+    move_up 35
+    text "Full Contact Gifts Report", size: 24, style: :bold, :align => :center
   end
   
   def text_content
@@ -33,19 +36,19 @@ class GiftPdf < Prawn::Document
       row(0).font_style = :bold
       self.header = true
       self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [60, 145, 115, 60, 75, 80]
+      self.column_widths = [60, 175, 270, 60, 75, 80] 
       style(column(5), align: :right)
     end
     table total_row do
       row(0).font_style = :bold
       self.row_colors = ['DDDDDD']
-      self.column_widths = [60, 145, 115, 60, 75, 80]
+      self.column_widths = [60, 175, 270, 60, 75, 80] #720 total
       style(column(5), align: :right)
     end
   end
 
   def gift_rows
-    [['ID', 'Activity Name', 'Donor Name', 'Donor ID', 'Gift Date', 'Gift Amount']] +
+    [['ID', 'Activity Name', 'Donor Information', 'Donor ID', 'Gift Date', 'Gift Amount']] +
       @gifts.map do |gift|
         activity = Activity.find([gift.activity_id])
         activityName = ''
@@ -53,17 +56,25 @@ class GiftPdf < Prawn::Document
           activityName = a.name
         end
         donor = Donor.find([gift.donor_id])
-        donorName = ''
+        donorInfo = ''
         donorID = ''
         donor.each do |d|
-          donorName = d.last_name + ", " + d.first_name
           donorID = d.id.to_s
+          if d.address2.to_s.length > 0
+            d.address = d.address + "\n" + d.address2
+          end
+          donorInfo += d.first_name.to_s + " " + d.last_name.to_s + "\n" + 
+            d.address.to_s + "\n" + d.city.to_s + ", " + d.state.to_s + 
+            " " + d.zip.to_s + "\n" + d.phone.to_s + "\n" + d.email.to_s
         end
         @giftTotal += gift.amount
         giftAmount = format_currency(gift.amount.to_s, true)
-      [("GFT" + gift.id.to_s), activityName, donorName, 
-      ("DON" + donorID), gift.donation_date, 
-        giftAmount]
+      [("GFT" + gift.id.to_s),
+      activityName,
+      donorInfo, 
+      ("DON" + donorID),
+      gift.donation_date, 
+      giftAmount]
     end
   end   
   

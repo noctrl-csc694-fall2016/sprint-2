@@ -25,7 +25,7 @@ class DonorPdf < Prawn::Document
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
       " by John Smith.", size: 15
       text "Report options: " + timeframe_exalanation(@timeframe) + 
-       "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s, size: 15
+       "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s + ".", size: 15
     end
   end
 

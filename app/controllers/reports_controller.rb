@@ -173,7 +173,7 @@ class ReportsController < ApplicationController
       @timeframe = params[:times]
       @sortby = params[:sorts]
       @topn = params[:topn]
-      @layout = params[:layout]
+      @fullcontact = params[:landscape]
       
       @donors.each do |donor|
         
@@ -316,6 +316,12 @@ class ReportsController < ApplicationController
           @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
         when 'State'
           @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
+        when 'Date of Last Gift'
+          #title field of donor is used to store last gift date. sort these
+          @reportDonorsArray.sort! { |b,a| a.title <=> b.title }
+        when 'Gift Total'
+          #nickname field of donor is used to store last gift date. sort these
+          @reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
       end
       
       #apply topn filter
@@ -332,9 +338,8 @@ class ReportsController < ApplicationController
       end
       
       #generate the pdf file for the report
-      
       #landscape donors report will be the full contact report
-      if @layout == 'landscape'
+      if @fullcontact
         pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
         send_data pdf.render, :filename => 'Donors Full Contact Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
@@ -403,6 +408,7 @@ class ReportsController < ApplicationController
         @topn = params[:topn]
         @timeframe = params[:times]
         @sortby = params[:sorts]
+        @fullcontact = params[:landscape]
         
         #first grab all gifts from the chosen activity
         activity = Activity.find(@activity)
@@ -474,14 +480,24 @@ class ReportsController < ApplicationController
         
         #apply sort filter
         case @sortby
-          when 'Donor ID'
-            @reportGiftsArray.sort! { |b,a| a.donor_id.to_s <=> b.donor_id.to_s }
+          when 'Gift ID'
+            @reportGiftsArray.sort! { |b,a| a.id <=> b.id }
           when 'Amount'
-            @reportGiftsArray.sort! { |a,b| a.amount.to_s <=> b.amount.to_s }
-          when 'Donation Date'
-            @reportGiftsArray.sort! { |a,b| a.donation_date <=> b.donation_date }
+            @reportGiftsArray.sort! { |b,a| a.amount.to_i <=> b.amount.to_i }
+          when 'Gift Date'
+            @reportGiftsArray.sort! { |b,a| a.donation_date <=> b.donation_date }
           when 'Gift Type'
             @reportGiftsArray.sort! { |a,b| a.gift_type <=> b.gift_type }
+          when 'Donor Name'
+            @reportGiftsArray.each do |g|
+              donorName = ''
+              donor = Donor.find([g.donor_id])
+              donor.each do |d|
+                donorName = d.last_name + ", " + d.first_name
+              end
+              g.solicited_by = donorName
+            end
+            @reportGiftsArray.sort! { |a,b| a.solicited_by <=> b.solicited_by }
         end
         
         #apply topn filter
@@ -498,10 +514,18 @@ class ReportsController < ApplicationController
         end
         
         #generate pdf file
-        pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
-        send_data pdf.render, :filename => 'Gifts Report' + " "  + 
-        Time.now.to_date.to_s + '.pdf', 
-        :type => 'application/pdf', :disposition => 'attachment'
+        #landscape gifts report will be the full contact report
+        if @fullcontact
+          pdf = GiftContactPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
+          send_data pdf.render, :filename => 'Gifts Full Contact Report' + " "  + 
+          Time.now.to_date.to_s + '.pdf', 
+          :type => 'application/pdf', :disposition => 'attachment'
+        else
+          pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
+          send_data pdf.render, :filename => 'Gifts Report' + " "  + 
+          Time.now.to_date.to_s + '.pdf', 
+          :type => 'application/pdf', :disposition => 'attachment'
+        end
     end
   end
 
