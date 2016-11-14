@@ -1,6 +1,6 @@
 class ImportExportController < ApplicationController
   #----------------------------------#
-  # GiftGarden Activities Controller
+  # GiftGarden Import/Export Controller
   # original written by:Pat M, Oct 25 2016
   # major contributions by:
   #                     Wei H Oct 26 2016

@@ -2,13 +2,13 @@
 # Donors Controller Test
 # original written by: Jason K, Nov 5 2016
 # major contributions by:
-#
+#                     Andy W Nov 14 2016
 #----------------------------------#
 require 'test_helper'
 
 class DonorsControllerTest < ActionDispatch::IntegrationTest
-  test "should get all_donors" do
-    get donors_path
+  test "should get all donors with params" do
+    get donors_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
     assert_response :success
     assert_select "title", "Surf Donors | Gift Garden"
   end
