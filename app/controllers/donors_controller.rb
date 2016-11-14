@@ -202,7 +202,7 @@ class DonorsController < ApplicationController
     if(params[:pageby] != "")
       @selected_donors = @selected_donors.paginate(page: params[:page], per_page: params[:pageby])
     else
-      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 5)
+      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 10)
     end	
     
     respond_to do |format|
