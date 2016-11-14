@@ -17,29 +17,27 @@
       <span class='report-tab'>Activity:</span><br />
       <%= select_tag "activity", options_from_collection_for_select(@activities, "id", "name") %>
     </div>
+    <div class='report-right-half'><br />
+      <%= check_box_tag 'landscape', 'yes', false %>
+      <%= label_tag(:landscape, "Full Contact") %>
+    </div>
   </section><br />
   
   <section class='report-container'>
-    <div class='report-left-half'>
+    <div class='report-third-left'>
       <span class='report-tab'>Timeframe:</span><br />
       <%= select_tag 'times', options_for_select(Gift::TIMES) %>
     </div>
-  </section><br />
-  
-  <section class='report-container'>
-    <div class='report-left-half'>
+    <div class='report-third-middle'>
       <span class='report-tab'>Sort By:</span><br />
       <%= select_tag 'sorts', options_for_select(Gift::SORTS) %>
     </div>
-  </section><br />
-  
-  <section class='report-container'>
-    <div class='report-left-half'>
+    <div class='report-third-right'>
       <span class='report-tab'>Top N:</span><br />
       <%= select_tag 'topn', options_for_select(Gift::TOPN) %>
     </div>
   </section><br />
-  
+
   <div class="report-submit">
     <%= submit_tag "Report", class: "btn btn-success" %>
     &nbsp;
