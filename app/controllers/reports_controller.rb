@@ -19,6 +19,7 @@ class ReportsController < ApplicationController
         # filter out activities based on the parameters put in the form
         @timeframe = params[:timeframe]
         @sortby = params[:sortby]
+        @progressFilter = false
         
         #apply timeframe filter
         @activities.each do |activity|
@@ -90,10 +91,61 @@ class ReportsController < ApplicationController
             @reportActivitiesArray.sort! { |b,a| a.end_date <=> b.end_date }
           when 'Goal'
             @reportActivitiesArray.sort! { |b,a| a.goal <=> b.goal }
+          when 'Progress'
+            @progressFilter = true #this filter is done separately during report generation
+            
+            @reportActivitiesArray.each do |act|
+              #calculate associated gifts total
+              begin
+                gifts = Gift.find([act.id])
+              rescue ActiveRecord::RecordNotFound
+                gifts = nil #if no matches found
+              end
+              giftTotal = 0;
+              if gifts.nil? || gifts == 0
+                giftTotal = 0
+              else
+                giftTotal = giftTotal.to_i
+                gifts.each do |gift|
+                  giftTotal += gift.amount.to_i
+                end
+              end
+              
+              #calculate progress % to goal
+              if ((giftTotal == 0) or (act.goal == 0))#handles General activity
+                progressPercentage = 0
+              else
+                progressTotal = act.goal.to_i
+                progressAmount = giftTotal.to_i
+                progressFloat = (progressAmount.to_f) / (progressTotal.to_f) * 100
+                progressPercentage = progressFloat.round#.to_s + '%'
+              end
+              
+              #put result in notes field temporarily  
+              if progressPercentage === 0 && giftTotal > 0
+                act.notes = "0"
+              elsif progressPercentage === 0 #giftTotal is <= 0
+                act.notes = "-1"
+              else
+                act.notes = progressPercentage.to_s
+              end
+            end
+            #now sort
+            @reportActivitiesArray.sort! { |b,a| a.notes.to_i <=> b.notes.to_i }
+            #now convert percent complete back to more readable form for reports
+            @reportActivitiesArray.each do |a|
+              if a.notes === 0
+                a.notes = "0%"
+              elsif a.notes.to_i === -1
+                a.notes = ""
+              else
+                a.notes = a.notes.to_s + "%"
+              end
+            end
         end
 
         #generate the pdf file for the report
-        pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby)
+        pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby, @progressFilter)
         send_data pdf.render, :filename => 'Activities Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
         flash[:success] = "Activity report generated."

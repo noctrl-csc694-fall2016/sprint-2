@@ -1,5 +1,5 @@
 class ActivityPdf < Prawn::Document
-  def initialize(activity, timeframe, sortby)
+  def initialize(activity, timeframe, sortby, progressFilter)
     super()
     @activities = activity
     @timeframe = timeframe
@@ -66,23 +66,9 @@ class ActivityPdf < Prawn::Document
       goal = '$' + activity.goal.to_s
       2.times do goal.chop! end #takes off the .0 for goals
       
-      #calculate progress % to goal
-      if ((giftTotal == '') or (activity.goal == 0))#handles General activity
-        progressPercentage = ''
-      else
-        progressTotal = goal[1..-1]
-        progressAmount = giftTotal[1..-1]
-        begin
-        progressFloat = (progressAmount.to_f) / (progressTotal.to_f) * 100
-        rescue FloatDomainError
-        progressFloat = ''
-        end
-        progressPercentage = progressFloat.round.to_s + '%'
-      end
-      
       #define the content that goes in each column per activity    
       [("ACT" + activity.id.to_s), activity.name.to_s, activity.end_date.to_s, 
-        format_currency(activity.goal, true), giftTotal, progressPercentage]
+        format_currency(activity.goal, true), giftTotal, activity.notes]
       end
   end
   
