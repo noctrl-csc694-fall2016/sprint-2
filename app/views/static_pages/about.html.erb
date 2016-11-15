@@ -23,16 +23,6 @@
           <li>Wei H</li>
           <li>Jason K</li>
         </ul>
-        <h4>Last Deploy</h4>
-          <%= 
-            unless @app_last_updated_at.nil? 
-              if @app_last_updated_at.is_a? Time 
-                @app_last_updated_at.to_s(:long)
-              else
-                @app_last_updated_at 
-              end
-            end
-          %>
       </div>
       <div class="col-sm-3">
         <h4>Assistance From</h4>
