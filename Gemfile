@@ -37,6 +37,7 @@ group :development, :production, :test do
   gem 'prawn',          '2.1.0'
   gem 'prawn-table', '~> 0.1.0'
   gem 'bcrypt',         '3.1.11'
+  gem 'git-version',    '0.0.3'
 end
 
 group :production do

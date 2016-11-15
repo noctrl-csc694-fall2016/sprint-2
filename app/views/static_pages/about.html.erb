@@ -23,6 +23,16 @@
           <li>Wei H</li>
           <li>Jason K</li>
         </ul>
+        <h4>Last Deploy</h4>
+          <%= 
+            unless @app_last_updated_at.nil? 
+              if @app_last_updated_at.is_a? Time 
+                @app_last_updated_at.to_s(:long)
+              else
+                @app_last_updated_at 
+              end
+            end
+          %>
       </div>
       <div class="col-sm-3">
         <h4>Assistance From</h4>
@@ -31,7 +41,7 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="row">
       <h3>Sample Artwork</h3>
       A number of pieces used within the application were crafted by Teresa B.  Samples of their artwork are below.  You may click on an thumbnail to open up a full size version in a new tab/window.
