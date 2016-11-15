@@ -19,6 +19,8 @@ class SessionsController < ApplicationController
     
     if user && user.authenticate(params[:session][:password])
       log_in user
+      user['last_login'] = Time.now.to_datetime
+      user.save
       flash[:success] = "Welcome back #{user.username}!"
       redirect_to home_path
     else

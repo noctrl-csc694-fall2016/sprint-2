@@ -45,4 +45,12 @@ module UsersHelper
     end
   end
   
+  #returns a datetime indicating the last time the user logged in
+  def get_last_login(user)
+    userExists = User.find_by_id(user.id)
+    if userExists
+      return userExists['last_login']
+    end
+  end
+  
 end
