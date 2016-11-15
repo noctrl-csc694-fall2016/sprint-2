@@ -20,9 +20,11 @@ class Gift < ApplicationRecord
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'Donor ID', 'Amount', 'Donation Date', 'Gift Type']
+  SORTS = [ 'Gift ID', 'Donor Name', 'Gift Date', 'Amount']
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
+  
+  PAGEBY = ['10', '20', '50', '100']
   
   # Import Gifts
   def self.import(file, activity)

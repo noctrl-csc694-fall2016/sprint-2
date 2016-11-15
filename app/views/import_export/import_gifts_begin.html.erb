@@ -10,11 +10,19 @@
 <!-- Content -->
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
-    <h4>Instruction here</h4>
+    <h4>
+      <ol>
+        <li>Choose an activity.</li>
+        <li>Choose a file.</li>
+        <li>Click "Validate".  Review the downloaded CSV file.</li>
+        <li>Click "Next".</li>
+      </ol>
+    </h4>
   </div>
 </div>
 
-&nbsp
+&nbsp;
+
 <div class="row">
   <%= form_tag import_gifts_validate_path, multipart:true do %>
     <div class="row form-group">

@@ -1,3 +1,9 @@
+#----------------------------------#
+# Gifts Delete Integration Test
+# original written by: Wei H, Nov 7 2016
+# major contributions by:
+#
+#----------------------------------#
 require 'test_helper'
 
 class GiftsDeleteTest < ActionDispatch::IntegrationTest

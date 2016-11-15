@@ -6,6 +6,7 @@ class ActivitiesController < ApplicationController
   #                     Pat M Oct 26 2016
   #                     Andy W Nov 7 2016
   #----------------------------------#
+  include ActivitiesHelper
   
   # defines a new activity
   def new
@@ -21,9 +22,15 @@ class ActivitiesController < ApplicationController
   #activity_params defined in private below
   def create
     @activity = Activity.new(activity_params)
+    
     if @activity.save
-      flash[:success] = "Activity added successfully!"
-      redirect_to activities_url
+      if (@activity.start_date = Time.now.beginning_of_year && @activity.end_date = DateTime.parse("2099-12-31 00:00:00"))
+        flash[:success] = "Activity added successfully!  PLEASE NOTE: Default start and end dates applied."
+        redirect_to activities_url
+     else
+        flash[:success] = "Activity added successfully!"
+        redirect_to activities_url
+      end
     else
       render 'new'
     end
@@ -45,6 +52,11 @@ class ActivitiesController < ApplicationController
     
     #add all activities to selected_activities
     @selected_activities = Activity.all
+    
+    #check for all parameters in page call
+    if (params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:pageby) && params.has_key?(:commit)) == false
+      redirect_to activities_url + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
+    end
     
     #TIMEFRAME filtering
     case params[:timeframe]
@@ -79,13 +91,6 @@ class ActivitiesController < ApplicationController
             @selected_activities = @selected_activities.where("end_date >= ?", 6.months.ago.to_date)
     end
     
-    #select the TOP N activities, ordered by goal amount
-    if(params[:topn] != "" && params[:topn] != "All")
-      @selected_activities = @selected_activities.reorder("goal DESC")
-      @activity_ids = @selected_activities.select("id").limit(params[:topn].to_i)
-      @selected_activities = @selected_activities.where(id: @activity_ids)
-    end
-    
     #sort results (reorder objects in table)
     case params[:sortby]
       when 'Name'
@@ -94,12 +99,17 @@ class ActivitiesController < ApplicationController
         @selected_activities = @selected_activities.reorder("start_date DESC")
       when 'End Date'
         @selected_activities = @selected_activities.reorder("end_date DESC")
-      when 'Goal'
+      when 'Goal $'
         @selected_activities = @selected_activities.reorder("goal DESC")
     end
     
     #paginate selected activities list after sorting & filtering
-     @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 5)		
+    #use selected amount per page
+    if(params[:pageby] != "")
+      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: params[:pageby])
+    else
+      @selected_activities = @selected_activities.paginate(page: params[:page], per_page: 10)
+    end	
      
      
      respond_to do |format|		

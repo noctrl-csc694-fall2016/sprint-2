@@ -10,4 +10,7 @@ class ApplicationController < ActionController::Base
   def hello
     render html: "hello, world! and Bill says... huzzah to 694...Andy was here! JK shuffles the deck. Mke D finishes it! Wei H...."
   end
+  
+  private
+  
 end

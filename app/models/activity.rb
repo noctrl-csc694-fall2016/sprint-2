@@ -6,20 +6,31 @@ class Activity < ApplicationRecord
   #             Wei H, Oct 15 2016
   #             Pat M, Oct 17 2016
   #----------------------------------#
+  before_create :set_default_dates
   has_many :gifts, dependent: :destroy
   default_scope -> {order(id: :desc)}
   validates :name, presence: true, length: {maximum:255}
   validates :description, presence: true, length: {maximum:255}
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}
-  enum activity_type: [:Event, :Mailer, :'Email Blast', :'Community Event']
+  enum activity_type: [:General, :Community, :Corporate, :Grants, :Mailer, :'Email Blast', :'Faith-based', :'Fund-raiser']
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'Name', 'Start Date', 'End Date', 'Goal']
+  SORTS = [ 'Name', 'End Date', 'Goal $']
+  
+  SORTSBASIC = [ 'Name', 'End Date', 'Progress']
   
   TOPN = [ 'All', '10', '20', '50', '100' ]
+  
+  PAGEBY = ['10', '20', '50', '100']
+  
+  def set_default_dates
+    self.start_date = Time.now.beginning_of_year unless self.start_date.present?
+    self.end_date = DateTime.parse("2099-12-31 00:00:00") unless self.end_date.present?
+  end
+
   
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|

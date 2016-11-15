@@ -49,7 +49,14 @@ class DonorsController < ApplicationController
   
   # list all donors on index page
   def index
+    
+    #add all donors to selected_donors
     @selected_donors = Donor.all
+    
+    #check for all parameters in page call
+    if (params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:pageby) && params.has_key?(:commit)) == false
+      redirect_to donors_url + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
+    end
      
     #TIMEFRAME filtering
     @timeframe_donors = [] #initialize array to store ids of donors making donations within timeframe
@@ -173,9 +180,9 @@ class DonorsController < ApplicationController
     end
     
     #select the TOP N donors, by total gift amount
-    if(params[:topn] != "" && params[:topn] != "All")
-      @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
-    end
+    #if(params[:topn] != "" && params[:topn] != "All")
+    #  @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
+    #end
     
     #sort results (reorder objects in table)
     if(params[:topn] && params[:sortby])
@@ -184,8 +191,6 @@ class DonorsController < ApplicationController
     case params[:sortby]
       when 'Last Name'
         @selected_donors = @selected_donors.reorder("last_name")
-      when 'First Name'
-        @selected_donors = @selected_donors.reorder("first_name")
       when 'Email'
         @selected_donors = @selected_donors.reorder("email")
       when 'State'
@@ -193,7 +198,12 @@ class DonorsController < ApplicationController
     end
     
     #paginate selected donors list after sorting & filtering
-     @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 5)
+    #use selected amount per page
+    if(params[:pageby] != "")
+      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: params[:pageby])
+    else
+      @selected_donors = @selected_donors.paginate(page: params[:page], per_page: 10)
+    end	
     
     respond_to do |format|
       format.html

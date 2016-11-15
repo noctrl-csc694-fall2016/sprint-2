@@ -1,25 +1,25 @@
-class DonorPdf < Prawn::Document
-  def initialize(donor, timeframe, sortby, topn, giftTotal, user)
-    super()
-    @donors = donor
+class GiftContactPdf < Prawn::Document
+  def initialize(gift, timeframe, sortby, topn, user)
+    super(:page_layout => :landscape) #makes report landscape
+    @gifts = gift
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
-    @giftTotal = format_currency(giftTotal.to_s, false)
     @user = user
+    @giftTotal = 0
     header
     text_content
     table_content
   end
-
+  
   # Source: https://www.sitepoint.com/pdf-generation-rails/
   # under the first section for prawn.
-
+  
   def header
     image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
     width: 79, height: 79
     move_up 35
-    text "Donors Report", size: 24, style: :bold, :align => :center
+    text "Full Contact Gifts Report", size: 24, style: :bold, :align => :center
   end
   
   def text_content
@@ -34,35 +34,55 @@ class DonorPdf < Prawn::Document
   end
 
   def table_content
-    
-    table donor_rows do
+    table gift_rows do
       row(0).font_style = :bold
       self.header = true
-      self.row_colors = ['FFFFFF']
-      self.column_widths = [80, 150, 135, 90, 85]
-      style(column(4), align: :right)
-      end
-      
+      self.row_colors = ['DDDDDD', 'FFFFFF']
+      self.column_widths = [60, 175, 270, 60, 75, 80] 
+      style(column(5), align: :right)
+    end
     table total_row do
       row(0).font_style = :bold
       self.row_colors = ['DDDDDD']
-      self.column_widths = [80, 150, 135, 90, 85]
-      style(column(1), align: :center)
-      style(column(4), align: :right)
+      self.column_widths = [60, 175, 270, 60, 75, 80] #720 total
+      style(column(5), align: :right)
     end
-    
   end
 
-  def donor_rows
-    [['ID', 'Donor Name', 'City, State', 'Last Gift Date', 'Gift Total']] +
-      @donors.map do |donor|
-      [("DON" + donor.id.to_s), donor.last_name.to_s + ", " + donor.first_name.to_s, 
-      donor.city.to_s + ", " + donor.state, donor.title, format_currency(donor.nickname, false)]
+  def gift_rows
+    [['ID', 'Activity Name', 'Donor Information', 'Donor ID', 'Gift Date', 'Gift Amount']] +
+      @gifts.map do |gift|
+        activity = Activity.find([gift.activity_id])
+        activityName = ''
+        activity.each do |a|
+          activityName = a.name
+        end
+        donor = Donor.find([gift.donor_id])
+        donorInfo = ''
+        donorID = ''
+        donor.each do |d|
+          donorID = d.id.to_s
+          if d.address2.to_s.length > 0
+            d.address = d.address + "\n" + d.address2
+          end
+          donorInfo += d.first_name.to_s + " " + d.last_name.to_s + "\n" + 
+            d.address.to_s + "\n" + d.city.to_s + ", " + d.state.to_s + 
+            " " + d.zip.to_s + "\n" + d.phone.to_s + "\n" + d.email.to_s
+        end
+        @giftTotal += gift.amount
+        giftAmount = format_currency(gift.amount.to_s, true)
+      [("GFT" + gift.id.to_s),
+      activityName,
+      donorInfo, 
+      ("DON" + donorID),
+      gift.donation_date, 
+      giftAmount]
     end
-  end
+  end   
   
   def total_row
-    [['', 'Total', '', '', @giftTotal]]
+    @giftTotal = format_currency(@giftTotal.to_s, true)
+    [['', '', 'Total', '', '', @giftTotal]]
   end
   
   #custom currency formatting method for reports
@@ -89,36 +109,36 @@ class DonorPdf < Prawn::Document
     end
   end
   
-  #timeframe 'more-English-like' conversion
+    #timeframe 'more-English-like' conversion
   def timeframe_exalanation(range)
     result = ""
     case range
       when "All"
-        result += "All Donors listed"
+        result += "All Gifts listed"
       when "This Year"
-        result += "This year's Donors"
+        result += "This year's Gifts"
       when "This Quarter"
-        result += "This quarter's Donors"
+        result += "This quarter's Gifts"
       when "This Month"
-        result += "This month's Donors"
+        result += "This month's Gifts"
       when "Last Year"
-        result += "Last year's Donors"
+        result += "Last year's Gifts"
       when "Last Quarter"
-        result += "Last quarter's Donors"
+        result += "Last quarter's Gifts"
       when "Last Month"   
-        result += "Last month's Donors"
+        result += "Last month's Gifts"
       when "Past 2 Years"
-        result += "Donors from " + Time.now.year.to_s + " and " + 
+        result += "Gifts from " + Time.now.year.to_s + " and " + 
           (Time.now.year - 1).to_s
       when "Past 5 Years"
-        result += "Donors from " + (Time.now.year - 4).to_s + " to " + 
+        result += "Gifts from " + (Time.now.year - 4).to_s + " to " + 
           Time.now.year.to_s
       when "Past 2 Quarters"
-        result += "Donors from the Past 2 quarters"
+        result += "Gifts from the Past 2 quarters"
       when "Past 3 Months"
-        result += "Donors from the Past 3 months"
+        result += "Gifts from the Past 3 months"
       when "Past 6 Months"
-        result += "Donors from the Past 6 months"
+        result += "Gifts from the Past 6 months"
     end
     result
   end
@@ -130,13 +150,13 @@ class DonorPdf < Prawn::Document
     when 'all'
       result += ""
     when '10'
-      result += "Top 10 Donors "
+      result += "Top 10 Gifts "
     when '20'
-      result += "Top 20 Donors "
+      result += "Top 20 Gifts "
     when '50'
-      result += "Top 50 Donors "
+      result += "Top 50 Gifts "
     when '100'
-      result += "Top 100 Donors "
+      result += "Top 100 Gifts "
     end
     result
   end

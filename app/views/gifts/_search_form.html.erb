@@ -23,15 +23,15 @@
     </div>
     <div class="col-xs-2">
       <div class="line-break">
-        <p>Top Gift $</p>
-      </div>
-      <%= select_tag(:topn, options_for_select(Gift::TOPN), class: 'form-control input-sm') %>
-    </div>
-    <div class="col-xs-2">
-      <div class="line-break">
         <p>Sort By</p>
       </div>
       <%= select_tag(:sortby, options_for_select(Gift::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+    </div>
+    <div class="col-xs-2">
+      <div class="line-break">
+        <p>Gifts Per Page</p>
+      </div>
+      <%= select_tag(:pageby, options_for_select(Gift::PAGEBY), class: 'form-control input-sm') %>
     </div>
   </div>
   <div class="row form-group">

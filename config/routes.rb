@@ -1,3 +1,10 @@
+  #----------------------------------#
+  # Gift Garden Routes File
+  # original written by: Andy W, Oct 14 2016
+  # major contributions by:
+  #             Wei H, Oct 16 2016
+  #----------------------------------#
+
 Rails.application.routes.draw do
 
   get 'users/index'
@@ -21,13 +28,6 @@ Rails.application.routes.draw do
   get 'reports/donors'
 
   get 'reports/gifts'
-
-  #----------------------------------#
-  # Gift Garden Routes File
-  # original written by: Andy W, Oct 14 2016
-  # major contributions by:
-  #             Wei H, Oct 16 2016
-  #----------------------------------#
   
   resources :gifts, only: [:new, :create, :edit, :update, :index, :destroy] do
     collection { post :import }
@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get    '/export', to: 'import_export#export'
   get    '/import-gifts-begin', to: 'import_export#import_gifts_begin'
   get    '/import-gifts-next', to: 'import_export#import_gifts_next'
+  post   '/import-gifts-import', to: 'import_export#import_gifts_import'
   post   '/import-gifts-validate', to: 'import_export#import_gifts_validate'
   get    '/import-gifts-success', to: 'import_export#import_gifts_success'
   
@@ -63,17 +64,17 @@ Rails.application.routes.draw do
   post   '/report-donors-pdf', to: 'reports#donors_report'
   get    '/report-gifts', to: 'reports#gifts_setup'
   post   '/report-gifts-pdf', to: 'reports#gifts_report'
+  get    '/report-one-donor', to: 'reports#one_donor_setup'
+  post   '/report-one-donor-pdf', to: 'reports#one_donor_report'
   post   '/trashes-trash-pdf', to: 'reports#trash_report'
   
-  get    'hyper-surf/donors', to: 'hyper_surf#donors'
-  get    'hyper-surf/activities', to: 'hyper_surf#activities'
-  get    'hyper-surf/all', to: 'hyper_surf#all'
-  
-  
+  get    '/hyper-surf/all', to: 'hyper_surf#all'
   
   get    'login'                  => 'sessions#new'
   post   'login'                  => 'sessions#create'
   delete 'logout'                 => 'sessions#destroy'
+  
+  get    'user-list'              => 'users#index'
   
   resources :users
   
