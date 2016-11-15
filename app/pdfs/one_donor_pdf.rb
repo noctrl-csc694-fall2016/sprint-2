@@ -5,6 +5,8 @@
   #
   #----------------------------------#
 class OneDonorPdf < Prawn::Document
+  include ActionView::Helpers::NumberHelper
+  
   def initialize(requestorData, donorData, selectedGiftsArray, selectedGiftsCount, selectedGiftsSum)
     super()
     @requestor = requestorData
@@ -98,8 +100,7 @@ class OneDonorPdf < Prawn::Document
   def gift_table_content
     [['ID', 'Activity Name', 'Gift Date', 'Gift Amount']] +
     @gifts.map do |gift|
-      giftAmount = '$' + gift.amount.to_s
-        2.times do giftAmount.to_s.chop! end
+      giftAmount = number_to_currency(gift.amount, precision: 0)
       ["GFT" + gift.id.to_s, Activity.find(gift.activity).name, gift.donation_date.strftime("%B %d, %Y"), giftAmount]
     end
   end
@@ -121,8 +122,7 @@ class OneDonorPdf < Prawn::Document
   # Helper method for outputting sum
   #################################  
   def gift_sum_table_content
-    giftAmount = '$' + @sumGifts
-        2.times do giftAmount.to_s.chop! end
+    giftAmount = number_to_currency(@sumGifts, precision: 0)
     [['', '', @countGifts + " gifts", giftAmount]]
   end
 end
