@@ -8,7 +8,6 @@
       </div>
       <%= @donor_id %>
       <%=f.select :donor_id, options_for_select(@donors.sort!, :selected => params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm' %>
-      <!--%=f.select :donor_id, options_for_select(@donors, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm dropdown-menu'%-->
     </div>
     <div class="col-xs-3 col-xs-offset-1">
       <div class="line-break">
@@ -99,13 +98,16 @@
     </div>
   </div> <!-- row -->
 
+  <!--Submit Stay & Cancel Buttons-->
   <div class=" row form-group">
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%= submit_tag yield(:button_text), class: "btn btn-success" %>
-      <%= submit_tag "Stay", class: "btn btn-success" %>
-      <!--%=f.submit_tag value="Stay" name="Create" yield(:button_text), class: "btn btn-sucess" %-->
+      <% if @gift.new_record? || params[:commit].to_s == "Stay" %>
         &nbsp;
-        <%=link_to "Cancel", gifts_path(:activity_id => @gift.activity_id, :donor_id => @gift.donor_id), class: "btn btn-warning" %>
+        <%= submit_tag "Stay", class: "btn btn-success" %>
+      <% end %>
+      &nbsp;
+      <%=link_to "Cancel", gifts_path(:activity_id => @gift.activity_id, :donor_id => @gift.donor_id), class: "btn btn-warning" %>
     </div>
   </div> <!-- row -->
   
