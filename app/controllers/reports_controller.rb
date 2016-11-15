@@ -547,7 +547,7 @@ class ReportsController < ApplicationController
   #SetupOne Donor Report View
   #renders the basic activities report view
   def one_donor_setup
-    @donors = Donor.all
+    @donors = Donor.all.sort { |a,b| a.full_name_id <=> b.full_name_id }
   end
   
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -579,13 +579,15 @@ class ReportsController < ApplicationController
       # Get gifts
       selectedGiftsArray = Array.new
       
-      selectedGifts = Gift.where(:donor_id => params[:donor])
+      selectedGifts = Gift.order(donation_date: :desc).where(:donor_id => params[:donor])
       selectedGiftsCount = selectedGifts.count.to_s
       selectedGiftsSum = selectedGifts.sum(:amount).to_s
       #first grab all gifts from the chosen activity
       selectedGifts.each do |gift|
         selectedGiftsArray.push(gift)
       end
+      
+      selectedGiftsArray.sort! { |a,b| a.donation_date <=> b.donation_date }
       
       #generate pdf file
       pdf = OneDonorPdf.new(requestorData, donorData, selectedGiftsArray, selectedGiftsCount, selectedGiftsSum)
