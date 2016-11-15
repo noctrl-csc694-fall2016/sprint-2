@@ -42,7 +42,7 @@ module DonorsHelper
     return last_gift
   end
   
-  #returns the last gift that a donor made, by created_at date
+  #returns the last gift that a donor made, by donation date
   def last_gift_by_donation_date(donor)
     selected_gifts = Gift.where(:donor_id => donor)
     last_gift = nil

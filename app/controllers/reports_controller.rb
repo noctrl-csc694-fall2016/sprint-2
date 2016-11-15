@@ -594,6 +594,83 @@ class ReportsController < ApplicationController
       send_data pdf.render, :filename => 'One Donor Report - ' + donor_profile.full_name + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end 
   end
+    
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # LUBUNT (Last year but unfortunately not this) Report
+  # Find all donors that donated last year (or previous years), but have not yet donated this year
+    def lybunt_report
+      respond_to do |format|
+        format.html
+        @donors = Donor.all
+        @reportDonorsArray = []
+        #parameters from the form view
+        @timeframe = params[:times]
+        @sortby = params[:sorts]
+        @fullcontact = params[:landscape]
+      
+        if @timeframe == "Last Year"
+          @donors.each do |donor|
+            @last_gift = last_gift_by_donation_date(donor)
+            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 1))
+              @reportDonorsArray.push(donor)
+            end
+          end
+        end
+        
+        if @timeframe == "Last 2 Years"
+          @donors.each do |donor|
+            @last_gift = last_gift_by_donation_date(donor)
+            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 2))
+              @reportDonorsArray.push(donor)
+            end
+          end
+        end
+        
+        if @timeframe == "All previous years"
+          @donors.each do |donor|
+            @last_gift = last_gift_by_donation_date(donor)
+            if (@last_gift.donation_date.year < Time.currentYear)
+              @reportDonorsArray.push(donor)
+            end
+          end
+        end
+    end
+        
+        
+      #apply sortby filter
+      case @sortby
+        when 'Last Name'
+          @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+        when 'First Name'
+          @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
+        when 'Email'
+          @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
+        when 'State'
+          @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
+        when 'Date of Last Gift'
+          #title field of donor is used to store last gift date. sort these
+          @reportDonorsArray.sort! { |b,a| a.title <=> b.title }
+        when 'Gift Total'
+          #nickname field of donor is used to store last gift date. sort these
+          @reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
+      end
+      
+      #generate the pdf file for the report
+      #landscape donors report will be the full contact report
+      if @fullcontact
+        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby)
+        send_data pdf.render, :filename => 'LYBUNT Full Contact Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+        :type => 'application/pdf', :disposition => 'attachment'
+      else
+        #portrait donors report will be the normal basic donors report
+        pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, 
+        @donorGiftsTotal)
+        send_data pdf.render, :filename => 'LYBUNT Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+        :type => 'application/pdf', :disposition => 'attachment'
+      end
+    end
   
   
   private
@@ -684,5 +761,25 @@ class ReportsController < ApplicationController
       monthDifference = (Time.now.year * 12 + Time.now.month) - (date.year * 12 + date.month)
       monthDifference.between?(0, 5)
     end
+    
+    
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+    #methods for finding last gifts from donors
+    
+    #returns the last gift that a donor made, by created_at date
+  def find_last_gift(donor)
+    selected_gifts = Gift.where(:donor_id => donor)
+    last_gift = nil
+    selected_gifts.each do |g|
+      if last_gift.nil?
+        last_gift = g
+      else
+        if g.created_at > last_gift.created_at
+          last_gift = g
+        end
+      end
+    end 
+    return last_gift
+  end
   
 end
