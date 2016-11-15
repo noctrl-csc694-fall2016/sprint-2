@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   get    '/export', to: 'import_export#export'
   get    '/import-gifts-begin', to: 'import_export#import_gifts_begin'
   get    '/import-gifts-next', to: 'import_export#import_gifts_next'
+  post   '/import-gifts-import', to: 'import_export#import_gifts_import'
   post   '/import-gifts-validate', to: 'import_export#import_gifts_validate'
   get    '/import-gifts-success', to: 'import_export#import_gifts_success'
   
