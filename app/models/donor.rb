@@ -88,4 +88,9 @@ class Donor < ApplicationRecord
     "#{last_name}, #{first_name}"
   end
   
+  #returns a full name string with ID as "Smith, John (DON92)"
+  def full_name_id
+    "#{last_name}, #{first_name} (DON#{id})"
+  end
+  
 end
