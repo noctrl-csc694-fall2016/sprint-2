@@ -38,7 +38,7 @@
     <div class="col-xs-3 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
-        <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => @gift.gift_type),{},:class => "form-control")%>
+        <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => @gift.gift_type),{}, {:onchange=> "GiftTypeCheck($('#gift_gift_type').val());", :class => "form-control"})%>
     </div>
     <div class="col-xs-3  col-xs-offset-1">
       <%= f.label :solicited_by %>
@@ -48,11 +48,11 @@
   
   <div class="row form-group">
     <div class="col-xs-3 col-xs-offset-2">
-      <%=f.label :check_date %>
+      <%=f.label :check_date, :id=>:check_date %>
       <%=f.date_field :check_date, class: 'form-control input-sm' %>
     </div>
     <div class="col-xs-3  col-xs-offset-1">
-      <%= f.label :check_number %>
+      <%= f.label :check_number, :id=>:check_number %>
       <%= f.number_field :check_number, class: 'form-control input-sm' %>
     </div>
   </div> <!-- row -->

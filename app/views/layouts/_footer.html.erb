@@ -77,5 +77,23 @@
       $(this).parent().find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
     });
   });
+  
+  function GiftTypeCheck(type) {
+    alert((type));
+    if(type != "Check")
+    {
+      $("#check_date").fadeOut();
+      $("#gift_check_date").fadeOut();
+      $("#check_number").fadeOut();
+      $("#gift_check_number").fadeOut();
+    }
+    else
+    {
+      $("#check_date").fadeIn();
+      $("#gift_check_date").fadeIn();
+      $("#check_number").fadeIn();
+      $("#gift_check_number").fadeIn();
+    }
+  }
 </script>
 

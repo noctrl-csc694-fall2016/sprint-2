@@ -19,4 +19,9 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "New Gift | Gift Garden"
   end
 
+  test "should get edit" do
+    get donors_edit_url
+    assert_response :success
+  end
+
 end
