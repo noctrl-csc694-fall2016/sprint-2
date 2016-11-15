@@ -27,6 +27,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     #assert_select "a[href=?]", activities_path
     assert_select "a[href=?]", reports_path
     assert_select "a[href=?]", import_export_path
+    assert_select "a[href=?]", logout_path
   end
   
   #####################################

@@ -1,10 +1,11 @@
 class GiftPdf < Prawn::Document
-  def initialize(gift, timeframe, sortby, topn)
+  def initialize(gift, timeframe, sortby, topn, user)
     super()
     @gifts = gift
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
+    @user = user
     @giftTotal = 0
     header
     text_content
@@ -15,6 +16,9 @@ class GiftPdf < Prawn::Document
   # under the first section for prawn.
   
   def header
+    image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
+    width: 79, height: 79
+    move_up 35
     text "Gifts Report", size: 24, style: :bold, :align => :center
   end
   
@@ -22,7 +26,8 @@ class GiftPdf < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position], :width => 658, :height => 50) do
-      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + " by Pat M.", size: 15
+      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
+      " by " + @user['username'].to_s + ".", size: 15
       text "Report options: " + timeframe_exalanation(@timeframe) + 
        "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s + ".", size: 15
     end

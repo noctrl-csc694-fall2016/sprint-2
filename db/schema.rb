@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110005613) do
+ActiveRecord::Schema.define(version: 20161115024339) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161110005613) do
     t.datetime "updated_at",                                            null: false
     t.integer  "activity_type"
     t.decimal  "goal",          precision: 8, scale: 2, default: "0.0"
+    t.string   "progress"
   end
 
   create_table "donors", force: :cascade do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20161110005613) do
     t.string   "password_digest"
     t.string   "username"
     t.integer  "permission_level", default: 0
+    t.date     "last_login"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.index ["email"], name: "index_users_on_email", unique: true

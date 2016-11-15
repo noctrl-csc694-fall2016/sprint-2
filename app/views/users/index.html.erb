@@ -31,6 +31,7 @@
               <th>Username</th>
               <th>Email</th>
               <th>Type</th>
+              <th>Last Login</th>
             </tr>
           </thead>
           <tbody>
@@ -40,6 +41,7 @@
               <td><%= user.username %></td>
               <td><%= user.email %></td>
               <td><%= get_user_type(user).to_s %></td>
+              <td><%= get_last_login(user).to_s %></td>
             </tr>
             <% end %>
           </tbody>
