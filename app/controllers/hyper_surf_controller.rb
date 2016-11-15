@@ -22,7 +22,7 @@ class HyperSurfController < ApplicationController
     #----------------------------------#
     # Search The Donors
     #----------------------------------#
-    donors = Donor.all
+    donors = Donor.all.sort { |a,b| a.full_name_id <=> b.full_name_id }
     donors.each do |d|
       # Assume no match on each loop
       resultsFound = false 
@@ -91,7 +91,7 @@ class HyperSurfController < ApplicationController
     #----------------------------------#
     # Search Activities
     #----------------------------------#
-    activities = Activity.all
+    activities = Activity.all.sort { |a,b| a.start_date <=> b.start_date }
     
     # Loop on the activities
     activities.each do |a|
@@ -142,7 +142,7 @@ class HyperSurfController < ApplicationController
     #----------------------------------#
     # Search Gifts
     #----------------------------------#
-    gifts = Gift.all
+    gifts = Gift.all.sort { |a,b| a.donation_date <=> b.donation_date }
     
      # Loop on the gifts
     gifts.each do |g|
@@ -160,23 +160,23 @@ class HyperSurfController < ApplicationController
       end
       
       # Check Donation First Name (IE: Brian)
-      if ((!resultsFound) && ((Donor.find(g.donor).first_name.downcase).include? searchTerm.downcase))
+      if ((!resultsFound) && ((Donor.find_by(id: g.donor).first_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Last Name (IE: Brian Brown)
-      if ((!resultsFound) && ((Donor.find(g.donor).last_name.downcase).include? searchTerm.downcase))
+      if ((!resultsFound) && ((Donor.find_by(id: g.donor).last_name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Full Name (IE: Brian Brown)
-      giftFullName = (Donor.find(g.donor).first_name.downcase) + " " + (Donor.find(g.donor).last_name.downcase)
+      giftFullName = (Donor.find_by(id: g.donor).first_name.downcase) + " " + (Donor.find_by(id: g.donor).last_name.downcase)
       if ((!resultsFound) && (giftFullName.include? searchTerm.downcase))
         resultsFound = true
       end
       
       # Check Donation Activity (IE: Some Event)
-      if ((!resultsFound) && ((Activity.find(g.activity).name.downcase).include? searchTerm.downcase))
+      if ((!resultsFound) && ((Activity.find_by(id: g.activity).name.downcase).include? searchTerm.downcase))
         resultsFound = true
       end
       
@@ -193,7 +193,7 @@ class HyperSurfController < ApplicationController
         # Populate Array
         searchResults[0] = "Gift"
         searchResults[1] = "GFT" + g.id.to_s
-        searchResults[2] = "Donor: " + Donor.find(g.donor).first_name.to_s + " " + Donor.find(g.donor).last_name.to_s + "\n\n" + "Activity: " + (Activity.find(g.activity).name)
+        searchResults[2] = "Donor: " + Donor.find_by(id: g.donor).first_name.to_s + " " + Donor.find_by(id: g.donor).last_name.to_s + "\n\n" + "Activity: " + (Activity.find_by(id: g.activity).name)
         searchResults[3] = "/gifts/" + g.id.to_s + "/edit"
         
         # Pass Into Result
