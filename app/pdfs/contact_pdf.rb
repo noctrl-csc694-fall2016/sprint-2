@@ -1,10 +1,11 @@
 class ContactPdf < Prawn::Document
-  def initialize(donor, timeframe, sortby, topn)
+  def initialize(donor, timeframe, sortby, topn, user)
     super(:page_layout => :landscape) #makes report landscape
     @donors = donor
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
+    @user = user
     header
     text_content
     table_content
@@ -22,7 +23,7 @@ class ContactPdf < Prawn::Document
 
     bounding_box([0, y_position], :width => 658, :height => 50) do
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
-      " by John Smith.", size: 15
+      " by " + @user['username'].to_s + ".", size: 15
       text "Report options: " + timeframe_exalanation(@timeframe) + 
        "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s + ".", size: 15
     end

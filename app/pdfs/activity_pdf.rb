@@ -1,9 +1,10 @@
 class ActivityPdf < Prawn::Document
-  def initialize(activity, timeframe, sortby, progressFilter)
+  def initialize(activity, timeframe, sortby, progressFilter, user)
     super()
     @activities = activity
     @timeframe = timeframe
     @sortby = sortby
+    @user = user
     header
     text_content
     table_content
@@ -13,15 +14,18 @@ class ActivityPdf < Prawn::Document
   # under the first section for prawn.
   
   def header
+    image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
+    width: 79, height: 79
+    move_up 35
     text "Activities Report", size: 24, style: :bold, :align => :center
   end
   
   def text_content
     y_position = cursor - 20
-
+    
     bounding_box([0, y_position], :width => 658, :height => 50) do
-      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + " by Jane Doe.", size: 15
-      
+      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
+      " by " + @user['username'].to_s + ".", size: 15
       text "Report options: " + timeframe_exalanation(@timeframe) + 
       ", sorted by " + @sortby + ".", size: 15
     end
@@ -60,15 +64,31 @@ class ActivityPdf < Prawn::Document
         gifts.each do |gift|
           giftTotal += gift.amount.to_i
         end
-        giftTotal = format_currency(giftTotal, false)
+        
       end
       
       goal = '$' + activity.goal.to_s
       2.times do goal.chop! end #takes off the .0 for goals
       
+      
+      #calculate progress % to goal
+      if ((giftTotal == '') or (activity.goal == 0))#handles General activity
+        progressPercentage = ''
+      else
+        progressTotal = goal[1..-1]
+        progressAmount = giftTotal
+        begin
+        progressFloat = (progressAmount.to_f) / (progressTotal.to_f) * 100
+        rescue FloatDomainError
+        progressFloat = ''
+        end
+        progressPercentage = format_currency(progressFloat.round.to_s, false) + "%"
+        progressPercentage[0] = ''
+      end
+      giftTotal = format_currency(giftTotal, false)
       #define the content that goes in each column per activity    
       [("ACT" + activity.id.to_s), activity.name.to_s, activity.end_date.to_s, 
-        format_currency(activity.goal, true), giftTotal, activity.notes]
+        format_currency(activity.goal, true), giftTotal, progressPercentage]
       end
   end
   

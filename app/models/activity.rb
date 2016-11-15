@@ -20,6 +20,8 @@ class Activity < ApplicationRecord
     
   SORTS = [ 'Name', 'End Date', 'Goal $']
   
+  SORTSBASIC = [ 'Name', 'End Date', 'Progress']
+  
   TOPN = [ 'All', '10', '20', '50', '100' ]
   
   PAGEBY = ['10', '20', '50', '100']

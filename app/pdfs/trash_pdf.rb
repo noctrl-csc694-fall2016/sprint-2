@@ -1,13 +1,17 @@
 class TrashPdf < Prawn::Document
-  def initialize(trash)
+  def initialize(trash, user)
     super()
     @trashes = trash
+    @user = user
     header
     text_content
     table_content
   end
   
   def header
+    image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
+    width: 79, height: 79
+    move_up 35
     text "Trash Report", size: 24, style: :bold, :align => :center
   end
   
@@ -15,7 +19,7 @@ class TrashPdf < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position], :width => 658, :height => 25) do
-      text "Trash report created " + Time.zone.now.to_date.to_s, size: 15
+      text "Trash report created " + Time.zone.now.to_date.to_s + " by " + + @user['username'].to_s + ".", size: 15
     end
 
   end

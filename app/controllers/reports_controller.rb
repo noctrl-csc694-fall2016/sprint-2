@@ -20,6 +20,7 @@ class ReportsController < ApplicationController
         @timeframe = params[:timeframe]
         @sortby = params[:sortby]
         @progressFilter = false
+        @user = current_user
         
         #apply timeframe filter
         @activities.each do |activity|
@@ -145,7 +146,7 @@ class ReportsController < ApplicationController
         end
 
         #generate the pdf file for the report
-        pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby, @progressFilter)
+        pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby, @progressFilter, @user)
         send_data pdf.render, :filename => 'Activities Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
         flash[:success] = "Activity report generated."
@@ -174,6 +175,7 @@ class ReportsController < ApplicationController
       @sortby = params[:sorts]
       @topn = params[:topn]
       @fullcontact = params[:landscape]
+      @user = current_user
       
       @donors.each do |donor|
         
@@ -340,14 +342,14 @@ class ReportsController < ApplicationController
       #generate the pdf file for the report
       #landscape donors report will be the full contact report
       if @fullcontact
-        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn)
+        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, @user)
         send_data pdf.render, :filename => 'Donors Full Contact Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       else
         #portrait donors report will be the normal basic donors report
         pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
-        @donorGiftsTotal)
+        @donorGiftsTotal, @user)
         send_data pdf.render, :filename => 'Donors Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
@@ -409,6 +411,7 @@ class ReportsController < ApplicationController
         @timeframe = params[:times]
         @sortby = params[:sorts]
         @fullcontact = params[:landscape]
+        @user = current_user
         
         #first grab all gifts from the chosen activity
         activity = Activity.find(@activity)
@@ -516,12 +519,12 @@ class ReportsController < ApplicationController
         #generate pdf file
         #landscape gifts report will be the full contact report
         if @fullcontact
-          pdf = GiftContactPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
+          pdf = GiftContactPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn, @user)
           send_data pdf.render, :filename => 'Gifts Full Contact Report' + " "  + 
           Time.now.to_date.to_s + '.pdf', 
           :type => 'application/pdf', :disposition => 'attachment'
         else
-          pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn)
+          pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn, @user)
           send_data pdf.render, :filename => 'Gifts Report' + " "  + 
           Time.now.to_date.to_s + '.pdf', 
           :type => 'application/pdf', :disposition => 'attachment'
@@ -536,9 +539,10 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
       @trash = Trash.all
+      @user = current_user
       
       #generate pdf file
-      pdf = TrashPdf.new(@trash)
+      pdf = TrashPdf.new(@trash, @user)
       send_data pdf.render, :filename => 'trashReport-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end
   end
