@@ -81,6 +81,7 @@ class OneDonorPdf < Prawn::Document
     end
     
     table gift_table_content do
+      style(row(0).column(2), background_color: "DDDDDD")
       row(0).font_style = :bold
       self.header = true
       style(column(0), align: :center)
