@@ -1,11 +1,12 @@
 class DonorPdf < Prawn::Document
-  def initialize(donor, timeframe, sortby, topn, giftTotal)
+  def initialize(donor, timeframe, sortby, topn, giftTotal, user)
     super()
     @donors = donor
     @timeframe = timeframe
     @sortby = sortby
     @topn = topn
     @giftTotal = format_currency(giftTotal.to_s, false)
+    @user = user
     header
     text_content
     table_content
@@ -15,6 +16,9 @@ class DonorPdf < Prawn::Document
   # under the first section for prawn.
 
   def header
+    image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
+    width: 79, height: 79
+    move_up 35
     text "Donors Report", size: 24, style: :bold, :align => :center
   end
   
@@ -23,7 +27,7 @@ class DonorPdf < Prawn::Document
 
     bounding_box([0, y_position], :width => 658, :height => 50) do
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
-      " by John Smith.", size: 15
+      " by " + @user['username'].to_s + ".", size: 15
       text "Report options: " + timeframe_exalanation(@timeframe) + 
        "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s + ".", size: 15
     end
