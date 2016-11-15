@@ -10,6 +10,13 @@ class GiftsController < ApplicationController
   # boxes on New Gift screen
   def new
     @gift = Gift.new
+    if current_user
+      @gift.gift_user = current_user.username
+    else
+      flash[:warning] =  "You are not logged in."
+      redirect_to login_path and return
+    end
+    @gift.gift_source = "Online"
     map_activities_n_donors()
   end
 
@@ -38,10 +45,14 @@ class GiftsController < ApplicationController
   # [map] code defines donors/ids and activities/ids for select boxes on New Gift screen
   def create
     @gift = Gift.new(gift_params)
-    #map_activities_n_donors()
+    map_activities_n_donors()
     if @gift.save
       flash[:success] = "Gift added successfully!"
-      redirect_to gifts_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
+      if params[:commit].to_s == "Create"
+        redirect_to gifts_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
+      else
+        render 'new'
+      end
     else
       render 'new'
     end
@@ -52,7 +63,7 @@ class GiftsController < ApplicationController
   # [map] code defines donors/ids and activities/ids for select boxes on Edit Gift screen
   def update
     @gift = Gift.find(params[:id])
-    #map_activities_n_donors()
+    map_activities_n_donors()
     if @gift.update(gift_params)
        flash[:success] = "Gift updated successfully!"
        redirect_to gifts_path(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
@@ -65,6 +76,12 @@ class GiftsController < ApplicationController
   def index
     #add all gifts selected_gifts
     @selected_gifts = Gift.all
+    
+    #check for all parameters in page call
+    if (params.has_key?(:activity_id) && params.has_key?(:donor_id) && params.has_key?(:timeframe) && params.has_key?(:sortby) && params.has_key?(:pageby) && params.has_key?(:commit)) == false
+      redirect_to gifts_url + "?utf8=%E2%9C%93&activity_id=&donor_id=&timeframe=All&sortby=&pageby=&commit=GO"
+    end
+    
     #pull only those gifts with selected activity
     if(params[:activity_id] != "")
       @selected_gifts = @selected_gifts.where(:activity_id => params[:activity_id])
@@ -108,13 +125,6 @@ class GiftsController < ApplicationController
             @selected_gifts = @selected_gifts.where("donation_date >= ?", 6.months.ago.to_date)
     end
     
-    #select the TOP N gifts, ordered by gift amount
-    if(params[:topn] != "" && params[:topn] != "All")
-      @selected_gifts = @selected_gifts.reorder("amount DESC")
-      @gift_ids = @selected_gifts.select("id").limit(params[:topn].to_i)
-      @selected_gifts = @selected_gifts.where(id: @gift_ids)
-    end
-    
     #sort results (reorder objects in table)
     case params[:sortby]
       when 'Donor ID'
@@ -128,8 +138,13 @@ class GiftsController < ApplicationController
     end
     
     #paginate selected gifts list after sorting & filtering
-    @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: 5)
-    
+    #use selected amount per page
+    if(params[:pageby] != "")
+      @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: params[:pageby])
+    else
+      @selected_gifts = @selected_gifts.paginate(page: params[:page], per_page: 10)
+    end	
+
     map_activities_n_donors()
     # for reports
     respond_to do |format|
@@ -156,11 +171,11 @@ class GiftsController < ApplicationController
                                     :solicited_by, :check_date, :check_number, :pledge, :anonymous, 
                                     :gift_user, :gift_source, :memorial_note, :notes)
     end
-  
-  #Formats lists for all donors and activities  
-  def map_activities_n_donors()
-    @donors = Donor.all.map { |donor| [ " #{donor.last_name}, #{donor.first_name} (DON#{donor.id})", donor.id ] }
-    @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
-  end
-  
+    
+    #defines activities and donors lists to populate stop-down selections on index page
+    def map_activities_n_donors()
+      @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
+      @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
+    end
+    
 end

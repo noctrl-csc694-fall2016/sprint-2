@@ -101,7 +101,9 @@
 
   <div class=" row form-group">
     <div class="col-xs-8 col-xs-offset-1 text-center">
-      <%=f.submit yield(:button_text), class: "btn btn-success" %>
+      <%= submit_tag yield(:button_text), class: "btn btn-success" %>
+      <%= submit_tag "Stay", class: "btn btn-success" %>
+      <!--%=f.submit_tag value="Stay" name="Create" yield(:button_text), class: "btn btn-sucess" %-->
         &nbsp;
         <%=link_to "Cancel", gifts_path(:activity_id => @gift.activity_id, :donor_id => @gift.donor_id), class: "btn btn-warning" %>
     </div>
