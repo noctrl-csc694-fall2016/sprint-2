@@ -10,8 +10,8 @@ class TrashPdf < Prawn::Document
   
   def header
     image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
-    width: 79, height: 79
-    move_up 35
+    width: 40, height: 40
+    move_up 30
     text "Trash Report", size: 24, style: :bold, :align => :center
   end
   

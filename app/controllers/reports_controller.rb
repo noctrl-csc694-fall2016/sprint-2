@@ -149,7 +149,7 @@ class ReportsController < ApplicationController
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby, @progressFilter, @user)
         send_data pdf.render, :filename => 'Activities Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
-        flash[:success] = "Activity report generated."
+        #flash[:success] = "Activity report generated."
     end
   end
   
