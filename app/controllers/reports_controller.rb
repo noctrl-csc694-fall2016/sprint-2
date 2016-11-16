@@ -406,8 +406,6 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
         @gifts = Gift.all
-        #@founders.map{|founder| [founder.founder_name, founder.id]}.sort{|a,b| a.founder_name.downcase <=> b.founder_name.downcase
-        #@activities = Activity.all.map { |activity| [ activity.name, activity.id ] }.sort{|a,b| a.name.downcase <=> b.name.downcase }
         @activities = Activity.all
         @reportGiftsArray = []  
         @activityGiftsArray = []
@@ -791,4 +789,128 @@ class ReportsController < ApplicationController
     return last_gift
   end
   
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+  #Exotic Inkind Gifts Report
+  #this creates the content that is sent to the basic gifts report.
+  #It iterates per gift, filtering based on the form parameters passed in.
+  def inkind_gifts_report
+    respond_to do |format|
+      format.html
+        @gifts = Gift.all
+        @activities = Activity.all
+        @reportGiftsArray = []  
+        @activityGiftsArray = []
+        @activity = params[:activity]
+        @timeframe = params[:times]
+        @sortby = params[:sorts]
+        @user = current_user
+        
+        #first grab all gifts from the chosen activity
+        activity = Activity.find(@activity)
+        @gifts.each do |gift|
+          actID = gift['activity_id']
+          if actID.to_s.eql? activity['id'].to_s
+            @activityGiftsArray.push(gift)
+          end
+        end
+        
+        #apply timeframe filter
+        @activityGiftsArray.each do |gift|
+          case @timeframe
+          when 'All'
+            @reportGiftsArray.push(gift)
+          when 'This Year'
+            if is_current_year(gift['donation_date'])
+              @reportGiftsArray.push(gift)  
+            end
+          when 'This Quarter'
+            if ((is_current_quarter(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)  
+            end
+          when 'This Month'
+            if ((is_current_month(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)  
+            end
+          when 'Last Year'
+            if is_last_year(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Last Quarter'
+            if is_last_quarter(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Last Month'      
+            if is_last_month(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 2 Years'
+            if ((is_last_year(gift['donation_date'].to_datetime)) or
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 5 Years'
+            if is_past_5_years(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 2 Quarters'
+            if (
+                ((is_current_quarter(gift['donation_date'])) and 
+                (is_current_year(gift['donation_date']))) or
+                (is_last_quarter(gift['donation_date']))
+              )
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 3 Months'
+            if (is_past_3_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 6 Months'
+            if (is_past_6_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
+          end
+        end
+        
+        #apply sort filter
+        case @sortby
+          when 'Gift ID'
+            @reportGiftsArray.sort! { |b,a| a.id <=> b.id }
+          when 'Amount'
+            @reportGiftsArray.sort! { |b,a| a.amount.to_i <=> b.amount.to_i }
+          when 'Gift Date'
+            @reportGiftsArray.sort! { |b,a| a.donation_date <=> b.donation_date }
+          when 'Gift Type'
+            @reportGiftsArray.sort! { |a,b| a.gift_type <=> b.gift_type }
+          when 'Donor Name'
+            @reportGiftsArray.each do |g|
+              donorName = ''
+              donor = Donor.find([g.donor_id])
+              donor.each do |d|
+                donorName = d.last_name + ", " + d.first_name
+              end
+              g.solicited_by = donorName
+            end
+            @reportGiftsArray.sort! { |a,b| a.solicited_by <=> b.solicited_by }
+        end
+        
+        #generate pdf file
+        pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn, @user)
+        send_data pdf.render, :filename => 'Gifts Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+        :type => 'application/pdf', :disposition => 'attachment'
+    end
+  end
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+  #Setup Gifts Report View
+  #renders the basic gifts report view
+  def inkind_gifts_setup
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
+  end
+
 end
+
+
