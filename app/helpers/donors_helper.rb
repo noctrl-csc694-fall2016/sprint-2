@@ -79,6 +79,16 @@ module DonorsHelper
     end
   end
   
+  #returns the last date a donor gave, as a string, or no gifts string
+  def last_gift_date(donor)
+    last_gift = find_last_gift(donor)
+    if last_gift.nil?
+      return "--No gifts yet--"
+    else
+      return last_gift.donation_date.strftime("%b %d, %Y")
+    end
+  end
+  
   #returns the public/visible id for the donor
   def get_donor_id(donor)
     return "DON" + donor.id.to_s
