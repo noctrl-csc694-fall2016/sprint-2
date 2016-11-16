@@ -45,11 +45,11 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Donor</th>
-            <th>Date</th>
             <th>Activity</th>
-            <th>Amount</th>
+            <th>Donor</th>
             <th>Type</th>
+            <th>Date</th>
+            <th>Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -57,11 +57,11 @@
           <!--find the gifts that match the selected activity and donor-->
           <tr data-link="<%= edit_gift_path(gift) %>">
             <td><%= get_gift_id(gift) %></td>
-            <td><%= Donor.find(gift.donor).first_name + " " + Donor.find(gift.donor).last_name %></td>
-            <td><%= gift.donation_date.strftime("%B %d, %Y") %></td>
             <td><%= Activity.find(gift.activity).name %></td>
-            <td><%= number_to_currency(gift.amount) %></td>
+            <td><%= Donor.find(gift.donor).first_name + " " + Donor.find(gift.donor).last_name %></td>
             <td><%= gift.gift_type %></td>
+            <td><%= gift.donation_date.strftime("%b %d, %Y") %></td>
+            <td><%= number_to_currency(gift.amount, precision: 0) %></td>
           </tr>
           <% end %>
         </tbody>
