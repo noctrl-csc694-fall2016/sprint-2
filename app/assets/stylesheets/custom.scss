@@ -134,9 +134,6 @@ h1{
 }
 
 /* Page Content */
-.container-fluid{
-  padding-left: 0px;
-}
 .container-donna {
   padding-top: 120px;
   margin-bottom: 120px;
@@ -164,12 +161,6 @@ h1{
 	  font-style: italic;
 	  color: $accent-dark-purple;
   }
-  
-  /* Image Source: http://www.clipartbest.com/cliparts/biy/Knn/biyKnn4iL.png
-  background-image:url('/assets/butterfly.gif');
-  background-repeat:no-repeat;
-  background-position:0% 20%;
-  background-attachment: fixed; */
 }
 
 .row-donna-home-icons {
@@ -329,16 +320,6 @@ a.btn.btn-danger{
 }
 
 /* Footer CSS */
-.pre-footer{
-  bottom: 20px;
-  width: 100%;
-  position: fixed;
-  height: 100px;
-  /*http://tuffdogglawn.com/wp-content/uploads/2015/02/footer-grass.png*/
-  background-image: url('/assets/footer-grass-export.png');
-  background-repeat: none;
-  z-index: 9999999;
-}
 .footer {
   bottom: 0;
   width: 100%;
@@ -416,9 +397,6 @@ a.btn.btn-danger{
   bottom:0;
   left: 15px;
 }
-.container-fluid{
-  padding-left: 0px;
-}
 
 /* Error Handlers */
 div.alert {
@@ -441,9 +419,4 @@ div.alert {
 .jumbo-text{
   font-size: 1.5em;
   margin-left: 15px;
-}
-
-/* Google */
-#google_translate_element a, {
-  text-decoration: none;
 }
