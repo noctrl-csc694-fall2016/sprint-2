@@ -389,6 +389,6 @@ when "production"
                     activity_type:  "General",
                     start_date:     "1999-12-31",
                     end_date:       "2099-12-31",
-                    description:    "",
+                    description:    "General Activity",
                     goal:           "0")
 end
