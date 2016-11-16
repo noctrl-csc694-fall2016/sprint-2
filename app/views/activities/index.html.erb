@@ -50,8 +50,8 @@
             <th>Name</th>
             <th>End Date</th>
             <th>Goal</th>
+            <th>Gift Total</th>
             <th>Progress</th>
-            <th>Donors</th>
           </tr>
         </thead>
         <tbody>
@@ -59,10 +59,10 @@
           <tr data-link="<%=edit_activity_path(activity) %>">
             <td><%= get_activity_id(activity) %></td>
             <td><%= activity.name %></td>
-            <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
-            <td><%= number_to_currency(activity.goal) %></td>
-            <td><%= progress(activity).to_i %>%</td>
-            <td><%= donor_count_per_activity(activity)%></td> 
+            <td><%= activity.end_date.strftime("%b %d, %Y") %></td>
+            <td><%= number_to_currency(activity.goal, precision: 0) %></td>
+            <td><%= number_to_currency(total_gift_amount_per_activity(activity), precision:0) %></td>
+            <td><%= progress(activity).to_i %>%</td> 
           </tr>
           <% end %>
         </tbody>

@@ -24,6 +24,16 @@ module ActivitiesHelper
     selected_gifts.count
   end 
   
+  #returns the quantity of gifts given for an activity
+  def total_gift_amount_per_activity(activity)
+    selected_gifts = Gift.where(:activity => activity)
+    @total = 0
+    selected_gifts.each do |gift|
+      @total = @total + gift.amount
+    end
+    return @total
+  end
+  
   #returns the quantity of donors that have given $ for an activity
   def donor_count_per_activity(activity)
     selected_gifts = Gift.where(:activity_id => activity.id)
