@@ -5,6 +5,8 @@ class GiftsController < ApplicationController
   # major contributions by:
   #         Wei H, Oct 18 2016
   #----------------------------------#
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   # define new gift object, also define maps to list donors/ids and activities/ids for select
   # boxes on New Gift screen

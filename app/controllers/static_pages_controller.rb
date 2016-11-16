@@ -6,6 +6,9 @@
   #----------------------------------#
   
 class StaticPagesController < ApplicationController
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in, except: [:about, :help]
+  
   def home
   end
 
