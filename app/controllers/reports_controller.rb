@@ -1,5 +1,8 @@
 class ReportsController < ApplicationController
   
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
+  
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   #Setup Activities Report View
   #renders the basic activities report view

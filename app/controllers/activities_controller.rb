@@ -7,6 +7,9 @@ class ActivitiesController < ApplicationController
   #                     Andy W Nov 7 2016
   #----------------------------------#
   include ActivitiesHelper
+  include UsersHelper
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   # defines a new activity
   def new

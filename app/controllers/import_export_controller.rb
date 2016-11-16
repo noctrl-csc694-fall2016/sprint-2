@@ -6,6 +6,8 @@ class ImportExportController < ApplicationController
   #                     Wei H Oct 26 2016
   #----------------------------------#
   require 'csv'
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   #import gifts from a .csv file
   #this is the 'simple' gift import method

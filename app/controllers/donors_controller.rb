@@ -6,7 +6,8 @@ class DonorsController < ApplicationController
   #         
   #----------------------------------#
  include DonorsHelper
- 
+ #users must be logged into access any of this controller's methods/views
+ before_action :logged_in
  
  # creates new donor object for New Donor screen
   def new
