@@ -19,7 +19,8 @@ class TrashPdf < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position], :width => 658, :height => 25) do
-      text "Trash report created " + Time.zone.now.to_date.to_s + " by " + + @user['username'].to_s + ".", size: 15
+      text "Trash report created " + Time.zone.now.to_date.to_s + 
+      " by " + @user['username'].to_s + ".", size: 15
     end
 
   end
