@@ -9,10 +9,13 @@
   #             Pat M, Nov 3, 2016
   #----------------------------------#
   
-case Rails.env
-  when "development" 
-  #creates many example activities, donors, gifts, and users
-  #these are only used to development environment purposes
+#case Rails.env
+
+#  #commented out code in this file is for production seeds! un-comment and use at that time.
+
+#  when "development" 
+#  #creates many example activities, donors, gifts, and users
+#  #these are only used to development environment purposes
   #create sample activties
   Activity.create!( name: "Golf Outing 2015",
                     start_date: "2016-09-09",
@@ -375,20 +378,20 @@ case Rails.env
       username:         username,
       password_digest:  password_digest)
   end
-when "production"
-  #creates super admin and general activity
-  #these are ONLY created for the production environment
-  #create super admin user
-  User.create!( email:              "wtkrieger@noctrl.edu",
-                username:           "profbill",
-                password_digest:    User.digest('password'),
-                permission_level:   1)
-                
-  #create general actvity
-  Activity.create!( name:           "General",
-                    activity_type:  "General",
-                    start_date:     "1999-12-31",
-                    end_date:       "2099-12-31",
-                    description:    "General Activity",
-                    goal:           "0")
-end
+#when "production"
+#  #creates super admin and general activity
+#  #these are ONLY created for the production environment
+#  #create super admin user
+#  User.create!( email:              "wtkrieger@noctrl.edu",
+#                username:           "profbill",
+#                password_digest:    User.digest('password'),
+#                permission_level:   1)
+#                
+#  #create general actvity
+#  Activity.create!( name:           "General",
+#                    activity_type:  "General",
+#                    start_date:     "1999-12-31",
+#                    end_date:       "2099-12-31",
+#                    description:    "General Activity",
+#                    goal:           "0")
+#end
