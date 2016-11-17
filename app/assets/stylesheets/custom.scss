@@ -398,17 +398,6 @@ a.btn.btn-danger{
   left: 15px;
 }
 
-/* Error Handlers */
-div.alert {
-    z-index:99;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-.panel-group .panel{
-  margin-bottom: 10px;
-}
-
 /* About Page */
 .row-spacing-gallery{
   padding-top: 15px;
@@ -419,4 +408,31 @@ div.alert {
 .jumbo-text{
   font-size: 1.5em;
   margin-left: 15px;
+}
+
+/* Login */
+.session-login{
+  background-color: rgba(255,255,255,0.4);
+}
+#sessions-controller-html{
+  width: 100%;
+  height: 100%;
+}
+#sessions-controller-body{
+  background: url('/assets/login-background.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+/* Error Handlers */
+div.alert {
+    z-index:99;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.panel-group .panel{
+  margin-bottom: 10px;
 }
