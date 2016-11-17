@@ -57,6 +57,11 @@ Rails.application.routes.draw do
   post   '/import-gifts-import', to: 'import_export#import_gifts_import'
   post   '/import-gifts-validate', to: 'import_export#import_gifts_validate'
   get    '/import-gifts-success', to: 'import_export#import_gifts_success'
+  get    '/import-gifts-inst', to: 'import_export#import_gifts_inst'
+  get    '/import-gifts-step-one', to: 'import_export#import_gifts_step_one'
+  post   '/import-gifts-download-csv-template', to: 'import_export#import_gifts_download_csv_template'
+  get    '/import-gifts-step-two', to: 'import_export#import_gifts_step_two'
+  get    '/import-gifts-step-three', to: 'import_export#import_gifts_step_three'
   
   get    '/report-activities', to: 'reports#activities_setup'
   post   '/report-activities-pdf', to: 'reports#activities_report'

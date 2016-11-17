@@ -5,6 +5,8 @@ class ImportExportController < ApplicationController
   # major contributions by:
   #                     Wei H Oct 26 2016
   #----------------------------------#
+  
+  
   require 'csv'
   #users must be logged into access any of this controller's methods/views
   before_action :logged_in
@@ -31,6 +33,32 @@ class ImportExportController < ApplicationController
     format.html
     format.csv { send_data @donor.as_csv, filename: "Donors Export #{Date.today}.csv" }
     end
+  end
+  
+  #smart gifts wizard - instruction
+  def import_gifts_inst
+  end
+  
+  #smart gifts import - step one
+  def import_gifts_step_one
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
+  end
+  
+  def import_gifts_download_csv_template
+    @selected_activity = params[:actvity]
+    if params[:commit] == "Next"
+      redirect_to import_gifts_step_two_path
+    else
+      redirect_to import_gifts_inst_path
+    end
+  end
+  
+  #smart gifts import - step two
+  def import_gifts_step_two
+  end
+  
+  #smart gifts import - step two
+  def import_gifts_step_three
   end
   
   #smart gifts import - begin
