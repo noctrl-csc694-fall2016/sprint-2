@@ -19,7 +19,7 @@
                     </div>
                 <% end %>
                 <br>
-                <div class='text-center'>
+                <div class='text-center bg-primary'>
                     <small>Version <%= GiftGarden::Application::VERSION %></small>
                 </div>
         </div>
@@ -31,6 +31,12 @@
     //focuses into the username field when the page loads for convenience
     $( document ).ready(function() {
         $("#session_username").focus();
+        //trim whitespace out of username on login
+        $(".btn.btn-success").click(function() {
+           var rawUsername = $("#session_username").val();
+           var trimUsername = $.trim(rawUsername);
+           $("#session_username").val(trimUsername);
+        });
     });
 
     //centers the git version # into the iframe below the login form
