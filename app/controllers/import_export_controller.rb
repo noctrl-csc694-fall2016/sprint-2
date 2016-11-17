@@ -44,25 +44,25 @@ class ImportExportController < ApplicationController
     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
   
+  # download csv template
   def import_gifts_download_csv_template
-    @selected_activity = params[:actvity]
-    if params[:commit] == "Next"
-      redirect_to import_gifts_step_two_path
-    else
-      redirect_to import_gifts_inst_path
+    template_file = Rails.root + 'app/assets/template/gifts_template.csv'
+    csv_string = CSV.generate(:headers => true) do |output|
+      CSV.foreach(template_file, :headers => true, :return_headers => true, :col_sep => ',') do |row|
+        output << row
+      end  
     end
+    send_data csv_string, 
+    :type => 'text/csv; charset=iso-8859-1; header=present', 
+    :disposition => "attachment; filename=gifts_template_#{Date.today}.csv"
   end
   
   #smart gifts import - step two
   def import_gifts_step_two
   end
   
-  #smart gifts import - step two
+  #smart gifts import - step three
   def import_gifts_step_three
-  end
-  
-  #smart gifts import - begin
-  def import_gifts_begin
     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
   
@@ -71,17 +71,17 @@ class ImportExportController < ApplicationController
   # need to add more fields to create gifts and donors
   def import_gifts_import
     @activity = params[:activity]
-    test_file = Rails.root + 'tmp/import/import_gifts.csv'
-    # @file = params[:file]  # comment out for testing
-    # if @file.nil?
-    #   flash[:error] = "Please choose a file."
-    #   redirect_to import_gifts_next_url
-    #   return
-    # end
+    # test_file = Rails.root + 'tmp/import/import_gifts.csv'
+    @file = params[:file]  
+    if @file.nil?
+      flash[:error] = "Please choose a file."
+      redirect_to import_gifts_next_url
+      return
+    end
     
     error = false
     csv_string = CSV.generate(:headers => true) do |output|
-      CSV.foreach(test_file, :headers => true, :return_headers => true, :col_sep => ',') do |row| #@file.path
+      CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| #@file.path
         if row.header_row?
           output << row
         else
@@ -106,8 +106,8 @@ class ImportExportController < ApplicationController
               Gift.create!(:activity_id => @activity, :donor_id => new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
                         :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
                         :check_number => data_hash['check_number'], 
-                        :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], :gift_user => data_hash['gift_user'], 
-                        :gift_source => data_hash['gift_source'], :memorial_note => data_hash['memorial_note'], :notes => data_hash['notes'])
+                        :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], :gift_user => current_user.username, 
+                        :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], :notes => data_hash['notes'])
             else
               error = true
               output << (row << warning_msg)
@@ -149,14 +149,12 @@ class ImportExportController < ApplicationController
   end
 
   def import_gifts_validate
-    @activity = params[:activity]
     @file = params[:file]
     if @file.nil?
       flash[:error] = "Please choose a file."
-      redirect_to import_gifts_begin_url
+      redirect_to import_gifts_step_two_url
       return
     end
-   
     csv_string = CSV.generate(:headers => true) do |output|
       CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| # uncomment this line to replace the following line
         if row.header_row?
@@ -183,7 +181,7 @@ class ImportExportController < ApplicationController
     # create csv file for review
     send_data csv_string, 
     :type => 'text/csv; charset=iso-8859-1; header=present', 
-    :disposition => "attachment; filename=result.csv"
+    :disposition => "attachment; filename=validated_gifts_#{Date.today}.csv"
   end
   
   private
