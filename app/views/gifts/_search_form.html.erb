@@ -19,19 +19,19 @@
       <div class="line-break">
         <p>Timeframe</p>
       </div>
-      <%= select_tag(:timeframe, options_for_select(Gift::TIMES), class: 'form-control input-sm') %>
+      <%= select_tag(:timeframe, options_for_select(Gift::TIMES, params[:timeframe]), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
         <p>Sort By</p>
       </div>
-      <%= select_tag(:sortby, options_for_select(Gift::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+      <%= select_tag(:sortby, options_for_select(Gift::SORTS, params[:sortby]), include_blank: " ", class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-2">
       <div class="line-break">
         <p>Gifts Per Page</p>
       </div>
-      <%= select_tag(:pageby, options_for_select(Gift::PAGEBY), class: 'form-control input-sm') %>
+      <%= select_tag(:pageby, options_for_select(Gift::PAGEBY, params[:pageby]), class: 'form-control input-sm') %>
     </div>
   </div>
   <div class="row form-group">

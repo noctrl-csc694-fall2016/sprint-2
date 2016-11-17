@@ -13,6 +13,9 @@ class HyperSurfController < ApplicationController
   # contain values that are located within the query
   # The method then returns an array to be displayed
   #----------------------------------#
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
+  
   def all
     # Get Search Var
     searchTerm = params[:term].downcase

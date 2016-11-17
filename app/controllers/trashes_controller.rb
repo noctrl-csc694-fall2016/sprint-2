@@ -1,4 +1,6 @@
 class TrashesController < ApplicationController
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   def index
     @trash = Trash.all

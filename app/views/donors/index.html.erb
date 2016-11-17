@@ -45,10 +45,9 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Gifts</th>
-            <th>Total Gift</th>
-            <th>Last Gift</th>
-            <th>Last Activity</th>
+            <th>Num Gifts</th>
+            <th>Gift Total</th>
+            <th>Last Gift Date</th>
           </tr>
         </thead>
         <tbody>
@@ -57,9 +56,8 @@
             <td><%= get_donor_id(donor) %></td>
             <td><%= "#{donor.first_name} #{donor.last_name}" %></td>
             <td><%= gift_count_per_donor(donor) %></td>
-            <td><%= number_to_currency(gift_total_amount_per_donor(donor)) %></td>
-            <td><%= number_to_currency(last_gift_amount(donor)) %></td>
-            <td><%= last_activity(donor) %></td>
+            <td><%= number_to_currency(gift_total_amount_per_donor(donor), precision: 0) %></td>
+            <td><%= last_gift_date(donor) %></td>
           </tr>
           <% end %>
         </tbody>
