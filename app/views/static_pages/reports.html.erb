@@ -30,12 +30,14 @@
         <span class="report-description">- report all Gifts over a time period</span> 
       </div>
     </div>
+    <!--
     <div class="row report-row">
       <div class="col-xs-10"> 
         <%= link_to('/report-activities') do %><span class="glyphicon glyphicon-repeat report-icon"></span><span class="report-title">Recurring Activity</span><% end %>
     	  <span class="report-description">- report annual comparison of a recurring activity</span>
       </div>
     </div>
+    -->
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to trashes_path do %><%= icon("trash", class: "report-icon") %><span class="report-title">Trash</span><% end %>
@@ -50,7 +52,7 @@
     <h3>Exotic Reports <small>Custom-tailored reports</small></h3>
     <div class="row report-row">
       <div class="col-xs-10">
-        <%= link_to('/report-donors') do %><%= icon("calendar-check-o", class: "report-icon") %><span class="report-title">LYBUNT</span><% end %>
+        <%= link_to('#') do %><%= icon("calendar-check-o", class: "report-icon") %><span class="report-title">LYBUNT</span><% end %>
         <span class="report-description">- report Donors who gave last year but unfortunately not this year</span>
       </div>
     </div>
@@ -72,12 +74,14 @@
         <span class="report-description">- A listing of all the gifts donated in kind.</span>
       </div>
     </div>
+    <!--
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('#') do %><%= icon("star", class: "report-icon") %><span class="report-title">Blue Report</span><% end %>
         <span class="report-description">- A list of Gift, sorted by label: personal, corporate, grant, 3rd party, etc.</span>
       </div>
     </div>
+    -->
   </div>
   
 </div>
