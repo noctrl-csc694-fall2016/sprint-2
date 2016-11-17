@@ -40,6 +40,8 @@ $hover-yellow: rgb(255,255,204);
 $hover-brown: rgb(97, 52, 13);
 $text-purple: rgb(73, 64, 155);
 $text-logo-green: forestgreen;
+$link-light-purple: #81a1ca;
+$link-dark-purple: #4b79b4;
 
 // One Off Colors
 $icon-green: rgb(127, 165, 66);
@@ -89,7 +91,8 @@ h1{
 .navbar-donna-search {
   margin-top: 40px;
   a{
-    color: $primary-blue;
+    color: $link-dark-purple;
+    font-weight: bold;
   }
   &:hover{
   	color: $primary-blue;
@@ -140,19 +143,19 @@ h1{
   padding-top: 120px;
   margin-bottom: 120px;
   a {
-	 color: $primary-copper;
+	 color: $link-light-purple;
   }
   a:hover{
-  	color: $hover-brown;
+  	color: $accent-dark-purple;
   	text-decoration: underline;
   }
   
   table{
   	a {
-  	  color: $primary-copper;
+  	  color: $link-light-purple;
   	}
 	  a:hover{
-	    color: $hover-brown;
+	    color: $accent-dark-purple;
 	    text-decoration: underline;
 	  }
   }
@@ -339,12 +342,8 @@ a.btn.btn-danger{
   }
 	
   a{
-  	color: 	rgb(74,69,231);
-  	text-shadow:
-   -.1px -.1px 0 $black,  
-    .1px -.1px 0 $black,
-    -.1px .1px 0 $black,
-     .1px .1px 0 $black;
+  	color: 	$link-dark-purple;
+  	font-weight: bold;
   }
   a:hover{
   	color: $accent-dark-purple;
