@@ -117,6 +117,7 @@ class ImportExportController < ApplicationController
   #smart gifts import - next
   def import_gifts_next
     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
+    @activity = param[:p1]
   end
 
   def import_gifts_validate

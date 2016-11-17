@@ -28,6 +28,12 @@
     
     <div class=" row form-group">
       <div class="col-xs-8 col-xs-offset-1 text-center">
+        Activity: <%= @activity %>
+      </div>
+    </div>
+    
+    <div class=" row form-group">
+      <div class="col-xs-8 col-xs-offset-1 text-center">
         <%= submit_tag "Import", class: "btn btn-success" %>
         &nbsp;
         <%=link_to "Cancel", import_export_path, class: "btn btn-warning" %>
