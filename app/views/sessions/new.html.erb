@@ -1,7 +1,7 @@
 <% provide(:title, "Log In") %>
 <div class='container'>
     <div class='row'>
-        <div class='col-md-4 col-md-offset-1 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2 well'>
+        <div class='col-md-4 col-md-offset-1 well session-login'>
             <h2 class="text-center">Gift Garden</h2>
             <br>
                 <%= form_for(:session, url: login_path) do |f| %>
@@ -18,6 +18,10 @@
                         <center><%= f.submit "Log in", class: "btn btn-success btn-wide  btn-lg center-block" %></center>
                     </div>
                 <% end %>
+                <br>
+                <div class='text-center'>
+                    <small>Version <%= GiftGarden::Application::VERSION %></small>
+                </div>
         </div>
     </div>
 </div>
