@@ -2,6 +2,22 @@
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
     <div class='import-header'>
+      <h2 class="import-color">Smart Gift Wizard <small>&nbsp; 3-step Smart Gift Wizard</small></h2>
+    </div>
+  </div>
+</div>
+<!-- Beginning of Gifts CSV Imports -->
+<div class="row  report-row">
+  <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
+    <%= link_to('/import-gifts-step-one') do %><span class="	glyphicon glyphicon-flash import-icon import-color"></span><span class="report-title">Import Gifts</span><% end %>
+  	<span class="report-description">- import multiple gifts from CVS</span> 
+  </div>
+</div>
+&nbsp
+
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+    <div class='import-header'>
       <h2 class="import-color">Import <small>&nbsp; read data into Gift Garden from an outside source</small></h2>
     </div>
   </div>
@@ -20,14 +36,6 @@
   <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
     <%= link_to('/import') do %><span class="	glyphicon glyphicon-download import-icon import-color"></span><span class="report-title">CSV Import</span><% end %>
   	<span class="report-description">- import data from Raiser's Edge</span> 
-  </div>
-</div>
-
-<!-- Beginning of Gifts CSV Imports -->
-<div class="row  report-row">
-  <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
-    <%= link_to('/import-gifts-begin') do %><span class="	glyphicon glyphicon-flash import-icon import-color"></span><span class="report-title">Import Gifts</span><% end %>
-  	<span class="report-description">- import multiple gifts from CVS</span> 
   </div>
 </div>
 
