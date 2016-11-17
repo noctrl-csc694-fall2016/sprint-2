@@ -213,7 +213,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "About Page: Learn about Gift Garden and those who made an impact on this project"
+      searchResults[2] = "About Page: Learn about Gift Garden and those who made an impact on this project.  Click within this row to go to the About Page."
       searchResults[3] = "/about"
       
       # Pass Into Result
@@ -227,7 +227,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Help Page: Find help articles and contact information for assistance in regards to your travels on Gift Garden"
+      searchResults[2] = "Help Page: Find help articles and contact information for assistance in regards to your travels on Gift Garden.  Click within this row to go to the Help Page."
       searchResults[3] = "/help"
       
       # Pass Into Result
@@ -241,7 +241,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Reports Page: Generate reports quickly and easily"
+      searchResults[2] = "Reports Page: Generate reports quickly and easily.  Click within this row to go to the Reports Page."
       searchResults[3] = "/reports"
       
       # Pass Into Result
@@ -255,7 +255,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Import/Export Page: Import data into the system and export out to key third-parties"
+      searchResults[2] = "Import/Export Page: Import data into the system and export out to key third-parties.  Click within this row to go to the Import/Export Page."
       searchResults[3] = "/import-export"
       
       # Pass Into Result
@@ -269,7 +269,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Surf Activities: Manage Activities within Donna Donner"
+      searchResults[2] = "Surf Activities: Manage Activities within Donna Donner.  Click within this row to go to the Surf Activities Page."
       searchResults[3] = "/activities?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO"
       
       # Pass Into Result
@@ -283,7 +283,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Surf Donors: Manage Donors within Donna Donner"
+      searchResults[2] = "Surf Donors: Manage Donors within Donna Donner.  Click within this row to go to the Surf Donors Page."
       searchResults[3] = "/donors?utf8=✓&timeframe=All&topn=All&sortby=&commit=GO"
       
       # Pass Into Result
@@ -297,7 +297,7 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Surf Gifts: Manage Gifts within Donna Donner"
+      searchResults[2] = "Surf Gifts: Manage Gifts within Donna Donner.  Click within this row to go to the Surf Gifts Page."
       searchResults[3] = "/gifts?utf8=✓&activity_id=&donor_id=&timeframe=&topn=&sortby=&commit=GO"
       
       # Pass Into Result
@@ -311,7 +311,21 @@ class HyperSurfController < ApplicationController
       # Populate Array
       searchResults[0] = "Content"
       searchResults[1] = "-"
-      searchResults[2] = "Home Page"
+      searchResults[2] = "Please click within this row to go to the Home Page"
+      searchResults[3] = "/home"
+      
+      # Pass Into Result
+      @fullResultSet << searchResults
+    end
+    
+    # Misc Checks For Users
+    if (searchTerm.downcase == "team") || (searchTerm.downcase == "jason k") || (searchTerm.downcase == "andy w") || (searchTerm.downcase == "wei h") || (searchTerm.downcase == "pat m") || (searchTerm.downcase == "professor bill")  || (searchTerm.downcase == "mike d")
+      # Primary Array
+      searchResults = Array.new(4)
+      # Populate Array
+      searchResults[0] = "Content"
+      searchResults[1] = "-"
+      searchResults[2] = "The Development Team: Meet the team that build the very application that you are using today.  Please click within this row to view the entire development team."
       searchResults[3] = "/home"
       
       # Pass Into Result
