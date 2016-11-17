@@ -39,6 +39,7 @@ $text-gray: rgb(105,105,105);
 $hover-yellow: rgb(255,255,204);
 $hover-brown: rgb(97, 52, 13);
 $text-purple: rgb(73, 64, 155);
+$text-logo-green: forestgreen;
 
 // One Off Colors
 $icon-green: rgb(127, 165, 66);
@@ -95,17 +96,17 @@ h1{
   }
 }
 .navbar-donna-brand {
-  color: $primary-blue;
+  color: $text-logo-green;
   font-family: 'Satisfy', cursive;
   
   a{
-  	color: $primary-blue;
+  	color: $text-logo-green;
   }
   
   a.glow, a.glow:hover, a.glow:focus
   {
   	text-decoration: none;
-  	color: $primary-blue;
+  	color: $text-logo-green;
 	  text-shadow: none;
 	  -webkit-transition: 500ms linear 0s;
 	  -moz-transition: 500ms linear 0s;
