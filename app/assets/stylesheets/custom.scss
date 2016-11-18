@@ -159,11 +159,18 @@ h1{
   }
 }
 .page-content{
-  h1, h2, h3, h4, h5, h6{
+  h1, h2{
+  	font-weight: bold;
+	  color: $accent-dark-purple;
+  }
+  h3, h4, h5, h6{
   	font-weight: bold;
 	  font-style: italic;
 	  color: $accent-dark-purple;
   }
+}
+.page-header-surf{
+  padding-bottom: 10px;
 }
 
 .row-donna-home-icons {
@@ -230,8 +237,14 @@ h1{
 }
 
 /* Import-export css - just use report css when possible */
+.import-header{
+  min-height: 50px;
+}
+.import-sub-header, .export-sub-header{
+  border-bottom: 1px solid $accent-blue;
+}
 .export-header {
-  margin-top: 40px;
+  margin-top: 48px;
 }
 .import-color {
   color: $text-purple;
