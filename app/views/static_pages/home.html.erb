@@ -1,44 +1,36 @@
 <% provide(:title, "Home") %>
   <div class="row">
-    <div class="col-xs-8 col-xs-offset-2 ">
-      <div class="jumbotron well">
-        <h2>Welcome to Gift Garden</h2>
-        <div class="jumbo-text">
-          Select one of the 4 basic actions to 
-          <ul>
-            <li>Add new gifts</li>
-            <li>"Surf" means view/edit information online</li>
-            <li>Create formatted reports</li>
-            <li>Import/export data</li>
-          </ul>
-        </div>
-      </div>
-      <!-- jumbotron -->
+    <div class="col-xs-8 col-xs-offset-2 page-header">
+        <h2>Welcome to Gift Garden <small>Select a path</small></h2>
     </div>
     <!-- col -->
   </div>
   <!-- row -->
   <div class="row row-donna-home-icons ">
-    <div class="col-xs-12 col-sm-4 col-sm-offset-3">
+    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
       <%=link_to(new_gift_path) do %>
-        <span class="glyphicon glyphicon-plus icon-donna icon-donna-new"></span><span class="icon-donna-text">New Gifts</span>
-      <% end %>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-      <%=link_to(reports_path) do %>
-        <span class="glyphicon glyphicon-print icon-donna icon-donna-reports"></span><span class="icon-donna-text">Reports</span>
+        <%= image_tag("icons/flower1_square.png", height: "64",  alt: "New Gifts", class: "hidden-xs") %><span class="icon-donna-text">New Gifts <small>&nbsp;- Add one or multiple Gifts</small></span>
       <% end %>
     </div>
   </div>
   <div class="row row-donna-home-icons ">
-    <div class="col-xs-12 col-sm-4 col-sm-offset-3">
-      <%=link_to(activities_path + "?utf8=✓&timeframe=All&sortby=&pageby=&commit=GO" ) do %>
-        <span class="glyphicon glyphicon-thumbs-up icon-donna icon-donna-surf"></span><span class="icon-donna-text">Surf!</span>
+    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
+      <%=link_to(reports_path) do %>
+        <%= image_tag("icons/butterfly1_square.png", height: "64",  alt: "Reports", class: "hidden-xs") %><span class="icon-donna-text">Reports <small>&nbsp;- generate nicely-formatted reports</small></span>
       <% end %>
     </div>
-    <div class="col-xs-12 col-sm-4">
+  </div>
+  <div class="row row-donna-home-icons ">
+    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
+      <%=link_to(activities_path + "?utf8=✓&timeframe=All&sortby=&pageby=&commit=GO" ) do %>
+        <%= image_tag("icons/dragonfly1_square.png", height: "64",  alt: "Surf!", class: "hidden-xs") %><span class="icon-donna-text">Surf!<small>&nbsp;- View or edit information online</small></span>
+      <% end %>
+    </div>
+  </div>
+  <div class="row row-donna-home-icons ">
+    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
       <%=link_to(import_export_path) do %>
-        <span class="glyphicon glyphicon-transfer icon-donna icon-donna-importexport"></span><span class="icon-donna-text">Import/Export</span>
+        <%= image_tag("icons/ladybug1_square.png", height: "64",  alt: "Import-Export", class: "hidden-xs") %><span class="icon-donna-text">Import/Export<small>&nbsp;- transfer data into/out of Gift Garden</small></span>
       <% end %>
     </div>
   </div>

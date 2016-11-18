@@ -159,11 +159,18 @@ h1{
   }
 }
 .page-content{
-  h1, h2, h3, h4, h5, h6{
+  h1, h2{
+  	font-weight: bold;
+	  color: $accent-dark-purple;
+  }
+  h3, h4, h5, h6{
   	font-weight: bold;
 	  font-style: italic;
 	  color: $accent-dark-purple;
   }
+}
+.page-header-surf{
+  padding-bottom: 10px;
 }
 
 .row-donna-home-icons {
@@ -177,6 +184,7 @@ h1{
 }
 .icon-donna-text {
   font-size: 1.75em;
+  margin-left: 10px;
 }
 .icon-donna-new {
   color: $icon-green;
@@ -229,8 +237,14 @@ h1{
 }
 
 /* Import-export css - just use report css when possible */
+.import-header{
+  min-height: 50px;
+}
+.import-sub-header, .export-sub-header{
+  border-bottom: 1px solid $accent-blue;
+}
 .export-header {
-  margin-top: 40px;
+  margin-top: 48px;
 }
 .import-color {
   color: $text-purple;
@@ -407,6 +421,23 @@ a.btn.btn-danger{
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.staff-wrapper{
+  font-size: 1.25em;
+  margin-bottom: 15px;
+  
+  h4{
+    border-bottom: 1px solid $link-dark-purple;
+    padding-left: 5px;
+  }
+  
+  .row{
+    margin-left: 0px;
+  }
+  
+}
+.picture-donna-text {
+  margin-left: 10px;
+}
 
 /* Home */
 .jumbo-text{
@@ -428,6 +459,10 @@ a.btn.btn-danger{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+.sessions-alerts{
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 /* Error Handlers */
