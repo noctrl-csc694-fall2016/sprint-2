@@ -421,6 +421,23 @@ a.btn.btn-danger{
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.staff-wrapper{
+  font-size: 1.25em;
+  margin-bottom: 15px;
+  
+  h4{
+    border-bottom: 1px solid $link-dark-purple;
+    padding-left: 5px;
+  }
+  
+  .row{
+    margin-left: 0px;
+  }
+  
+}
+.picture-donna-text {
+  margin-left: 10px;
+}
 
 /* Home */
 .jumbo-text{
