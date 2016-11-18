@@ -66,88 +66,13 @@ class ImportExportController < ApplicationController
     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
   end
   
-  # reference https://richonrails.com/articles/importing-csv-files
-  # import gifts from csv files
-  # need to add more fields to create gifts and donors
-  def import_gifts_import
-    @activity = params[:activity]
-    # test_file = Rails.root + 'tmp/import/import_gifts.csv'
-    @file = params[:file]  
-    if @file.nil?
-      flash[:error] = "Please choose a file."
-      redirect_to import_gifts_next_url
-      return
-    end
-    
-    error = false
-    csv_string = CSV.generate(:headers => true) do |output|
-      CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| #@file.path
-        if row.header_row?
-          output << row
-        else
-          warning_msg = ""
-          data_hash = row.to_hash
-          # real search:
-          # found_donor = Donor.where("first_name = ? AND last_name = ? AND email = ?", 
-          #                           data_hash["first_name"], data_hash["last_name"], data_hash["email"])
-          # test search:
-          found_donor = Donor.where("first_name = ? AND last_name = ?", 
-                                    data_hash["first_name"], data_hash["last_name"])
-          found_donor_number = found_donor.count
-          if found_donor_number == 0  # no matching donor -- create donor and create gift
-            warning_msg += validate_donor(data_hash)
-            warning_msg += validate_gift(data_hash)
-            if warning_msg == ""
-              new_donor = Donor.create!(:donor_type => data_hash['donor_type'], :first_name => data_hash['first_name'], 
-                          :last_name => data_hash['last_name'], :address => data_hash ['address'], 
-                          :city => data_hash['city'], :state => data_hash['state'], :email => data_hash['email'], 
-                          :title => data_hash['title'], :nickname => data_hash['nickname'], :address2 => data_hash['address2'], 
-                          :country => data_hash[:country], :phone => data_hash['phone'])
-              Gift.create!(:activity_id => @activity, :donor_id => new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
-                        :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                        :check_number => data_hash['check_number'], 
-                        :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], :gift_user => current_user.username, 
-                        :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], :notes => data_hash['notes'])
-            else
-              error = true
-              output << (row << warning_msg)
-            end
-          elsif found_donor_number == 1  # one matching donor
-            warning_msg = validate_gift(data_hash)
-            if warning_msg == ""
-              Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
-                        :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                        :check_number => data_hash['check_number'], 
-                        :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], :gift_user => data_hash['gift_user'], 
-                        :gift_source => data_hash['gift_source'], :memorial_note => data_hash['memorial_note'], :notes => data_hash['notes'])
-            else
-              error = true
-              output << (row << warning_msg)
-            end
-          else  # more than one matching donor
-            error = true
-            output << (row << "conflict")
-          end
-        end 
-      end
-    end
-    
-    if error == false  # all donors and gifts are added
-      flash[:success] = "Gifts imported successfully."
-      redirect_to root_path
-    else  # some donors or gifts can not be added, export csv file for review
-      send_data csv_string, 
-      :type => 'text/csv; charset=iso-8859-1; header=present', 
-      :disposition => "attachment; filename=result.csv"
-    end
-  end
-  
   #smart gifts import - next
   def import_gifts_next
     @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
     @activity = param[:p1]
   end
 
+  # validate data in the csv file, not importing anything yet
   def import_gifts_validate
     @file = params[:file]
     if @file.nil?
@@ -160,28 +85,138 @@ class ImportExportController < ApplicationController
         if row.header_row?
           output << row
         else
+          warning_msg = ""
           data_hash = row.to_hash
-          # real search:
-          # found_donor = Donor.where("first_name = ? AND last_name = ? AND email = ?", 
-          #                           data_hash["first_name"], data_hash["last_name"], data_hash["email"])
-          # test search:
-          found_donor = Donor.where("first_name = ? AND last_name = ?", 
-                                    data_hash["first_name"], data_hash["last_name"])
-          found_donor_number = found_donor.count
-          if found_donor_number == 0  # no matching donor
-            output << (row << "new")
-          elsif found_donor_number == 1 # one matching donor
-            output << (row << found_donor.first.id)
-          else # more than one matching donor
-            output << (row << "conflict")
-          end
-        end 
+          if (!data_hash["donor_id"].to_s.empty?) # donor_id not blank
+            if Donor.exists?(data_hash["donor_id"].to_i) # donor exists in db
+              warning_msg += validate_gift(data_hash) # validate required gift fields for import
+              if warning_msg == "" 
+                output << (row << "ready for import")
+              else
+                output << (row << warning_msg)
+              end
+            else # donor_id do not exist in db
+              warning_msg += "donor_id not exist in data base"
+              output << (row << warning_msg)
+            end
+          else # donor_id is blank in csv file
+            found_donor = Donor.where("first_name = ? AND last_name = ?", 
+                                      data_hash["first_name"], data_hash["last_name"])
+            found_donor_number = found_donor.count
+            if found_donor_number == 0  # no matching donor, check if all the required fields for this gift and this donor are properly filled in
+              warning_msg += validate_donor(data_hash)
+              warning_msg += validate_gift(data_hash)
+              if warning_msg == "" # all required fields of gift and donnor are present
+                output << (row << "new donor; ready for import")
+              else
+                output << (row << warning_msg)
+              end
+            elsif found_donor_number == 1 # one matching donor, check if all the required fields for this gift are properly filled in
+              warning_msg = validate_gift(data_hash)
+              if warning_msg == ""
+                output << (row << ("donor_id = " + found_donor.first.id.to_s + ", ready for import"))
+              else
+                output << (row << warning_msg)
+              end
+            else # more than one matching donor
+              output << (row << "conflict")
+            end
+          end 
+        end
       end
     end
     # create csv file for review
     send_data csv_string, 
     :type => 'text/csv; charset=iso-8859-1; header=present', 
     :disposition => "attachment; filename=validated_gifts_#{Date.today}.csv"
+  end
+    
+  # reference https://richonrails.com/articles/importing-csv-files
+  # import gifts from csv files
+  # need to add more fields to create gifts and donors
+  def import_gifts_import
+    @activity = params[:activity]
+    # test_file = Rails.root + 'tmp/import/import_gifts.csv'
+    @file = params[:file]
+    if @file.nil?
+      flash[:error] = "Please choose a file."
+      redirect_to import_gifts_next_url
+      return
+    end
+    error = false
+    csv_string = CSV.generate(:headers => true) do |output|
+      CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| #@file.path
+        if row.header_row?
+          output << row
+        else
+          warning_msg = ""
+          data_hash = row.to_hash
+          if (!data_hash["donor_id"].to_s.empty?) # donor_id not blank
+            if Donor.exists?(data_hash["donor_id"].to_i) # donor exists in db
+              warning_msg += validate_gift(data_hash) # validate required gift fields for import
+              if warning_msg == "" # one donor found, all reqired data present, import gift
+                Gift.create!(:activity_id => @activity, :donor_id =>data_hash["donor_id"], :donation_date => Date.parse(data_hash['donation_date']),
+                          :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
+                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], 
+                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
+                          :notes => data_hash['notes'])
+              else
+                output << (row << warning_msg)
+              end
+            else # donor_id do not exist in db
+              warning_msg += "donor_id not exist in data base"
+              output << (row << warning_msg)
+            end
+          else
+            found_donor = Donor.where("first_name = ? AND last_name = ?", 
+                                      data_hash["first_name"], data_hash["last_name"])
+            found_donor_number = found_donor.count
+            if found_donor_number == 0  # no matching donor -- create donor and create gift
+              warning_msg += validate_donor(data_hash) # check if all the required fields for this donor are properly filled in
+              warning_msg += validate_gift(data_hash) # check if all the required fields for this gift are properly filled in
+              if warning_msg == ""
+                new_donor = Donor.create!(:donor_type => data_hash['donor_type'], :first_name => data_hash['first_name'], 
+                            :last_name => data_hash['last_name'], :address => data_hash ['address'], 
+                            :city => data_hash['city'], :state => data_hash['state'], :email => data_hash['email'], 
+                            :title => data_hash['title'], :nickname => data_hash['nickname'], :address2 => data_hash['address2'], 
+                            :country => data_hash[:country], :phone => data_hash['phone'])
+                Gift.create!(:activity_id => @activity, :donor_id =>new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
+                          :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
+                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], 
+                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
+                          :notes => data_hash['notes'])
+              else
+                error = true
+                output << (row << warning_msg)
+              end
+            elsif found_donor_number == 1  # one matching donor
+              warning_msg = validate_gift(data_hash)
+              if warning_msg == ""
+                Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
+                          :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
+                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], 
+                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
+                          :notes => data_hash['notes'])
+              else
+                error = true
+                output << (row << warning_msg)
+              end
+            else  # more than one matching donor
+              error = true
+              output << (row << "conflict")
+            end
+          end
+        end
+      end
+    end
+    if error == false  # all donors and gifts are added
+      flash[:success] = "Gifts imported successfully."
+      redirect_to root_path
+    else  # some donors or gifts can not be added, export csv file for review
+      send_data csv_string, 
+      :type => 'text/csv; charset=iso-8859-1; header=present', 
+      :disposition => "attachment; filename=not_imported_gifts_#{Date.today}.csv"
+    end
   end
   
   private
