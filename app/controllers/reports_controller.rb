@@ -1015,13 +1015,6 @@ class ReportsController < ApplicationController
       return last_gift
     end
   
-<<<<<<< HEAD
-
-
-
-
-
-=======
     # find the earliest gift from a donor
     def find_first_gift(donor)
       first_gift = nil
@@ -1047,7 +1040,6 @@ class ReportsController < ApplicationController
       end
       return sum
     end
->>>>>>> b5448f9bb097e2a33710d1632ab8c1b3f4f80aac
 end
 
 

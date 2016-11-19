@@ -10,9 +10,8 @@
         <span class="required-field-marker">*</span>
       </div>
       <%= @donor_id %>
-      <%=f.select :donor_id, options_for_select(@donors.sort!, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm' %>
       <% if @gift.new_record? %>
-        <%=f.select :donor_id, options_for_select(@donors.sort!, :selected =>@gift.donor_id), include_blank: "Select a donor", class: 'form-control input-sm' %>
+        <%=f.select :donor_id, options_for_select(@donors.sort!, :selected =>@gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm' %>
       <% else %>
         <%= get_donor_full_name(@gift) %>
       <% end %>
