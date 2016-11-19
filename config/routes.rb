@@ -76,6 +76,8 @@ Rails.application.routes.draw do
   post   '/trashes-trash-pdf', to: 'reports#trash_report'
   get    '/report-new-donors', to: 'reports#new_donors_setup'
   post   '/report-new-donors-pdf', to: 'reports#new_donors_pdf'
+  get    '/report-lybunt', to: 'reports#lybunt_setup'
+  post   '/report-lybunt-pdf', to: 'reports#lybunt_report'
   
   get    '/hyper-surf/all', to: 'hyper_surf#all'
   
