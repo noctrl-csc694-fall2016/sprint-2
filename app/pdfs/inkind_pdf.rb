@@ -1,12 +1,11 @@
-class GiftPdf < Prawn::Document
-  def initialize(gift, timeframe, sortby, topn, user)
+class InkindPdf < Prawn::Document
+  def initialize(gift, activity, timeframe, sortby, user)
     super()
     @gifts = gift
+    @activity = Activity.find(activity).name
     @timeframe = timeframe
     @sortby = sortby
-    @topn = topn
     @user = user
-    @giftTotal = 0
     header
     text_content
     table_content
@@ -19,7 +18,7 @@ class GiftPdf < Prawn::Document
     image "#{Rails.root}/app/assets/images/giftgardensmall.jpg", 
     width: 40, height: 40
     move_up 30
-    text " Report", size: 24, style: :bold, :align => :center
+    text "In Kind Report", size: 24, style: :bold, :align => :center
   end
   
   def text_content
@@ -28,8 +27,8 @@ class GiftPdf < Prawn::Document
     bounding_box([0, y_position], :width => 658, :height => 50) do
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
       " by " + @user['username'].to_s + ".", size: 15
-      text "Gifts Report options: " + timeframe_exalanation(@timeframe) + 
-       "," + topn_explanation(@topn) +  "sorted by " + @sortby.to_s + ".", size: 15
+      text "Report options: " + @activity.to_s + "; " + timeframe_exalanation(@timeframe) + 
+       "; " +  "sorted by " + @sortby.to_s + ".", size: 15
     end
   end
 
@@ -38,25 +37,15 @@ class GiftPdf < Prawn::Document
       row(0).font_style = :bold
       self.header = true
       self.row_colors = ['DDDDDD', 'FFFFFF']
-      self.column_widths = [60, 145, 115, 60, 75, 80]
-      style(column(5), align: :right)
-    end
-    table total_row do
-      row(0).font_style = :bold
-      self.row_colors = ['DDDDDD']
-      self.column_widths = [60, 145, 115, 60, 75, 80]
+      self.column_widths = [60, 100, 70, 80, 225]
       style(column(5), align: :right)
     end
   end
 
   def gift_rows
-    [['ID', 'Activity Name', 'Donor Name', 'Donor ID', 'Gift Date', 'Gift Amount']] +
+    [['ID', 'Donor Name', 'Donor ID', 'Gift Date', 'Notes']] +
       @gifts.map do |gift|
-        activity = Activity.find([gift.activity_id])
-        activityName = ''
-        activity.each do |a|
-          activityName = a.name
-        end
+
         donor = Donor.find([gift.donor_id])
         donorName = ''
         donorID = ''
@@ -64,42 +53,12 @@ class GiftPdf < Prawn::Document
           donorName = d.last_name + ", " + d.first_name
           donorID = d.id.to_s
         end
-        @giftTotal += gift.amount
-        giftAmount = format_currency(gift.amount.to_s, true)
-      [("GFT" + gift.id.to_s), activityName, donorName, 
+        giftNotes = gift.notes.to_s
+      [("GFT" + gift.id.to_s), donorName, 
       ("DON" + donorID), gift.donation_date, 
-        giftAmount]
+        giftNotes]
     end
   end   
-  
-  def total_row
-    @giftTotal = format_currency(@giftTotal.to_s, true)
-    [['', '', 'Total', '', '', @giftTotal]]
-  end
-  
-  #custom currency formatting method for reports
-  #handles any monetary amounts under $1bn
-  def format_currency(amount, chopOff)
-    if amount.length > 0
-      result = amount.to_s
-      if chopOff
-        2.times do result.chop! end #takes off the .0
-      end
-      if result.length <= 3
-        result = "$" + result
-      elsif result.length >= 4 && result.length <=6
-        idx = result.length - 3
-        result = "$" + result[0,idx] + "," + result[(idx)..(idx + 2)]
-      elsif result.length >= 7 && result.length <=9
-        idx = result.length - 6
-        result = "$" + result[0,idx] + "," + result[(idx)..(idx + 2)] + "," + 
-          result[(idx + 3)..(idx + 5)]
-      end
-      return result
-    else
-      return ''
-    end
-  end
   
     #timeframe 'more-English-like' conversion
   def timeframe_exalanation(range)
@@ -135,21 +94,4 @@ class GiftPdf < Prawn::Document
     result
   end
   
-  #topn 'more-English-like' conversion
-  def topn_explanation(range)
-    result = " "
-    case @topn
-    when 'all'
-      result += ""
-    when '10'
-      result += "Top 10 Gifts "
-    when '20'
-      result += "Top 20 Gifts "
-    when '50'
-      result += "Top 50 Gifts "
-    when '100'
-      result += "Top 100 Gifts "
-    end
-    result
-  end
 end

@@ -48,11 +48,9 @@ class GiftsController < ApplicationController
     map_activities_n_donors()
     if @gift.save
       flash[:success] = "Gift added successfully!"
-      if params[:commit].to_s == "Create"
-        redirect_to gifts_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
-      else
-        render 'new'
-      end
+      redirect_to new_gift_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id, :donation_date => @gift.donation_date,
+        :amount => @gift.amount, :gift_type => @gift.gift_type, :solicited_by => @gift.solicited_by, :check_date => @gift.check_date, 
+        :pledge => @gift.pledge, :anonymous => @gift.anonymous)
     else
       render 'new'
     end
