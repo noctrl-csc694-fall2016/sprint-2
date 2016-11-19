@@ -24,7 +24,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", help_path
     assert_select "a[href=?]", about_path
     assert_select "a[href=?]", new_gift_path
-    #assert_select "a[href=?]", activities_path
+    assert_select "a[href=?]", activities_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
     assert_select "a[href=?]", reports_path
     assert_select "a[href=?]", import_export_path
     assert_select "a[href=?]", logout_path
@@ -36,9 +36,9 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   test "layout links when loggout out" do
     get login_path
     assert_template 'sessions/new'
-    assert_select "a[href=?]", root_path, count: 3
-    assert_select "a[href=?]", help_path
-    assert_select "a[href=?]", about_path
+    assert_select "a[href=?]", root_path, count: 0
+    assert_select "a[href=?]", help_path, count: 0
+    assert_select "a[href=?]", about_path, count: 1
     assert_select "a[href=?]", new_gift_path, count: 0
     assert_select "a[href=?]", activities_path, count: 0
     assert_select "a[href=?]", reports_path, count: 0
