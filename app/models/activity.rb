@@ -18,7 +18,7 @@ class Activity < ApplicationRecord
     'Last Year', 'Last Quarter', 'Last Month', 'Past 2 Years', 'Past 5 Years',
     'Past 2 Quarters', 'Past 3 Months', 'Past 6 Months']
     
-  SORTS = [ 'Name', 'End Date', 'Goal $']
+  SORTS = [ 'ID', 'Name', 'End Date', 'Progress']
   
   SORTSBASIC = [ 'Name', 'End Date', 'Progress']
   
@@ -54,4 +54,5 @@ class Activity < ApplicationRecord
       #Donor.all.scoped
     end
   end
+  
 end
