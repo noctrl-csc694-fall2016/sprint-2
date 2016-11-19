@@ -14,3 +14,11 @@ one:
   amount: 1500.00
   gift_type: 'cash'
   notes: Sample Donation
+
+two:
+  donor: andy
+  activity: golf
+  donation_date: 2016-10-12 18:40:46
+  amount: 100.00
+  gift_type: 'check'
+  notes: Sample Check
