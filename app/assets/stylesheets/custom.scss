@@ -445,26 +445,6 @@ a.btn.btn-danger{
   margin-left: 15px;
 }
 
-/* Login */
-.session-login{
-  background-color: rgba(255,255,255,0.4);
-}
-#sessions-controller-html{
-  width: 100%;
-  height: 100%;
-}
-#sessions-controller-body{
-  background: url('/assets/login-background.jpg') no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-}
-.sessions-alerts{
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
 /* Error Handlers */
 div.alert {
     z-index:99;
