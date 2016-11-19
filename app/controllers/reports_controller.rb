@@ -683,6 +683,107 @@ class ReportsController < ApplicationController
         :type => 'application/pdf', :disposition => 'attachment'
       end
     end
+    
+  def new_donors_setup
+  end
+  
+  def new_donors_pdf
+    respond_to do |format|
+      format.html
+      donors = Donor.all
+      # @gifts = Gift.all
+      reportDonorsArray = []
+      # @donorGiftsTotal = 0
+      #parameters from the form view
+      timeframe = params[:times]
+      sortby = params[:sorts]
+      # @topn = params[:topn]
+      fullcontact = params[:full_contact]
+      # @user = current_user
+      
+      donors.each do |donor|
+        # currentDonor = donor
+        # @donorGiftsArray = [] #donor's gifts go in here
+        # @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
+        first_gift = find_first_gift(donor)
+        if !first_gift.nil?
+          case timeframe
+          when 'All'
+            addDonor = true
+          when 'This Year'
+            if is_current_year(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'This Quarter'
+            if ((is_current_quarter(first_gift['donation_date'].to_datetime)) && 
+              (is_current_year(gifirst_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'This Month'
+            if ((is_current_month(first_gift['donation_date'].to_datetime)) && 
+              (is_current_year(first_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'Last Year'
+            if is_last_year(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Last Quarter'
+            if is_last_quarter(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Last Month'      
+            if is_last_month(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Past 2 Years'
+            if ((is_last_year(first_gift['donation_date'].to_datetime)) or
+              (is_current_year(first_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'Past 5 Years'
+            if is_past_5_years(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Past 2 Quarters'
+            if (
+                ((is_current_quarter(first_gift['donation_date'])) and 
+                (is_current_year(first_gift['donation_date']))) or
+                (is_last_quarter(first_gift['donation_date']))
+              )
+                addDonor = true
+            end
+          when 'Past 3 Months'
+            if (is_past_3_months(first_gift['donation_date'].to_datetime))
+                addDonor = true
+            end
+          when 'Past 6 Months'
+            if (is_past_6_months(first_gift['donation_date'].to_datetime))
+                addDonor = true
+            end
+          end # end switch for timeframe
+          if addDonor
+            donor.title = find_last_gift(donor).donation_date.to_s
+            donor.nickname = gift_total_amount_per_donor(donor)
+            reportDonorsArray.push(donor)
+          end
+        end # end if !first_gift.nil?
+      end # end do donor
+       #apply sortby filter
+      case sortby
+        when 'Last Name'
+          reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+        when 'Date of Last Gift'
+          #title field of donor is used to store last gift date. sort these
+          reportDonorsArray.sort! { |b,a| a.title <=> b.title }
+        when 'Gift Total'
+          #nickname field of donor is used to store total
+          reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
+      end
+      pdf = NewDonorsPdf.new(reportDonorsArray, timeframe, sortby, fullcontact, current_user.username)
+      send_data pdf.render, :filename => 'New Donors Report - ' + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+    end # end format
+  end
   
   
   private
@@ -779,19 +880,44 @@ class ReportsController < ApplicationController
     #methods for finding last gifts from donors
     
     #returns the last gift that a donor made, by created_at date
-  def find_last_gift(donor)
-    selected_gifts = Gift.where(:donor_id => donor)
-    last_gift = nil
-    selected_gifts.each do |g|
-      if last_gift.nil?
-        last_gift = g
-      else
-        if g.created_at > last_gift.created_at
+    def find_last_gift(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      last_gift = nil
+      selected_gifts.each do |g|
+        if last_gift.nil?
           last_gift = g
+        else
+          if g.created_at > last_gift.created_at
+            last_gift = g
+          end
         end
-      end
-    end 
-    return last_gift
-  end
+      end 
+      return last_gift
+    end
   
+    # find the earliest gift from a donor
+    def find_first_gift(donor)
+      first_gift = nil
+      selected_gifts = Gift.where(:donor_id => donor)
+      selected_gifts.each do |g|
+        if first_gift.nil?
+          first_gift = g
+        else
+          if g.donation_date < first_gift.donation_date
+            first_gift = g
+          end
+        end
+      end 
+      return first_gift
+    end
+    
+    #returns the total dollar amount a donor has donated
+    def gift_total_amount_per_donor(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      sum = 0
+      selected_gifts.each do |g|
+        sum+=g.amount
+      end
+      return sum
+    end
 end
