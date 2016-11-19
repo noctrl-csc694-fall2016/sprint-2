@@ -22,7 +22,6 @@ class TrashPdf < Prawn::Document
       text "Trash report created " + Time.zone.now.to_date.to_s + 
       " by " + @user['username'].to_s + ".", size: 15
     end
-
   end
   
   def table_content
