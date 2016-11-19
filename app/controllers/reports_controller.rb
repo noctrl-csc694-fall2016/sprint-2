@@ -726,6 +726,13 @@ class ReportsController < ApplicationController
       send_data pdf.render, :filename => 'One Donor Report - ' + donor_profile.full_name + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end 
   end
+ 
+ 
+   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  #Setup Donors Report View
+  #renders the basic donors report view
+  def lybunt_setup
+  end
     
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   # LUBUNT (Last year but unfortunately not this) Report
@@ -1015,13 +1022,7 @@ class ReportsController < ApplicationController
       return last_gift
     end
   
-<<<<<<< HEAD
 
-
-
-
-
-=======
     # find the earliest gift from a donor
     def find_first_gift(donor)
       first_gift = nil
@@ -1047,7 +1048,6 @@ class ReportsController < ApplicationController
       end
       return sum
     end
->>>>>>> b5448f9bb097e2a33710d1632ab8c1b3f4f80aac
 end
 
 
