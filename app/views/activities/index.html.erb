@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class="page-header">
-  		<h2>Surf Activities <small>&nbsp; Select a row to view or edit that activty</small></h2>
+  		<h2 class="page-header-surf">Surf Activities <small>&nbsp; Select a row to view or edit that activty</small><%= image_tag("icons/flower3_square.png", height: "48",  alt: "New Gifts", class: "pull-right hidden-xs") %></h2>
   		<div class="row relative-row">
     		<div class="text-left bottom-vertical-align">
           <span class="record-count">There are <%= pluralize(@selected_activities.count, "activity") %>.</span>
@@ -50,8 +50,8 @@
             <th>Name</th>
             <th>End Date</th>
             <th>Goal</th>
+            <th>Gift Total</th>
             <th>Progress</th>
-            <th>Donors</th>
           </tr>
         </thead>
         <tbody>
@@ -59,10 +59,10 @@
           <tr data-link="<%=edit_activity_path(activity) %>">
             <td><%= get_activity_id(activity) %></td>
             <td><%= activity.name %></td>
-            <td><%= activity.end_date.strftime("%B %d, %Y") %></td>
-            <td><%= number_to_currency(activity.goal) %></td>
-            <td><%= progress(activity).to_i %>%</td>
-            <td><%= donor_count_per_activity(activity)%></td> 
+            <td><%= activity.end_date.strftime("%b %d, %Y") %></td>
+            <td><%= number_to_currency(activity.goal, precision: 0) %></td>
+            <td><%= number_to_currency(total_gift_amount_per_activity(activity), precision:0) %></td>
+            <td><%= progress(activity).to_i %>%</td> 
           </tr>
           <% end %>
         </tbody>

@@ -7,6 +7,9 @@ class ActivitiesController < ApplicationController
   #                     Andy W Nov 7 2016
   #----------------------------------#
   include ActivitiesHelper
+  include UsersHelper
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   # defines a new activity
   def new
@@ -93,14 +96,59 @@ class ActivitiesController < ApplicationController
     
     #sort results (reorder objects in table)
     case params[:sortby]
+      when 'ID'
+        @selected_activities = @selected_activities.reorder("id DESC")
       when 'Name'
         @selected_activities = @selected_activities.reorder("name")
-      when 'Start Date'
-        @selected_activities = @selected_activities.reorder("start_date DESC")
       when 'End Date'
         @selected_activities = @selected_activities.reorder("end_date DESC")
-      when 'Goal $'
-        @selected_activities = @selected_activities.reorder("goal DESC")
+      when 'Progress'
+        
+        #first build activitiesProgressArray
+        @activitiesProgressArray = @selected_activities.to_a
+        
+        @activitiesProgressArray.each do |act|
+              #calculate associated gifts total
+              begin
+                gifts = Gift.where(:activity_id => act.id)
+                gifts.to_a
+              rescue ActiveRecord::RecordNotFound
+                gifts = nil #if no matches found
+              end
+              giftTotal = 0
+              if gifts.nil? || gifts == 0
+                giftTotal = 0
+              else
+                giftTotal = giftTotal.to_i
+                gifts.each do |gift|
+                  giftTotal += gift.amount.to_i
+                end
+              end
+              
+              #calculate progress % to goal
+              if ((giftTotal == 0) or (act.goal == 0))#handles General activity
+                progressPercentage = 0
+              else
+                progressTotal = act.goal.to_i
+                progressAmount = giftTotal.to_i
+                progressFloat = (progressAmount.to_f) / (progressTotal.to_f) * 100
+                progressPercentage = progressFloat.round#.to_s + '%'
+              end
+              
+              #put result in notes field temporarily  
+              if progressPercentage === 0 && giftTotal > 0
+                act.notes = "0"
+              elsif progressPercentage === 0 #giftTotal is <= 0
+                act.notes = "-1"
+              else
+                act.notes = progressPercentage.to_s
+              end
+            end
+            
+            #now sort
+            @activitiesProgressArray.sort! { |b,a| a.notes.to_i <=> b.notes.to_i }
+            #now store in selected_activities to be printed on page
+            @selected_activities = @activitiesProgressArray
     end
     
     #paginate selected activities list after sorting & filtering

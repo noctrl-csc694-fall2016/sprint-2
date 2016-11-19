@@ -53,10 +53,15 @@ Rails.application.routes.draw do
   get    '/inkind', to: 'import_export#inkind'
   get    '/export', to: 'import_export#export'
   get    '/import-gifts-begin', to: 'import_export#import_gifts_begin'
-  get    '/import-gifts-next', to: 'import_export#import_gifts_next'
+  post    '/import-gifts-next', to: 'import_export#import_gifts_next'
   post   '/import-gifts-import', to: 'import_export#import_gifts_import'
   post   '/import-gifts-validate', to: 'import_export#import_gifts_validate'
   get    '/import-gifts-success', to: 'import_export#import_gifts_success'
+  get    '/import-gifts-inst', to: 'import_export#import_gifts_inst'
+  get    '/import-gifts-step-one', to: 'import_export#import_gifts_step_one'
+  post   '/import-gifts-download-csv-template', to: 'import_export#import_gifts_download_csv_template'
+  get    '/import-gifts-step-two', to: 'import_export#import_gifts_step_two'
+  get    '/import-gifts-step-three', to: 'import_export#import_gifts_step_three'
   
   get    '/report-activities', to: 'reports#activities_setup'
   post   '/report-activities-pdf', to: 'reports#activities_report'
@@ -69,6 +74,8 @@ Rails.application.routes.draw do
   get    '/report-one-donor', to: 'reports#one_donor_setup'
   post   '/report-one-donor-pdf', to: 'reports#one_donor_report'
   post   '/trashes-trash-pdf', to: 'reports#trash_report'
+  get    '/report-new-donors', to: 'reports#new_donors_setup'
+  post   '/report-new-donors-pdf', to: 'reports#new_donors_pdf'
   
   get    '/hyper-surf/all', to: 'hyper_surf#all'
   

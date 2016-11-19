@@ -7,15 +7,11 @@
 require 'test_helper'
 
 class TrashControllerTest < ActionDispatch::IntegrationTest
-  test 'should get_root_path' do
+  test 'should get trash report path' do
+    @user = users(:michael)
+    log_in_as(@user)
     get trashes_path
     assert_response :success
     assert_select "title", "Trash Report | Gift Garden"
   end
-
-  #test "should get show" do
-  #  get trash_show_url
-  #  assert_response :success
-  #end
-
 end

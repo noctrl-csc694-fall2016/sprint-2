@@ -5,6 +5,8 @@ class GiftsController < ApplicationController
   # major contributions by:
   #         Wei H, Oct 18 2016
   #----------------------------------#
+  #users must be logged into access any of this controller's methods/views
+  before_action :logged_in
   
   # define new gift object, also define maps to list donors/ids and activities/ids for select
   # boxes on New Gift screen
@@ -125,14 +127,12 @@ class GiftsController < ApplicationController
     
     #sort results (reorder objects in table)
     case params[:sortby]
-      when 'Donor ID'
-        @selected_gifts = @selected_gifts.reorder("donor_id DESC")
+      when 'ID'
+        @selected_gifts = @selected_gifts.reorder("id DESC")
       when 'Amount'
         @selected_gifts = @selected_gifts.reorder("amount DESC")
-      when 'Donation Date'
+      when 'Date'
         @selected_gifts = @selected_gifts.reorder("donation_date DESC")
-      when 'Gift Type'
-        @selected_gifts = @selected_gifts.reorder("gift_type DESC")
     end
     
     #paginate selected gifts list after sorting & filtering

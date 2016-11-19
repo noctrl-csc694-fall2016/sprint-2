@@ -6,7 +6,8 @@ class DonorsController < ApplicationController
   #         
   #----------------------------------#
  include DonorsHelper
- 
+ #users must be logged into access any of this controller's methods/views
+ before_action :logged_in
  
  # creates new donor object for New Donor screen
   def new
@@ -179,22 +180,47 @@ class DonorsController < ApplicationController
             @selected_donors = @selected_donors.where(id: @timeframe_donors)
     end
     
-    #select the TOP N donors, by total gift amount
-    #if(params[:topn] != "" && params[:topn] != "All")
-    #  @selected_donors = @selected_donors.sorted_by_total_gift_amount.take(params[:topn].to_i)
-    #end
     
-    #sort results (reorder objects in table)
-    if(params[:topn] && params[:sortby])
-      @selected_donors = Donor.where(id: @selected_donors)
-    end
+    #sort donors list by selected parameters
     case params[:sortby]
+      when 'ID'
+        @selected_donors = @selected_donors.reorder("id DESC")
       when 'Last Name'
         @selected_donors = @selected_donors.reorder("last_name")
-      when 'Email'
-        @selected_donors = @selected_donors.reorder("email")
-      when 'State'
-        @selected_donors = @selected_donors.reorder("state")
+      when 'Total Gifts'
+        @donorTotalsArray = @selected_donors.to_a
+        
+        @donorTotalsArray.each do |donor|
+          #calculate associated gifts total
+              begin
+                gifts = Gift.where(:donor_id => donor.id)
+                gifts.to_a
+              rescue ActiveRecord::RecordNotFound
+                gifts = nil #if no matches found
+              end
+              giftTotal = 0
+              if gifts.nil? || gifts == 0
+                giftTotal = 0
+              else
+                giftTotal = giftTotal.to_i
+                gifts.each do |gift|
+                  giftTotal += gift.amount.to_i
+                end
+              end
+              
+              #put result in nickname field temporarily  
+              if giftTotal <= 0
+                donor.nickname = "0"
+              else
+                donor.nickname = giftTotal.to_s
+              end
+        end
+            
+            #now sort
+            @donorTotalsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
+            #now store in selected_activities to be printed on page
+            @selected_donors = @donorTotalsArray
+              
     end
     
     #paginate selected donors list after sorting & filtering

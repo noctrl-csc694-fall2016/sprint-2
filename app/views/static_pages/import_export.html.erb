@@ -1,48 +1,67 @@
 <% provide(:title, "Import-Export Information") %>
 <div class="row">
-  <div class="col-sm-10 col-xs-offset-2">
+  <div class="col-sm-8 col-xs-offset-2">
     <div class='import-header'>
-      <h2 class="import-color">Import <small>&nbsp; read data into Gift Garden from an outside source</small></h2>
+      <h2 class="import-color">Import-Export Information
+        <small>&nbsp;- transfer data into/out of Gift Garden</small>
+        <%= image_tag("icons/ladybug1_square.png", height: "48",  alt: "Import-Export", class: "pull-right hidden-xs") %>
+      </h2>
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-2">
+    <div class='import-sub-header'>
+      <h3 class="import-color">Smart Gift Wizard<small>&nbsp; 3-step Smart Gift Wizard</small></h3>
+    </div>
+  </div>
+</div>
+<!-- Beginning of Gifts CSV Imports -->
+<div class="row report-row">
+  <div class="col-sm-8 col-xs-offset-2" id="importLink"> 
+    <%= link_to('/import-gifts-inst') do %><span class="	glyphicon glyphicon-flash import-icon import-color"></span><span class="report-title">Import Gifts</span><% end %>
+  	<span class="report-description">- import multiple gifts from CVS</span> 
+  </div>
+</div>
+&nbsp
+
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-2">
+    <div class='import-sub-header'>
+      <h3 class="import-color">Import <small>&nbsp; read data into Gift Garden from an outside source</small></h3>
     </div>
   </div>
 </div>
 
 <!-- Import content -->
   <div class="row report-row">
-    <div class="col-xs-8 col-xs-offset-2" id='inKindLink'> 
+    <div class="col-sm-8 col-xs-offset-2" id='inKindLink'> 
       <%= link_to('/inkind') do %><span class="	glyphicon glyphicon-leaf import-icon import-color"></span><span class="report-title">In-kind</span><% end %>
     	<span class="report-description">- import non-cash, in-kind donations</span> 
     </div>
   </div>
 
 <!-- Beginning of CSV Imports -->
-<div class="row  report-row">
-  <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
+<div class="row report-row">
+  <div class="col-sm-8 col-xs-offset-2" id="importLink"> 
     <%= link_to('/import') do %><span class="	glyphicon glyphicon-download import-icon import-color"></span><span class="report-title">CSV Import</span><% end %>
   	<span class="report-description">- import data from Raiser's Edge</span> 
   </div>
 </div>
 
-<!-- Beginning of Gifts CSV Imports -->
-<div class="row  report-row">
-  <div class="col-xs-8 col-xs-offset-2" id="importLink"> 
-    <%= link_to('/import-gifts-begin') do %><span class="	glyphicon glyphicon-flash import-icon import-color"></span><span class="report-title">Import Gifts</span><% end %>
-  	<span class="report-description">- import multiple gifts from CVS</span> 
-  </div>
-</div>
-
 <!-- Export header -->
-<div class="row export-header">
-  <div class="col-sm-10 col-xs-offset-2">
-  	<div class='import-header'>
-  		<h2 class="export-color">Export <small>&nbsp; write data out of the program</small></h2>
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-2">
+  	<div class='import-sub-header'>
+  		<h3 class="export-color">Export <small>&nbsp; write data out of the program</small></h3>
   	</div>
   </div>
 </div>   <!-- row -->
 
 <!-- Export content -->
 <div class="row report-row">
-	<div class="col-xs-8 col-xs-offset-2"> 
+	<div class="col-sm-8 col-xs-offset-2"> 
 	<%= link_to('/export.csv') do %>
 	<%= icon("envelope", class: "report-icon export-icon export-color") %><span class="report-title">MailChimp</span><% end %>
 	<span class="report-description">- export contact info to MailChimp</span> 
@@ -50,7 +69,7 @@
 </div>
 
 <div class="row report-row">
-	<div class="col-xs-8 col-xs-offset-2"> 
+	<div class="col-sm-8 col-xs-offset-2"> 
 	<%= link_to('/export.csv') do %>
 	<%= icon("envelope", class: "report-icon export-icon export-color") %><span class="report-title">Contstant Contact</span><% end %>
 	<span class="report-description">- export contact info to Constant Contact</span> 

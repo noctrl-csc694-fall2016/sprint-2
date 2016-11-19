@@ -11,14 +11,23 @@
       </div>
       <%= @donor_id %>
       <%=f.select :donor_id, options_for_select(@donors.sort!, :selected => @gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm' %>
+      <% if @gift.new_record? %>
+        <%=f.select :donor_id, options_for_select(@donors.sort!, :selected =>@gift.donor_id), include_blank: "Select a donor", class: 'form-control input-sm' %>
+      <% else %>
+        <%= get_donor_full_name(@gift) %>
+      <% end %>
     </div>
     <div class="col-xs-3 col-xs-offset-1">
       <div class="line-break">
         <%=f.label :activity %>
         <span class="required-field-marker">*</span>
       </div>
-      <%=f.select :activity_id,  options_for_select(@activities.sort!, :selected => @gift.activity_id || params[:activity_id]), include_blank: "Select an activity", class:'form-control input-sm dropdown-menu' %>
-    </div>
+        <% if @gift.new_record? %>
+          <%=f.select :activity_id,  options_for_select(@activities.sort!, :selected => @gift.activity_id || params[:activity_id]), include_blank: "Select an activity", class:'form-control input-sm dropdown-menu' %>
+        <% else %>
+          <%= get_activity_name(@gift) %>
+        <% end %>
+      </div>
   </div> <!-- row -->
 
   <div class="row form-group">
@@ -50,6 +59,18 @@
       <%= f.text_field :solicited_by, :value => @gift.solicited_by || params[:solicited_by], class: 'form-control input-sm' %>
     </div>
   </div>
+  <!-- to be taken out soon! -->
+  <div class="row form-group">
+    <div class="col-xs-3 col-xs-offset-2">
+      <%=f.label :gift_user %>
+      <%= f.text_field :gift_user, class: 'form-control input-sm' %>
+    </div>
+    <div class="col-xs-3  col-xs-offset-1">
+      <%= f.label :gift_source %>
+      <%= f.text_field :gift_source, class: 'form-control input-sm' %>
+    </div>
+  </div>
+  <!-- This to be taken out soon! -->
   
   <div class="row form-group">
     <div class="col-xs-3 col-xs-offset-2">
@@ -73,17 +94,6 @@
     <div class="col-xs-3  col-xs-offset-1">
       <%= f.check_box :anonymous, {:check => @gift.anonymous} %>
       <%= f.label :anonymous %>
-    </div>
-  </div> <!-- row -->
-  
-  <div class="row form-group">
-    <div class="col-xs-3 col-xs-offset-2">
-      <%= f.label :gift_user %>
-      <%= f.text_field :gift_user, :readonly => true, class: 'form-control input-sm' %>
-    </div>
-    <div class="col-xs-3  col-xs-offset-1">
-      <%= f.label :gift_source %>
-      <%= f.text_field :gift_source, :readonly => true, class: 'form-control input-sm' %>
     </div>
   </div> <!-- row -->
   

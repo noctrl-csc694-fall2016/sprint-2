@@ -31,13 +31,15 @@ $primary-copper: rgb(204, 107, 54);
 $accent-blue: rgb(172, 168, 242);
 $accent-blue-gray: rgb(188, 205, 221);
 $accent-dark-purple: rgb(50, 42, 63);
-$footer-green: rgb(121, 186, 36);
+$footer-light: #ededed;
 
 // Textual
 $text-gray: rgb(105,105,105);
 $hover-yellow: rgb(255,255,204);
-$hover-brown: rgb(97, 52, 13);
 $text-purple: rgb(73, 64, 155);
+$text-logo-green: forestgreen;
+$link-light-purple: #81a1ca;
+$link-dark-purple: #4b79b4;
 
 // One Off Colors
 $icon-green: rgb(127, 165, 66);
@@ -87,24 +89,25 @@ h1{
 .navbar-donna-search {
   margin-top: 40px;
   a{
-    color: $primary-blue;
+    color: $link-dark-purple;
+    font-weight: bold;
   }
   &:hover{
   	color: $primary-blue;
   }
 }
 .navbar-donna-brand {
-  color: $primary-blue;
+  color: $text-logo-green;
   font-family: 'Satisfy', cursive;
   
   a{
-  	color: $primary-blue;
+  	color: $text-logo-green;
   }
   
   a.glow, a.glow:hover, a.glow:focus
   {
   	text-decoration: none;
-  	color: $primary-blue;
+  	color: $text-logo-green;
 	  text-shadow: none;
 	  -webkit-transition: 500ms linear 0s;
 	  -moz-transition: 500ms linear 0s;
@@ -134,37 +137,40 @@ h1{
 }
 
 /* Page Content */
-.container-fluid{
-  padding-left: 0px;
-  padding-right: 0px;
-}
 .container-donna {
   padding-top: 120px;
   margin-bottom: 120px;
   a {
-	 color: $primary-copper;
+	 color: $link-light-purple;
   }
   a:hover{
-  	color: $hover-brown;
+  	color: $accent-dark-purple;
   	text-decoration: underline;
   }
   
   table{
   	a {
-  	  color: $primary-copper;
+  	  color: $link-light-purple;
   	}
 	  a:hover{
-	    color: $hover-brown;
+	    color: $accent-dark-purple;
 	    text-decoration: underline;
 	  }
   }
 }
 .page-content{
-  h1, h2, h3, h4, h5, h6{
+  h1, h2{
+  	font-weight: bold;
+	  color: $accent-dark-purple;
+  }
+  h3, h4, h5, h6{
   	font-weight: bold;
 	  font-style: italic;
 	  color: $accent-dark-purple;
   }
+}
+.page-header-surf{
+  padding-bottom: 10px;
 }
 
 .row-donna-home-icons {
@@ -178,6 +184,7 @@ h1{
 }
 .icon-donna-text {
   font-size: 1.75em;
+  margin-left: 10px;
 }
 .icon-donna-new {
   color: $icon-green;
@@ -230,8 +237,14 @@ h1{
 }
 
 /* Import-export css - just use report css when possible */
+.import-header{
+  min-height: 50px;
+}
+.import-sub-header, .export-sub-header{
+  border-bottom: 1px solid $accent-blue;
+}
 .export-header {
-  margin-top: 40px;
+  margin-top: 48px;
 }
 .import-color {
   color: $text-purple;
@@ -329,9 +342,10 @@ a.btn.btn-danger{
   width: 100%;
   height: 30px;
   position: fixed; /* Sticky Footer */
-  background-color: $footer-green;
+  background-color: $footer-light;
   font-size: 1.0em;
   z-index: 9999999;
+  border-top: 2px solid $accent-blue;
   
   .footer-text {
   	padding-top: 5px;
@@ -340,12 +354,8 @@ a.btn.btn-danger{
   }
 	
   a{
-  	color: 	rgb(74,69,231);
-  	text-shadow:
-   -.1px -.1px 0 $black,  
-    .1px -.1px 0 $black,
-    -.1px .1px 0 $black,
-     .1px .1px 0 $black;
+  	color: 	$link-dark-purple;
+  	font-weight: bold;
   }
   a:hover{
   	color: $accent-dark-purple;
@@ -388,6 +398,10 @@ a.btn.btn-danger{
   margin-bottom: 10px;
   font-style: italic;
 }
+.explaination{
+  font-style: italic;
+  padding-bottom: 5px;
+}
 
 /* Row Grid Override */
 .row{
@@ -401,8 +415,34 @@ a.btn.btn-danger{
   bottom:0;
   left: 15px;
 }
-.container-fluid{
-  padding-left: 0px;
+
+/* About Page */
+.row-spacing-gallery{
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.staff-wrapper{
+  font-size: 1.25em;
+  margin-bottom: 15px;
+  
+  h4{
+    border-bottom: 1px solid $link-dark-purple;
+    padding-left: 5px;
+  }
+  
+  .row{
+    margin-left: 0px;
+  }
+  
+}
+.picture-donna-text {
+  margin-left: 10px;
+}
+
+/* Home */
+.jumbo-text{
+  font-size: 1.5em;
+  margin-left: 15px;
 }
 
 /* Error Handlers */
@@ -414,16 +454,4 @@ div.alert {
 }
 .panel-group .panel{
   margin-bottom: 10px;
-}
-
-/* About Page */
-.row-spacing-gallery{
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-
-/* Home */
-.jumbo-text{
-  font-size: 1.5em;
-  margin-left: 15px;
 }

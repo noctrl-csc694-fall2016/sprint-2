@@ -3,26 +3,33 @@
   <div class="row form-group">
     <div class="col-xs-3">
       <div class="line-break">
-        <p>Timeframe (Last Donation)</p>
+        <p>Timeframe</p>
       </div>
-      <%= select_tag(:timeframe, options_for_select(Donor::TIMES), class: 'form-control input-sm') %>
+      <%= select_tag(:timeframe, options_for_select(Donor::TIMES, params[:timeframe]), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-3">
       <div class="line-break">
         <p>Sort By</p>
       </div>
-      <%= select_tag(:sortby, options_for_select(Donor::SORTS), include_blank: " ", class: 'form-control input-sm') %>
+      <%= select_tag(:sortby, options_for_select(Donor::SORTS, params[:sortby]), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-3">
       <div class="line-break">
         <p>Donors Per Page</p>
       </div>
-      <%= select_tag(:pageby, options_for_select(Donor::PAGEBY), class: 'form-control input-sm') %>
+      <%= select_tag(:pageby, options_for_select(Donor::PAGEBY, params[:pageby]), class: 'form-control input-sm') %>
     </div>
   </div>
   <div class="row form-group">
     <div class="col-xs-2">
       <%= submit_tag 'Filter', class: 'btn btn-success' %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="line-break explaination">
+        The timeframe filter applies to the last gift date of the listed donor.
+      </div>
     </div>
   </div>
 <% end %>

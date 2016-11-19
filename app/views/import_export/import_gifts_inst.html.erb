@@ -1,0 +1,30 @@
+<% provide(:title, "Import Gifts Instruction") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+  	<div class='import-header'>
+  		<h2 class="import-color">Instruction<small>&nbsp; follow 3 easy steps to import gifts.</small></h2>
+  	</div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+    <h4>
+      <ol>
+        <li><a href="/import-gifts-step-one">Download a CSV template and fill in the fields.</a></li>
+        <li><a href="/import-gifts-step-two">Data validation.</a></li>
+        <li><a href="/import-gifts-step-three">Import gifts.</a></li>
+      </ol>
+    </h4>
+  </div>
+</div>
+&nbsp;
+<div class="row">
+  <div class="col-sm-8 col-xs-offset-4">
+    <%= link_to "Begin", import_gifts_step_one_path, class:"btn btn-success" %>
+    &nbsp;
+    <%= link_to "Cancel", import_export_path, class:"btn btn-warning" %>
+  </div>
+</div>
+

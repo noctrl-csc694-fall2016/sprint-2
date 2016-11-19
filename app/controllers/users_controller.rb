@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
+  #users must be logged into access any of this controller's methods/views
   before_action :logged_in
-  before_action :user_exists, except: [:index, :new, :create, :prune]
+  before_action :user_exists, except: [:index, :new, :create]
   before_action :is_admin, except: [:update, :edit]
   
   #Diplays all users, each user in a row
@@ -152,5 +153,21 @@ class UsersController < ApplicationController
     
     def user_params
         params.require(:user).permit(:password, :password_confirmation)
+    end
+    
+    # Before filters
+
+    # Confirms a logged-in user.
+    def logged_in_user
+      unless logged_in?
+        flash[:danger] = "Please log in."
+        redirect_to root_url
+      end
+    end
+
+    # Confirms the correct user.
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_url) unless @user == current_user
     end
 end

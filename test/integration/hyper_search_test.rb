@@ -15,7 +15,7 @@ class HyperSearchTest < ActionDispatch::IntegrationTest
     log_in_as(@user)
     get hyper_surf_all_path, params: {term: "1"}
     assert_template 'hyper_surf/all'
-    assert_select "title", "Hyper Surf Gift Garden | Gift Garden"
+    assert_select "title", "Hyper Surf | Gift Garden"
     assert_select "span.record-count", "3 results located for the surf term \"1\"."
     assert_response :success
   end
@@ -24,7 +24,7 @@ class HyperSearchTest < ActionDispatch::IntegrationTest
     log_in_as(@user)
     get hyper_surf_all_path, params: {term: "|||||||"}
     assert_template 'hyper_surf/all'
-    assert_select "title", "Hyper Surf Gift Garden | Gift Garden"
+    assert_select "title", "Hyper Surf | Gift Garden"
     assert_select "span.record-count", "0 results located for the surf term \"|||||||\"."
     assert_response :success
   end  

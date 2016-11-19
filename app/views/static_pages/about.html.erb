@@ -1,41 +1,96 @@
 <% provide(:title, "About") %>
   <!-- Content Header -->
   <div class="row">
-    <div class="col-sm-10 col-xs-offset-2">
+    <div class="col-sm-8 col-xs-offset-2">
       <div class="page-header">
-        <h2>About</h2>
+        <h2>
+          About Gift Garden&nbsp;
+            <small>
+              <span class='deploy-div'>Last Heroku Deploy: <%= GiftGarden::Application::DEPLOY %></span>
+            </small>
+        </h2>
       </div>
     </div>
   </div>
   <!-- Content -->
-  <div class="row col-xs-offset-2">
-    <p>Welcome To Gift Garden! A web application built by North Central College CSC 694 Class of Fall 2016!</p>
-
-    <div class="row">
-      <h3>Production</h3>
-      <div class="col-sm-3">
-        <h4>Team</h4>
-        <ul>
-          <li>Bill K</li>
-          <li>Andy W</li>
-          <li>Mike D</li>
-          <li>Pat M</li>
-          <li>Wei H</li>
-          <li>Jason K</li>
-        </ul>
-      </div>
-      <div class="col-sm-3">
-        <h4>Assistance From</h4>
-        <ul>
-          <li>Teresa B, Artwork</li>
-        </ul>
+  <div class="row col-xs-8 col-xs-offset-2">
+    <h3>An Introduction</h3>
+    Gift Garden is a gift management system for nonprofits. It allows an organization to effectively track and analyze the activities,
+    donors, and gifts that are the core of any nonprofit. Gift Garden is a web application designed to be easy to learn and simple to use. 
+    The system is built upon three important design choices: 
+    <br /><br />
+    <ol>
+      <li>use a standard web user interface framework</li>
+      <li>build upon a very simple data model</li>
+      <li>place an emphasis on convention over configuration</li>
+    </ol>
+    <br />
+    Gift Garden is the work of the students of the CSC 694 Capstone class, Fall 2016, at North Central College. 
+    During the class, we learned a number of new technologies, including our core framework, Ruby on Rails. 
+    Our project was a collaborative effort and utilized an agile development process. 
+    Some of the modern technologies used in Gift Garden include: Ruby on Rails, Ryver, git, Github, Cloud9, Bootstrap, and Heroku.
+    <br />
+    For additional information about Gift Garden or any of its design team members, please email Prof Bill at <a href="mailto:wtkrieger@noctrl.edu">wtkrieger@noctrl.edu</a>.  
+    <br />
+    thanks...yow, bill
+  </div>
+  <div class="row col-xs-8 col-xs-offset-2">
+    <h3>The Design Team</h3>
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Prof Bill</h4>
+      <div class="row">
+        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"I enjoyed my 10 long Tuesday nights with CSC 694. Long live Gift Garden! thanks... yow, bill"</span>
       </div>
     </div>
-
-    <div class="row">
-      <h3>Sample Artwork</h3>
-      A number of pieces used within the application were crafted by Teresa B.  Samples of their artwork are below.  You may click on an thumbnail to open up a full size version in a new tab/window.
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Jason K</h4>
+      <div class="row">
+        <%= image_tag("team/jason.jpg", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Placing great emphasis on design and usability...along with a little bit of code."</span>
+      </div>
     </div>
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Andy W</h4>
+      <div class="row">
+        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
+      </div>
+    </div>
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Mike D</h4>
+      <div class="row">
+        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
+      </div>
+    </div>
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Pat M</h4>
+      <div class="row">
+        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
+      </div>
+    </div>
+    <div class="row staff-wrapper col-xs-offset-1">
+      <h4>Wei H</h4>
+      <div class="row">
+        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
+      </div>
+    </div>
+  </div>
+  <div class="row col-xs-8 col-xs-offset-2">
+    <h3>Thank Yous</h3>
+    We sincerely thank our two nonprofit partners for their valuable input during the design of Gift Garden:
+    <br /><br />
+    <ul>
+      <li>Sharing Connections in Downers Grove, and</li>
+      <li>Turning Pointe in Naperville... especially Carrie P, our MVP!</li>
+    </ul>
+    Thank you all!
+  </div>
+  <div class="row col-xs-8 col-xs-offset-2">
+    <h3>The Artwork</h3>
+    The artwork you see in Gift Garden is the work of one talented young lady, Teresa B. She is an art student at North Central College. 
+    Thank you, Teresa B! We truly appreciate your contribution in making Gift Garden so beautiful and special for our users.
+    <br />
+    We also thank Janny G of Menlo Park for her Photoshop edits of Teresa B's work. Thank you, Janny, our “Mistress of the Magic Wand”!
+    <br />
+    Here are some larger “prints” of Teresa B's work in The Garden. 
     <div class="row row-spacing-gallery">
       <div class="col-sm-4"><%= link_to 'assets/art/butterfly1_original.png', target: '_blank' do %><%= image_tag("art/butterfly1.png", height: "150",  alt: "Butterfly 1") %><% end %></div>
       <div class="col-sm-4"><%= link_to 'assets/art/butterfly2_original.png', target: '_blank' do %><%= image_tag("art/butterfly2.png", height: "150",  alt: "Butterfly 2") %><% end %></div>
@@ -50,9 +105,6 @@
     </div>
     <div class="row row-spacing-gallery">
       <div class="col-sm-4"><%= link_to 'assets/art/logo3_original.png', target: '_blank' do %><%= image_tag("art/logo3.png", height: "150",  alt: "Logo 1") %><% end %></div>
-      <div class="col-sm-4"></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/dragonfly1_original.png', target: '_blank' do %><%= image_tag("art/dragonfly1_original.png", height: "150",  alt: "Logo 1") %><% end %></div>
     </div>
-    
-    
-
   </div>

@@ -1,6 +1,7 @@
 <% provide(:title, "Activities Report") %>
 <div class="row">
   <div class="col-sm-10 col-xs-offset-2">
+    <div id="flash"></div>
     <div class="page-header">
       <h2>Activities Report <small>&nbsp;
       All Activities within the specifications are saved to a PDF file: <br />
@@ -33,12 +34,27 @@
   
 <% end %>
 
-<!-- Allows Report button to be used repeatedly, and resets the form. -->
 <script>
+  //allows Report button to be used repeatedly, and resets the form
+  var reportButton = $("input.btn.btn-success");
   $(document).ready(function(){
-    $("input.btn.btn-success").removeAttr("data-disable-with")
-    $("input.btn.btn-success").click(function(){
-        $("form")[0].reset();
+    reportButton.removeAttr("data-disable-with")
+    reportButton.click(function(){
+      $("form")[0].reset();
+      //register event listener for flash() on Report button
+      flash();
     });
-});
+  });
+
+  //flash notification for report generation
+  var flashdiv = document.getElementById('flash');
+  function flash(){
+    if ($("#flash").html().length > 0) {
+      $("#flash").fadeOut();
+      $("#flash").fadeIn();
+    } else {
+      flashdiv.className = "alert alert-success";
+      flashdiv.innerHTML =  "Activities report generated."; 
+    }
+  }
 </script>
