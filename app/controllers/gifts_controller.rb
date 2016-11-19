@@ -129,14 +129,12 @@ class GiftsController < ApplicationController
     
     #sort results (reorder objects in table)
     case params[:sortby]
-      when 'Donor ID'
-        @selected_gifts = @selected_gifts.reorder("donor_id DESC")
+      when 'ID'
+        @selected_gifts = @selected_gifts.reorder("id DESC")
       when 'Amount'
         @selected_gifts = @selected_gifts.reorder("amount DESC")
-      when 'Donation Date'
+      when 'Date'
         @selected_gifts = @selected_gifts.reorder("donation_date DESC")
-      when 'Gift Type'
-        @selected_gifts = @selected_gifts.reorder("gift_type DESC")
     end
     
     #paginate selected gifts list after sorting & filtering
