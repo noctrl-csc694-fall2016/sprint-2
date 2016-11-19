@@ -16,25 +16,25 @@
     <div class="row report-row" id="activity-report">
       <div class="col-xs-10 "><!-- 'activities.pdf' then  -->
         <%= link_to('/report-activities') do %> <%= icon("ship", class: "report-icon") %><span class="report-title">Activity</span><% end %>
-        <span class="report-description">- report the donors and gifts for an Activity</span>
+        <span class="report-description">- donors and gifts for an Activity</span>
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('/report-donors') do %><%= icon("user-secret", class: "report-icon") %><span class="report-title">Donor</span><% end %>
-        <span class="report-description">- report donations of a single Donor</span>
+        <span class="report-description">- donations of a single Donor</span>
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10"> 
         <%= link_to('/report-gifts') do %><%= icon("gift", class: "report-icon") %><span class="report-title">Gifts</span><% end %>
-        <span class="report-description">- report all Gifts over a time period</span> 
+        <span class="report-description">- all Gifts over a time period</span> 
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to trashes_path do %><%= icon("trash", class: "report-icon") %><span class="report-title">Trash</span><% end %>
-        <span class="report-description"> - report deleted activities and donors</span>
+        <span class="report-description"> - deleted Activities, Donors and Gifts</span>
       </div>
     </div>
   </div>
@@ -46,25 +46,25 @@
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('#') do %><%= icon("calendar-check-o", class: "report-icon") %><span class="report-title">LYBUNT</span><% end %>
-        <span class="report-description">- report Donors who gave last year but unfortunately not this year</span>
+        <span class="report-description">- Donors who gave last year but unfortunately not this year</span>
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('#') do %><%= icon("user-plus", class: "report-icon") %><span class="report-title">New Donors Report</span><% end %>
-        <span class="report-description">- Report new donors and their Gifts over a timeframe.</span>
+        <span class="report-description">- new Donors and their Gifts over a timeframe</span>
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('/report-one-donor') do %><%= icon("user", class: "report-icon") %><span class="report-title">One Donor Report</span><% end %>
-        <span class="report-description">- A detailed profile of a selected donor.</span>
+        <span class="report-description">- a detailed profile of a selected Donor</span>
       </div>
     </div>
     <div class="row report-row">
       <div class="col-xs-10">
         <%= link_to('#') do %><%= icon("recycle", class: "report-icon") %><span class="report-title">In Kind Report</span><% end %>
-        <span class="report-description">- A listing of all the gifts donated in kind.</span>
+        <span class="report-description">- a listing of all the Gifts donated in kind</span>
       </div>
     </div>
     <!--
