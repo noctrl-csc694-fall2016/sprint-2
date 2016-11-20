@@ -1,36 +1,69 @@
 <% provide(:title, "Home") %>
   <div class="row">
-    <div class="col-xs-8 col-xs-offset-2 page-header">
+    <div class="col-xs-8 page-header col-xs-offset-2">
         <h2>Welcome to Gift Garden <small>&nbsp;- manage your nonprofit Activities, Donors and Gifts</small></h2>
     </div>
     <!-- col -->
   </div>
   <!-- row -->
-  <div class="row row-donna-home-icons ">
-    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
-      <%=link_to(new_gift_path) do %>
-        <%= image_tag("icons/flower1_square.png", height: "64",  alt: "New Gifts", class: "hidden-xs") %><span class="icon-donna-text">New Gifts <small>&nbsp;- Add one or multiple Gifts</small></span>
-      <% end %>
-    </div>
-  </div>
-  <div class="row row-donna-home-icons ">
-    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
-      <%=link_to(reports_path) do %>
-        <%= image_tag("icons/butterfly1_square.png", height: "64",  alt: "Reports", class: "hidden-xs") %><span class="icon-donna-text">Reports <small>&nbsp;- generate nicely-formatted reports</small></span>
-      <% end %>
-    </div>
-  </div>
-  <div class="row row-donna-home-icons ">
-    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
-      <%=link_to(activities_path + "?utf8=✓&timeframe=All&sortby=&pageby=&commit=GO" ) do %>
-        <%= image_tag("icons/dragonfly1_square.png", height: "64",  alt: "Surf!", class: "hidden-xs") %><span class="icon-donna-text">Surf!<small>&nbsp;- View or edit information online</small></span>
-      <% end %>
-    </div>
-  </div>
-  <div class="row row-donna-home-icons ">
-    <div class="col-xs-9 col-sm-9 col-sm-offset-2">
-      <%=link_to(import_export_path) do %>
-        <%= image_tag("icons/ladybug1_square.png", height: "64",  alt: "Import-Export", class: "hidden-xs") %><span class="icon-donna-text">Import/Export<small>&nbsp;- transfer data into/out of Gift Garden</small></span>
-      <% end %>
-    </div>
-  </div>
+	<div class="row" style="padding-top: 20px;">
+		<div class="col-xs-offset-2 col-xs-5 ">
+			<div class="media">
+			  <div class="media-right media-middle" >
+				  <%=link_to(new_gift_path) do %>
+            <%= image_tag("icons/flower1_square.png", height: "64",  alt: "New Gifts", class: "hidden-xs media-object") %>
+          <% end %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				    <h2 class="media-heading"><%= link_to "New Gifts", new_gift_path %> <br /> <small> Add one or multiple Gifts</small></h2>
+				</div>
+			</div>   <!-- media -->
+		</div>   <!-- col -->
+
+		<div class="col-xs-5">
+			<div class="media">
+			  <div class="media-right media-middle" >
+				  <%=link_to(reports_path) do %>
+				    <%= image_tag("icons/butterfly1_square.png", height: "64",  alt: "Reports", class: "hidden-xs media-object") %>
+				  <% end %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h2 class="media-heading"><%= link_to "Reports", reports_path %> <br /> <small>Generate nicely-formatted reports</small></h2>
+				</div>
+			</div>   <!-- media -->
+		</div>   <!-- col -->
+	</div>   <!-- row -->
+  	
+	  <!-- row -->
+	<div class="row" style="padding-top: 20px;">
+		<div class="col-xs-offset-2 col-xs-5">
+			<div class="media">
+			  <div class="media-right media-middle" >
+				  <%=link_to(activities_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO" ) do %>
+            <%= image_tag("icons/dragonfly1_square.png", height: "64",  alt: "New Gifts", class: "hidden-xs media-object") %>
+          <% end %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				    <h2 class="media-heading"><%= link_to "Surf!",  activities_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO" %>
+				    <br /> <small> View and edit information online</small></h2>
+				</div>
+			</div>   <!-- media -->
+		</div>   <!-- col -->
+
+		<div class="col-xs-5">
+			<div class="media">
+			  <div class="media-right media-middle" >
+				  <%=link_to(import_export_path) do %>
+				    <%= image_tag("icons/ladybug1_square.png", height: "64",  alt: "Reports", class: "hidden-xs media-object") %>
+				  <% end %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h2 class="media-heading"><%= link_to "Import/Export", import_export_path %> <br /> <small>Transfer data in/out of Gift Garden</small></h2>
+				</div>
+			</div>   <!-- media -->
+		</div>   <!-- col -->
+	</div>   <!-- row -->
