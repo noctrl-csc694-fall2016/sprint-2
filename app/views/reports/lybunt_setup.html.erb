@@ -3,10 +3,10 @@
   <div class="col-sm-8 col-xs-offset-2">
     <div id="flash"></div>
     <div class="page-header">
-     <h2>LYBUNT Report <small>&nbsp;
-     This report shows Donors that have gone missing.<br/>
-      Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file: <br />
-      <b>LYBUNT Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
+     <h2>LYBUNT Report</h2>
+     <p><b>This report shows Donors that have gone missing.</b></p>
+     <p><b>Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file:</b></p>
+     <p><b>LYBUNT Report <%= Time.now.to_date.to_s %>.pdf</b></p>
     </div>
   </div>
 </div>
@@ -15,7 +15,7 @@
 <%= form_tag '/report-lybunt-pdf', multipart:true do %>
 
   <section class='row'>
-    <div class="col-sm-2">
+    <div class="col-sm-2 col-xs-offset-2">
       <span class='report-tab'>Sort By:</span><br />
       <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
     </div>

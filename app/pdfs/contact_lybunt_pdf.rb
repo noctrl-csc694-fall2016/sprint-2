@@ -91,7 +91,7 @@ class ContactLYBUNTPdf < Prawn::Document
         result += "All Donors who donated previously, but not this year"
       when "Last year"
         result += "Donors who donated last year but not this year"
-      when "Past 2 years"
+      when "Last 2 years"
         result += "Donors who donated in the past 2 years, but not this year"
     end
     result
