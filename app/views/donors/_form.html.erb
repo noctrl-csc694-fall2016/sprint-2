@@ -80,6 +80,13 @@
 	    <%= f.text_field :phone, class: 'form-control input-sm' %>
 	  </div>
   </div>   <!-- row -->
+  
+  <div class="row form-group">
+    <div class="col-xs-5 col-xs-offset-2">
+      <%=f.label :notes %>
+      <%=f.text_area :notes, placeholder: "Enter notes here...", cols: "100", rows: "5", class: "form-control input-sm" %>
+    </div>
+  </div> <!-- row -->
 
 	<div class=" row form-group">
     <div class="col-xs-8 col-xs-offset-1 text-center">
