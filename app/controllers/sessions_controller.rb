@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
   #log-out function. Logs user out of the session, sends them to the login page.
   def destroy
     log_out
-    flash[:success] = "You have successfully been logged out."
+    #flash[:success] = "You have successfully been logged out."
     redirect_to '/login'
   end
 end
