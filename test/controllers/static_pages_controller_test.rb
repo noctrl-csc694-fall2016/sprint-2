@@ -7,13 +7,13 @@
 require 'test_helper'
 
 class StaticPagesControllerTest < ActionDispatch::IntegrationTest
-  test 'should get root path' do
+  test 'should_get_root_path' do
     get root_path
     assert_response :success
     assert_select "title", "Log In | Gift Garden"
   end
   
-  test "should get home when logged in" do
+  test "should_get_home_when_logged_in" do
     @user = users(:michael)
     log_in_as(@user)
     get home_path
@@ -21,19 +21,19 @@ class StaticPagesControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Home | Gift Garden"
   end
 
-  test "should get help path" do
+  test "should_get_help_path" do
     get help_path
     assert_response :success
     assert_select "title", "Help | Gift Garden"
   end
   
-  test "should get about path" do
+  test "should_get_about_path" do
     get about_path
     assert_response :success
     assert_select "title", "About | Gift Garden"
   end
 
-  test "should get reports path when logged in" do
+  test "should_get_reports_path_when_logged_in" do
     @user = users(:michael)
     log_in_as(@user)
     get reports_path
