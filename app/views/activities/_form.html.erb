@@ -51,7 +51,7 @@
       <div class="col-xs-4 col-xs-offset-4 text-center">
         <%= f.submit yield(:button_text), class: "btn btn-success" %>
         &nbsp;
-        <%= link_to "Cancel", activities_path, class: "btn btn-warning" %>
+        <%= link_to "Cancel", activities_path, class: "btn btn-danger" %>
       </div>
     </div>
     <% if donor_count_per_activity(@activity) == 0 && !@activity.new_record? %>
