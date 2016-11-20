@@ -7,7 +7,7 @@
 require 'test_helper'
 
 class DonorsControllerTest < ActionDispatch::IntegrationTest
-  test "should get all donors with params" do
+  test "should_get_all_donors_with_params" do
     @user = users(:michael)
     log_in_as(@user)
     get donors_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
@@ -15,7 +15,7 @@ class DonorsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Surf Donors | Gift Garden"
   end
   
-  test "should get new donor page" do
+  test "should_get_new_donor_page" do
     @user = users(:michael)
     log_in_as(@user)
     get new_donor_path

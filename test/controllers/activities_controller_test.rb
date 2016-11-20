@@ -7,7 +7,7 @@
 require 'test_helper'
 
 class ActivitiesControllerTest < ActionDispatch::IntegrationTest
-  test "should get all activities with params" do
+  test "should_get_all_activities_with_params" do
     @user = users(:michael)
     log_in_as(@user)
     get activities_path + "?utf8=%E2%9C%93&timeframe=All&sortby=&pageby=&commit=GO"
@@ -15,7 +15,7 @@ class ActivitiesControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Surf Activities | Gift Garden"
   end
   
-  test "should get new activity" do
+  test "should_get_new_activity" do
     @user = users(:michael)
     log_in_as(@user)
     get new_activity_path

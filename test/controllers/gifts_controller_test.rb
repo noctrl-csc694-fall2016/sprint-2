@@ -13,7 +13,7 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
   end
 
 
-  test "should get all gifts with params" do
+  test "should_get_all_gifts_with_params" do
     @user = users(:michael)
     log_in_as(@user)
     get gifts_path + "?utf8=%E2%9C%93&activity_id=&donor_id=&timeframe=All&sortby=&pageby=&commit=GO"
@@ -21,7 +21,7 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Surf Gifts | Gift Garden"
   end
   
-  test "should get new gift" do
+  test "should_get_new_gift" do
     @user = users(:michael)
     log_in_as(@user)
     get new_gift_path

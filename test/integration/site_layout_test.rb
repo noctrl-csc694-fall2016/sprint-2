@@ -16,7 +16,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   #####################################
   # Test to validate available links when logged in
   #####################################
-  test "layout links when logged in" do
+  test "layout_links_when_logged_in" do
     log_in_as(@user) 
     get home_path
     assert_template 'static_pages/home'
@@ -33,7 +33,7 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
   #####################################
   # Test to validate available links when not logged in
   #####################################
-  test "layout links when loggout out" do
+  test "layout_links_when_loggout_out" do
     get login_path
     assert_template 'sessions/new'
     assert_select "a[href=?]", root_path, count: 0
