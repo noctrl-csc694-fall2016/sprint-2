@@ -1,4 +1,12 @@
 class ReportsController < ApplicationController
+  #----------------------------------#
+  # GiftGarden Reports Controller
+  # original written by: Pat M, Nov 5 2016
+  # major contributions by:
+  #             Jason K, Nov 35 2016
+  #             Wei H, Nov 19 2016
+  #             Andy W, Nov 19 2016
+  #----------------------------------#
 
   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
   #Setup Gifts Report View

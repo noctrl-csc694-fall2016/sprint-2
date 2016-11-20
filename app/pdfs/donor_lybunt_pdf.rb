@@ -1,4 +1,11 @@
 class DonorLYBUNTPdf < Prawn::Document
+  #----------------------------------#
+  # GiftGarden LYBUNT Donor Report
+  # original written by: Andy W, Nov 19 2016
+  # major sections pulled from:
+  #        DonorPDF by Pat M, Nov 5 2016
+  #----------------------------------#
+  
   def initialize(donor, timeframe, sortby, topn, giftTotal, user)
     super()
     @donors = donor
