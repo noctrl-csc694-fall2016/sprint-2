@@ -7,7 +7,7 @@
 require 'test_helper'
 
 class TrashControllerTest < ActionDispatch::IntegrationTest
-  test 'should get trash report path' do
+  test 'should_get_trash_report_path' do
     @user = users(:michael)
     log_in_as(@user)
     get trashes_path

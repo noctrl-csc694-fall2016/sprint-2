@@ -11,7 +11,7 @@ class HyperSearchTest < ActionDispatch::IntegrationTest
     @user = users(:michael)
   end
   
-  test "should get search page with results" do
+  test "should_get_search_page_with_results" do
     log_in_as(@user)
     get hyper_surf_all_path, params: {term: "1"}
     assert_template 'hyper_surf/all'
@@ -20,7 +20,7 @@ class HyperSearchTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
   
-  test "should get search page with no results" do
+  test "should_get_search_page_with_no_results" do
     log_in_as(@user)
     get hyper_surf_all_path, params: {term: "|||||||"}
     assert_template 'hyper_surf/all'
