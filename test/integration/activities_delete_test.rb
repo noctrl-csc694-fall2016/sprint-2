@@ -27,7 +27,7 @@ class ActivitiesDeleteTest < ActionDispatch::IntegrationTest
     assert_redirected_to activities_path
   end
   
-  test "Trash generated when an activity with no gift is deleted" do
+  test "trash generated when an activity with no gift is deleted" do
     log_in_as(@user)
     get edit_activity_path(@activity_n)
     assert_difference 'Trash.count', 1 do

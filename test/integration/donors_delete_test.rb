@@ -27,7 +27,7 @@ class DonorsDeleteTest < ActionDispatch::IntegrationTest
     assert_redirected_to donors_path
   end
   
-  test "Trash generated when a donor with no gift is deleted" do
+  test "trash generated when a donor with no gift is deleted" do
     log_in_as(@user)
     get edit_donor_path(@donor_n)
     assert_difference 'Trash.count', 1 do
