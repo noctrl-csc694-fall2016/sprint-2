@@ -40,7 +40,7 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
 
-  test "should redirect destroy when not logged in" do
+  test "should redirect delete gift when not logged in" do
     assert_no_difference 'Gift.count' do
       delete gift_path(@gift)
     end
