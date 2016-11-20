@@ -1,4 +1,4 @@
-class NewDonorsPdf < Prawn::Document
+class NewDonorsContactPdf < Prawn::Document
   include ActionView::Helpers::NumberHelper
   
   def initialize(reportDonorsArray, times, sortby, sum, current_user)
@@ -26,7 +26,7 @@ class NewDonorsPdf < Prawn::Document
     bounding_box([0, y_position], :width => 658, :height => 50) do
       text "This Gift Garden report created " + Time.zone.now.to_date.to_s + 
       " by " + @requestor + ".", size: 15
-      text "Report options: New Donors in " + @timeFrame + "." + " Sorted by " + @sort + ".", size: 15
+      text "Report options: New Donors in " + @timeFrame + "." + " Sorted by " + @sort + ". Full contact info for donors.", size: 15
     end
   end
   
@@ -49,10 +49,11 @@ class NewDonorsPdf < Prawn::Document
   end
   
   def new_donors_rows
-    [['ID', 'Donor Name', 'Last Gift Date', 'Num Gifts', 'Gift total']] +
+    [['ID', 'Donor Name/Address', 'Phone/Email', 'Last Gift Date', 'Gift total']] +
       @donors.map do |donor|
-        [("DON" + donor.id.to_s), donor.last_name.to_s + ", " + donor.first_name.to_s, 
-          donor.title, Gift.where(:donor_id => donor.id).count, format_currency(donor.nickname, false)]
+        [("DON" + donor.id.to_s), donor.first_name.to_s + " " + donor.last_name.to_s +  "\n" + donor.address.to_s + "\n" + 
+        donor.city.to_s + ", " + donor.state.to_s + " " + donor.zip.to_s, donor.phone.to_s + "\n" + donor.email.to_s,
+        donor.title, format_currency(donor.nickname, false)]
       end
   end
   

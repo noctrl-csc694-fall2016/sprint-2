@@ -1,1 +1,1 @@
-donor_id,first_name,last_name,title,nickname,donor_type,address,address2,city,state,country,zip,email,phone,gift_type,amount,donation_date,check_number,check_date,pledge,anonymous,gift_user,gift_source, memorial_note, notes, solicited_by
+donor_id,first_name,last_name,title,nickname,donor_type,address,address2,city,state,country,zip,email,phone,donor_notes,gift_type,amount,donation_date,check_number,check_date,pledge,anonymous,gift_user,gift_source, memorial_note,gift_notes,solicited_by
