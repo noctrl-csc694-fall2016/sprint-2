@@ -729,7 +729,7 @@ class ReportsController < ApplicationController
  
  
    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-  #Setup Donors Report View
+  #Setup LYBUNT Donors Report View
   #renders the basic donors report view
   def lybunt_setup
   end
@@ -741,55 +741,78 @@ class ReportsController < ApplicationController
       respond_to do |format|
         format.html
         @donors = Donor.all
+        @gifts = Gift.all
         @reportDonorsArray = []
+        @donorGiftsTotal = 0
         #parameters from the form view
         @timeframe = params[:times]
         @sortby = params[:sorts]
         @fullcontact = params[:landscape]
-      
-        if @timeframe == "Last Year"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 1))
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
+        @topn = 'all'
+        @user = current_user
+
+        @donors.each do |donor|
         
-        if @timeframe == "Last 2 Years"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 2))
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
+          #first grab all gifts from the chosen donor
+          currentDonor = donor
+          @donorGiftsArray = [] #donor's gifts go in here
+          @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
         
-        if @timeframe == "All previous years"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear)
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
-    end
+          @gifts.each do |gift|
+            donorID = gift['donor_id']
+            if donorID.to_s.eql? currentDonor['id'].to_s
+              @donorGiftsArray.push(gift)
+            end #end if
+          end #end gifts loop
         
+          if @donorGiftsArray.length > 0 
+            addDonor = false  #flag for adding donor to report
+            
+            #apply timeframe filter
+            case @timeframe
+              when 'All previous years'
+              #should this include donors with NO gifts? currently it doesn't
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year < Time.current.year)
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            when 'Last year'
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year == (Time.current.year - 1))
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            when 'Last 2 years'
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year < Time.current.year && @last_gift.donation_date.year >= (Time.current.year - 2))
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            end #end switch for timeframe
+          else
+            #apply timeframe filter
+            case @timeframe
+            when 'All'
+              #donors with no gifts are still added in this filter
+              add_donor_with_no_gifts(donor)
+            end
+          end #end donorGiftsArray length check
+      end #end donors loop
         
       #apply sortby filter
       case @sortby
         when 'Last Name'
           @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
-        when 'First Name'
-          @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
-        when 'Email'
-          @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
-        when 'State'
-          @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
-        when 'Date of Last Gift'
-          #title field of donor is used to store last gift date. sort these
-          @reportDonorsArray.sort! { |b,a| a.title <=> b.title }
-        when 'Gift Total'
+        when 'ID'
+          @reportDonorsArray.sort! { |a,b| a.id.to_i <=> b.id.to_i }
+        when 'Total Gifts'
           #nickname field of donor is used to store last gift date. sort these
           @reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
       end
@@ -797,23 +820,28 @@ class ReportsController < ApplicationController
       #generate the pdf file for the report
       #landscape donors report will be the full contact report
       if @fullcontact
-        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby)
+        pdf = ContactLYBUNTPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, @user)
         send_data pdf.render, :filename => 'LYBUNT Full Contact Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       else
         #portrait donors report will be the normal basic donors report
-        pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, 
-        @donorGiftsTotal)
+        pdf = DonorLYBUNTPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
+        @donorGiftsTotal, @user)
         send_data pdf.render, :filename => 'LYBUNT Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       end
     end
+    end
+    
+      # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # New Donors Report
+  #     
     
   def new_donors_setup
   end
-  
+
   def new_donors_pdf
     respond_to do |format|
       format.html
@@ -1022,6 +1050,20 @@ class ReportsController < ApplicationController
       return last_gift
     end
   
+   def find_last_gift_by_donation_date(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      last_gift = nil
+      selected_gifts.each do |g|
+        if last_gift.nil?
+          last_gift = g
+        else
+          if g.donation_date > last_gift.donation_date
+            last_gift = g
+          end
+        end
+      end 
+      return last_gift
+   end
 
     # find the earliest gift from a donor
     def find_first_gift(donor)

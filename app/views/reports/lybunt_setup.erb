@@ -4,14 +4,15 @@
     <div id="flash"></div>
     <div class="page-header">
      <h2>LYBUNT Report <small>&nbsp;
-      All Donors who gave last year but unfortunately not this year are saved to a PDF file: <br />
+     This report shows Donors that have gone missing.<br/>
+      Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file: <br />
       <b>LYBUNT Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
     </div>
   </div>
 </div>
 
 <!-- Content -->
-<%= form_tag '/lybunt-donors-pdf', multipart:true do %>
+<%= form_tag '/report-lybunt-pdf', multipart:true do %>
 
   <section class='report-container'>
     <div class="col-sm-4">
@@ -29,8 +30,8 @@
     </div>
     <div class="col-sm-4">
       </br>
-      <%= check_box_tag 'full_contact', 'yes', false %>
-      <%= label_tag(:full_contact, "Full Contact") %>
+      <%= check_box_tag 'landscape', 'yes', false %>
+      <%= label_tag(:landscape, "Full Contact") %>
     </div>
   </section><br /><br />
   
