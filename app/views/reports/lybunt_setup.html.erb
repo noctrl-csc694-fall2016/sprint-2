@@ -5,8 +5,9 @@
     <div class="page-header">
      <h2>LYBUNT Report</h2>
      <p><b>This report shows Donors that have gone missing.</b></p>
-     <p><b>Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file:</b></p>
+     <p><b>Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file:</b><%= image_tag("icons/flower1_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></p>
      <p><b>LYBUNT Report <%= Time.now.to_date.to_s %>.pdf</b></p>
+     
     </div>
   </div>
 </div>
@@ -38,7 +39,7 @@
   <br /><br />
   <div class="row">
     <div class="col-sm-2 col-xs-offset-2">
-      <%= submit_tag "Generate Report", class: "btn btn-success" %>
+      <%= submit_tag "Report", class: "btn btn-success" %>
       &nbsp;
       <%=link_to "Cancel", reports_url, class: "btn btn-danger" %>
     </div>

@@ -1,11 +1,11 @@
 <% provide(:title, "Donors Report") %>
 <div class="row">
-  <div class="col-sm-10 col-xs-offset-2">
+  <div class="col-sm-8 col-xs-offset-2">
     <div id="flash"></div>
     <div class="page-header">
      <h2>Donors Report <small>&nbsp;
       All Donors within the specifications are saved to a PDF file: <br />
-      <b><span id='reportTitle'>Donors Report <%= Time.now.to_date.to_s %>.pdf</span></b></small></h2>
+      <b><span id='reportTitle'>Donors Report <%= Time.now.to_date.to_s %>.pdf</span></b></small><%= image_tag("icons/butterfly2_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
     </div>
   </div>
 </div>
