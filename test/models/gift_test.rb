@@ -48,4 +48,24 @@ class GiftTest < ActiveSupport::TestCase
     @gift.gift_type = nil
     assert_not @gift.valid?
   end
+  
+  test "check_number should be present only if gift_type is check" do
+    #Gift already set to cash and Gift2 set to Check, but want to ensure they're not changed.
+    @gift.gift_type = 'Cash'
+    @gift.check_number = nil
+    assert @gift.valid?
+    @gift2.gift_type = 'Check'
+    @gift2.check_number = nil
+    assert_not @gift2.check_number.valid?
+  end
+  
+  test "check_date should be present only if gift_type is check" do
+    @gift.gift_type = 'Cash'
+    @gift.check_date = nil
+    assert @gift.valid?
+    @gift2.gift_type = 'Check'
+    @gift2.check_date = nil
+    assert_not @gift2.check_number.valid?
+  end
+  
 end
