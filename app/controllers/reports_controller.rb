@@ -634,6 +634,7 @@ class ReportsController < ApplicationController
         #apply topn filter
         case @topn
         when 'all'
+          @reportGiftsArray = @reportGiftsArray
         when '10'
           @reportGiftsArray = @reportGiftsArray.first(10)
         when '20'

@@ -1,5 +1,5 @@
 class GiftPdf < Prawn::Document
-  def initialize(gift, timeframe, sortby, topn, user)
+  def initialize(gift, timeframe, sortby, topn, user, extra)
     super()
     @gifts = gift
     @timeframe = timeframe
