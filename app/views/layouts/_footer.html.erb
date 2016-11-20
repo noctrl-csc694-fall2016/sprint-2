@@ -81,15 +81,19 @@
     if(type != "Check")
     {
       $("#check_date").fadeOut();
+      $("#check_date_req").fadeOut();
       $("#gift_check_date").fadeOut();
       $("#check_number").fadeOut();
+      $("#check_number_req").fadeOut();      
       $("#gift_check_number").fadeOut();
     }
     else
     {
       $("#check_date").fadeIn();
+      $("#check_date_req").fadeIn();
       $("#gift_check_date").fadeIn();
       $("#check_number").fadeIn();
+      $("#check_number_req").fadeIn();
       $("#gift_check_number").fadeIn();
     }
   }
@@ -99,15 +103,19 @@ $(document).ready(function(){
   if(type != "Check")
   {
     $("#check_date").hide();
+    $("#check_date_req").hide();
     $("#gift_check_date").hide();
     $("#check_number").hide();
+    $("#check_number_req").hide();
     $("#gift_check_number").hide();
   }
   else
   {
     $("#check_date").show();
+    $("#check_date_req").show();
     $("#gift_check_date").show();
     $("#check_number").show();
+    $("#check_number_req").show();
     $("#gift_check_number").show();
   }
 });

@@ -21,4 +21,6 @@ two:
   donation_date: 2016-10-12 18:40:46
   amount: 100.00
   gift_type: 'check'
+  check_date: 2016-10-12 18:40:46
+  check_number: 1234
   notes: Sample Check

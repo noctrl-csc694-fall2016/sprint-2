@@ -9,9 +9,11 @@ require 'test_helper'
 class ActivitiesEditTest < ActionDispatch::IntegrationTest
   def setup
     @activity = activities(:golf)
+    @user = users(:michael)
   end
   
   test "successful edit" do
+    log_in_as(@user)
     get edit_activity_path(@activity)
     assert_template 'activities/edit'
     name = "Food Truck"
@@ -37,6 +39,7 @@ class ActivitiesEditTest < ActionDispatch::IntegrationTest
   end
   
   test "unsuccessful edit " do
+    log_in_as(@user)
     get edit_activity_path(@activity)
     assert_template 'activities/edit'
     patch activity_path(@activity), params: { activity: { name: "",

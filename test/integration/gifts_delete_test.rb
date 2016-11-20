@@ -9,9 +9,11 @@ require 'test_helper'
 class GiftsDeleteTest < ActionDispatch::IntegrationTest
   def setup
     @gift = gifts(:one)
+    @user = users(:michael)
   end
   
   test "delete gift" do
+    log_in_as(@user)
     get edit_gift_path(@gift)
     assert_select 'a', text: 'Delete Gift'
     assert_difference 'Gift.count', -1 do
