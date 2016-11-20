@@ -1,15 +1,32 @@
 require 'test_helper'
 
 class ImportGiftsCsvTest < ActionDispatch::IntegrationTest
-  test "should get import gifts begin" do
-    get import_gifts_begin_path
-    assert_response :success
-    assert_select "title", "Import Gifts Begin | Gift Garden"
+  
+  def setup
+    @user = users(:michael)
   end
   
-  test "should get import gifts next" do
-    get import_gifts_next_path
+  test "should get import gifts instruction" do
+    log_in_as(@user)
+    get import_gifts_inst_path
     assert_response :success
-    assert_select "title", "Import Gifts | Gift Garden"
+    assert_select "title", "Import Gifts Instruction | Gift Garden"
+  end
+  
+  test "import gifts instruction layout links" do
+    log_in_as(@user)
+    get import_gifts_inst_path
+    assert_template 'import_export/import_gifts_inst'
+    assert_select "a[href=?]", "/import-gifts-step-one", count: 2
+    assert_select "a[href=?]", "/import-gifts-step-two"
+    assert_select "a[href=?]", "/import-gifts-step-three"
+    assert_select "a[href=?]", "/import-export"
+  end
+  
+  test "should get warning if no file choosen" do
+    log_in_as(@user)
+    get import_gifts_step_two_path
+    post "/import-gifts-validate"
+    assert_equal 'Please choose a file.', flash[:error]
   end
 end

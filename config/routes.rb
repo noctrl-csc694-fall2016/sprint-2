@@ -53,7 +53,7 @@ Rails.application.routes.draw do
   get    '/inkind', to: 'import_export#inkind'
   get    '/export', to: 'import_export#export'
   get    '/import-gifts-begin', to: 'import_export#import_gifts_begin'
-  post    '/import-gifts-next', to: 'import_export#import_gifts_next'
+  post   '/import-gifts-next', to: 'import_export#import_gifts_next'
   post   '/import-gifts-import', to: 'import_export#import_gifts_import'
   post   '/import-gifts-validate', to: 'import_export#import_gifts_validate'
   get    '/import-gifts-success', to: 'import_export#import_gifts_success'

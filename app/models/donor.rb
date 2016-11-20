@@ -14,6 +14,9 @@ class Donor < ApplicationRecord
   validates :address, presence: true
   validates :city, presence: true, length: {maximum:30}
   validates :state, presence: true
+  validates :zip, presence: true
+  validates_numericality_of :zip, :only_integer => true
+  validates_length_of :zip, :maximum => 5
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },

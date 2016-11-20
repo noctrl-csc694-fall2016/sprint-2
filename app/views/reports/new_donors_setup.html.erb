@@ -5,34 +5,35 @@
     <div class="page-header">
      <h2>New Donors Report</h2>
      <p><b>This report lists new Donors.</b></p>
-     <p><b>A Donor is considered "new" as of he date of his/her first Gift.</b></p>
+     <p><b>A Donor is considered "new" as of he date of his/her first Gift.</b><%= image_tag("icons/bee1_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></p>
     </div>
   </div>
 </div>
 
 <!-- Content -->
 <%= form_tag '/report-new-donors-pdf', multipart:true do %>
-
-  <section class='report-container'>
-    <div class="col-sm-4">
+  <section class='row'>
+    <div class="col-sm-2 col-xs-offset-2">
       <span class='report-tab'>Timeframe:</span><br />
       <%= select_tag 'times', options_for_select(Donor::TIMES) %>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
       <span class='report-tab'>Sort By:</span><br />
       <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
       </br>
       <%= check_box_tag 'full_contact', 'yes', false %>
       <%= label_tag(:full_contact, "Full Contact") %>
     </div>
   </section>
   &nbsp;
-  <div class="report-submit">
-    <%= submit_tag "Generate Report", class: "btn btn-success" %>
-    &nbsp;
-    <%=link_to "Cancel", reports_url, class: "btn btn-danger" %>
+  <div class="row">
+    <div class="col-sm-4 col-xs-offset-2">
+      <%= submit_tag "Report", class: "btn btn-success" %>
+      &nbsp;
+      <%=link_to "Cancel", reports_url, class: "btn btn-danger" %>
+    </div>
   </div>
 <% end %>
 

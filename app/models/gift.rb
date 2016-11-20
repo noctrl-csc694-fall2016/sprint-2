@@ -14,6 +14,10 @@ class Gift < ApplicationRecord
   validates :amount, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   validates :gift_type, presence: true
   validates :notes, presence: false, length: { maximum: 2500 }
+  validates :check_number, presence:true, :if => :check?
+  validates :check_date, presence:true, :if => :check?
+  validates :pledge, :numericality => { :greater_than_or_equal_to => 0 }
+  validate :check_info
   enum gift_type: [:Cash, :Check, :'Credit Card', :Stock, :'In Kind']
   
   TIMES = [ 'All', 'This Year', 'This Quarter', 'This Month', 
@@ -26,6 +30,17 @@ class Gift < ApplicationRecord
   
   PAGEBY = ['10', '20', '50', '100']
   
+  #Validate Check_Number and Check_date if gift_type == "Check"
+  def check_info
+    if gift_type == 'Check'
+      if check_date.blank?
+        errors.add(:check_date, 'needs to entered')
+      end
+      if check_number.blank?
+        errors.add(:check_number, 'needs to be entered')
+      end
+    end
+  end
   # Import Gifts
   def self.import(file, activity)
     
@@ -61,6 +76,10 @@ class Gift < ApplicationRecord
         Gift.create!(gift_hash)
       end # end if else
     end # end foreach
+  end
+  
+  def check?
+    gift_type == "Check"
   end
   
 end

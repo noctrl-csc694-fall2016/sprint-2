@@ -93,7 +93,7 @@ class UsersController < ApplicationController
       #confirm password then update user's info
       if current_user.authenticate(params[:user][:current_password]) && @user.update_attributes(admin_params)
         flash[:success] = "Your account has been updated."
-        redirect_to show_path
+        redirect_to action: "show"
       else
         flash[:danger] = "Passwords invalid or do not match"
         redirect_to action: "show"

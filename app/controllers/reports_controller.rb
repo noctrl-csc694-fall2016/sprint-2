@@ -847,20 +847,12 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
       donors = Donor.all
-      # @gifts = Gift.all
       reportDonorsArray = []
-      # @donorGiftsTotal = 0
-      #parameters from the form view
       timeframe = params[:times]
       sortby = params[:sorts]
-      # @topn = params[:topn]
       fullcontact = params[:full_contact]
-      # @user = current_user
-      
+
       donors.each do |donor|
-        # currentDonor = donor
-        # @donorGiftsArray = [] #donor's gifts go in here
-        # @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
         first_gift = find_first_gift(donor)
         if !first_gift.nil?
           case timeframe
@@ -873,12 +865,12 @@ class ReportsController < ApplicationController
           when 'This Quarter'
             if ((is_current_quarter(first_gift['donation_date'].to_datetime)) && 
               (is_current_year(gifirst_gift['donation_date'].to_datetime)))
-                addDonor = true
+              addDonor = true
             end
           when 'This Month'
             if ((is_current_month(first_gift['donation_date'].to_datetime)) && 
               (is_current_year(first_gift['donation_date'].to_datetime)))
-                addDonor = true
+               addDonor = true
             end
           when 'Last Year'
             if is_last_year(first_gift['donation_date'].to_datetime)
@@ -907,7 +899,7 @@ class ReportsController < ApplicationController
                 (is_current_year(first_gift['donation_date']))) or
                 (is_last_quarter(first_gift['donation_date']))
               )
-                addDonor = true
+              addDonor = true
             end
           when 'Past 3 Months'
             if (is_past_3_months(first_gift['donation_date'].to_datetime))
@@ -919,8 +911,8 @@ class ReportsController < ApplicationController
             end
           end # end switch for timeframe
           if addDonor
-            donor.title = find_last_gift(donor).donation_date.to_s
-            donor.nickname = gift_total_amount_per_donor(donor)
+            donor.title = find_last_gift_by_donation_date(donor).donation_date.to_s
+            donor.nickname = gift_total_amount_per_donor(donor).to_i.to_s
             reportDonorsArray.push(donor)
           end
         end # end if !first_gift.nil?
@@ -929,15 +921,20 @@ class ReportsController < ApplicationController
       case sortby
         when 'Last Name'
           reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
-        when 'Date of Last Gift'
-          #title field of donor is used to store last gift date. sort these
-          reportDonorsArray.sort! { |b,a| a.title <=> b.title }
-        when 'Gift Total'
+        when 'ID'
+          reportDonorsArray.sort! { |a,b| a.id.to_i <=> b.id.to_i }
+        when 'Total Gifts'
           #nickname field of donor is used to store total
           reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
       end
-      pdf = NewDonorsPdf.new(reportDonorsArray, timeframe, sortby, fullcontact, current_user.username)
-      send_data pdf.render, :filename => 'New Donors Report - ' + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+      
+      if fullcontact
+        pdf = NewDonorsContactPdf.new(reportDonorsArray, timeframe, sortby, gifts_total_for_selected_donors(reportDonorsArray), current_user.username)
+        send_data pdf.render, :filename => 'New Donors Full Contact Report - ' + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+      else
+        pdf = NewDonorsPdf.new(reportDonorsArray, timeframe, sortby, gifts_total_for_selected_donors(reportDonorsArray), current_user.username)
+        send_data pdf.render, :filename => 'New Donors Report - ' + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+      end
     end # end format
   end
   
@@ -1066,7 +1063,7 @@ class ReportsController < ApplicationController
       return last_gift
    end
 
-    # find the earliest gift from a donor
+    # find the earliest gift ( by donation date) from a donor
     def find_first_gift(donor)
       first_gift = nil
       selected_gifts = Gift.where(:donor_id => donor)
@@ -1088,6 +1085,14 @@ class ReportsController < ApplicationController
       sum = 0
       selected_gifts.each do |g|
         sum+=g.amount
+      end
+      return sum
+    end
+    
+    def gifts_total_for_selected_donors(donors)
+      sum = 0
+      donors.each do |donor|
+        sum += donor.nickname.to_i
       end
       return sum
     end

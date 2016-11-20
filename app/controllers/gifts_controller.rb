@@ -172,7 +172,7 @@ class GiftsController < ApplicationController
     
     #defines activities and donors lists to populate stop-down selections on index page
     def map_activities_n_donors()
-      @donors = Donor.all.map { |donor| [ "#{donor.first_name} #{donor.last_name}", donor.id ] }
+      @donors = Donor.all.map { |donor| [donor.full_name_id, donor.id]}
       @activities = Activity.all.map { |activity| [ activity.name, activity.id ] }
     end
     

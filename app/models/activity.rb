@@ -11,6 +11,9 @@ class Activity < ApplicationRecord
   default_scope -> {order(id: :desc)}
   validates :name, presence: true, length: {maximum:255}
   validates :description, presence: true, length: {maximum:255}
+  validates :start_date, presence: true, on: :update
+  validates :end_date, presence: true, on: :update
+  validate :start_before_end
   validates :goal, presence: true, :numericality => {:greater_than_or_equal_to => 0}
   enum activity_type: [:General, :Community, :Corporate, :Grants, :Mailer, :'Email Blast', :'Faith-based', :'Fund-raiser']
   
@@ -31,6 +34,11 @@ class Activity < ApplicationRecord
     self.end_date = DateTime.parse("2099-12-31 00:00:00") unless self.end_date.present?
   end
 
+  def start_before_end
+    if end_date.present? && start_date > end_date
+      errors.add(:end_date, "can't be before activity start date.")
+    end
+  end
   
   def self.import(file)
     #CSV.foreach(file.path, headers: true) do |row|
