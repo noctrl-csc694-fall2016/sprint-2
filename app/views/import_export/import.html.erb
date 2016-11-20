@@ -20,7 +20,6 @@
         <br />
         <%= submit_tag "Import Donors from CSV" %>
 	    <% end %>
-  	    <% end %>
       </div>
       <br /><br /><br /><br />
     <%=link_to "Cancel", import_export_url, class: "btn btn-warning" %>
@@ -41,22 +40,5 @@
     	    <% end %>
     	  </div>
     </div>
-    <br /><br /><br /><br />
-    <%=link_to "Cancel", import_export_url, class: "btn btn-warning" %>
-  </div>
-  <div id='import-gifts'>
-    <h4>Gifts</h4>
-    <div class='import-export-label'>
-	    <%= form_tag import_gifts_path, multipart:true do %>
-  		  <span class='import-export-label'>Choose Activity:</span>
-  		  <%= select_tag "activity",
-  		  options_from_collection_for_select(@activities, "id", "name") %>
-  		  <br /><br />
-  		  <%= file_field_tag :file %>
-        <br />
-        <%= submit_tag "Import Gifts from CSV" %>
-	    <% end %>
-	  </div>
-  </div>
 </div>
   

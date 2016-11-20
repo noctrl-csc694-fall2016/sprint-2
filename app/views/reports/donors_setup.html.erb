@@ -5,7 +5,7 @@
     <div class="page-header">
      <h2>Donors Report <small>&nbsp;
       All Donors within the specifications are saved to a PDF file: <br />
-      <b>Donors Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
+      <b><span id='reportTitle'>Donors Report <%= Time.now.to_date.to_s %>.pdf</span></b></small></h2>
     </div>
   </div>
 </div>
@@ -13,37 +13,33 @@
 <!-- Content -->
 <%= form_tag '/report-donors-pdf', multipart:true do %>
 
-  <section class='report-container'>
-    <div class="report-left-half">
-      <span class='report-tab'>Timeframe:</span><br />
-      <%= select_tag 'times', options_for_select(Donor::TIMES) %>
-    </div>
-    <div class="report-right-half">
-      <span class='report-tab'>Top N:</span><br />
-      <%= select_tag 'topn', options_for_select(Donor::TOPN) %>
-    </div>
-  </section>
+  <div class='report-container'>
+    <section>
+        <span class='report-tab'>Timeframe:</span><br />
+        <%= select_tag 'times', options_for_select(Donor::TIMES) %>
+    </section><br />
+        
+    <section>
+        <span class='report-tab'>Sort By:</span><br />
+        <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
+    </section><br />
+        
+    <section>
+        <span class='report-tab'>Top N:</span><br />
+        <%= select_tag 'topn', options_for_select(Donor::TOPN) %>
+    </section><br />
   
-  <section class='report-container'>
-    <div class="report-left-half">
-      <br />
-      <span class='report-tab'>Sort By:</span><br />
-      <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
+    <section>
+        <%= check_box_tag 'landscape', 'yes', false %>
+        <%= label_tag(:landscape, "Full Contact") %>
+    </section><br />
+    
+    <div>
+      <%= submit_tag "Report", class: "btn btn-success" %>
+      &nbsp;
+      <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
     </div>
-    <div class="report-right-half">
-      <br />
-      <br />
-      <%= check_box_tag 'landscape', 'yes', false %>
-      <%= label_tag(:landscape, "Full Contact") %>
-    </div>
-  </section><br /><br />
-  
-  <div class="report-submit">
-    <%= submit_tag "Report", class: "btn btn-success" %>
-    &nbsp;
-    <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
   </div>
-
 <% end %>
 
 <script>
@@ -55,6 +51,14 @@
       $("form")[0].reset();
       //register event listener for flash() on Report button
       flash();
+    });
+    //changes report name @ top when Full Contact gets checked
+    $("#landscape").click(function(){
+      if ($('#landscape').is(":checked")) {
+        $("#reportTitle").text("Donors Full Contact Report <%= Time.now.to_date.to_s %>.pdf");
+      } else {
+        $("#reportTitle").text("Donors Report <%= Time.now.to_date.to_s %>.pdf");
+      }
     });
   });
 
