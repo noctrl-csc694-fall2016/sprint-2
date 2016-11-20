@@ -1,4 +1,12 @@
 class ContactLYBUNTPdf < Prawn::Document
+  
+  #----------------------------------#
+  # GiftGarden LYBUNT Full Contact Report
+  # original written by: Andy W, Nov 19 2016
+  # major sections pulled from:
+  #        ContactPDF by Pat M, Nov 5 2016
+  #----------------------------------#
+  
   def initialize(donor, timeframe, sortby, topn, user)
     super(:page_layout => :landscape) #makes report landscape
     @donors = donor
