@@ -56,7 +56,7 @@ class GiftTest < ActiveSupport::TestCase
     assert @gift.valid?
     @gift2.gift_type = 'Check'
     @gift2.check_number = nil
-    assert_not @gift2.check_number.valid?
+    assert_not @gift2.valid?
   end
   
   test "check_date should be present only if gift_type is check" do
@@ -65,7 +65,7 @@ class GiftTest < ActiveSupport::TestCase
     assert @gift.valid?
     @gift2.gift_type = 'Check'
     @gift2.check_date = nil
-    assert_not @gift2.check_number.valid?
+    assert_not @gift2.valid?
   end
   
 end
