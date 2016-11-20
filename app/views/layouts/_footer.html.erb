@@ -78,7 +78,6 @@
   });
   
   function GiftTypeCheck(type) {
-    alert((type));
     if(type != "Check")
     {
       $("#check_date").fadeOut();
@@ -94,5 +93,24 @@
       $("#gift_check_number").fadeIn();
     }
   }
+  
+$(document).ready(function(){
+  var type = $('#gift_gift_type').val();
+  if(type != "Check")
+  {
+    $("#check_date").hide();
+    $("#gift_check_date").hide();
+    $("#check_number").hide();
+    $("#gift_check_number").hide();
+  }
+  else
+  {
+    $("#check_date").show();
+    $("#gift_check_date").show();
+    $("#check_number").show();
+    $("#gift_check_number").show();
+  }
+});
+
 </script>
 

@@ -1,0 +1,69 @@
+<% provide(:title, "LYBUNT Report") %>
+<div class="row">
+  <div class="col-sm-10 col-xs-offset-2">
+    <div id="flash"></div>
+    <div class="page-header">
+     <h2>LYBUNT Report <small>&nbsp;
+     This report shows Donors that have gone missing.<br/>
+      Any Donors with Gifts from Last Year But Unfortunately Not This (LYBUNT) are saved to a PDF file: <br />
+      <b>LYBUNT Report <%= Time.now.to_date.to_s %>.pdf</b></small></h2>
+    </div>
+  </div>
+</div>
+
+<!-- Content -->
+<%= form_tag '/report-lybunt-pdf', multipart:true do %>
+
+  <section class='report-container'>
+    <div class="col-sm-4">
+      <span class='report-tab'>Sort By:</span><br />
+      <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
+    </div>
+    <div class="col-sm-4">
+      <span class='report-tab'>Timeframe:</span><br />
+      <%= radio_button_tag(:times, "Last year") %>
+      <%= label_tag(:times_last_yr, "Last year") %><br />
+      <%= radio_button_tag(:times, "Last 2 years") %>
+      <%= label_tag(:times_last_2, "Last 2 years") %><br />
+      <%= radio_button_tag(:times, "All previous years") %>
+      <%= label_tag(:times_all, "All previous years") %><br />
+    </div>
+    <div class="col-sm-4">
+      </br>
+      <%= check_box_tag 'landscape', 'yes', false %>
+      <%= label_tag(:landscape, "Full Contact") %>
+    </div>
+  </section><br /><br />
+  
+  <div class="report-submit">
+    <%= submit_tag "Report", class: "btn btn-success" %>
+    &nbsp;
+    <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
+  </div>
+
+<% end %>
+
+<script>
+  //allows Report button to be used repeatedly, and resets the form
+  var reportButton = $("input.btn.btn-success");
+  $(document).ready(function(){
+    reportButton.removeAttr("data-disable-with")
+    reportButton.click(function(){
+      $("form")[0].reset();
+      //register event listener for flash() on Report button
+      flash();
+    });
+  });
+
+  //flash notification for report generation
+  var flashdiv = document.getElementById('flash');
+  function flash(){
+    if ($("#flash").html().length > 0) {
+      $("#flash").fadeOut();
+      $("#flash").fadeIn();
+    } else {
+      flashdiv.className = "alert alert-success";
+      flashdiv.innerHTML =  "LYBUNT report generated."; 
+    }
+  }
+</script>

@@ -1,4 +1,126 @@
 class ReportsController < ApplicationController
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+  #Setup Gifts Report View
+  #renders the basic gifts report view
+  def inkind_setup
+    @activities = Activity.all.sort{|a,b| a.name.downcase <=> b.name.downcase }
+  end
+  
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+  #Exotic Inkind Gifts Report
+  #this creates the content that is sent to the basic gifts report.
+  #It iterates per gift, filtering based on the form parameters passed in.
+  def inkind_report
+    respond_to do |format|
+      format.html
+        @gifts = Gift.all
+        #@activities = Activity.all
+        @reportGiftsArray = []  
+        @activityGiftsArray = []
+        @activity = params[:activity]
+        @timeframe = params[:times]
+        @sortby = params[:sorts]
+        @user = current_user
+        
+        #first grab all gifts from the chosen activity
+        activity = Activity.find(@activity)
+        @gifts.each do |gift|
+          actID = gift['activity_id']
+          giftType = gift['gift_type']
+          if actID.to_s.eql? activity['id'].to_s and giftType.eql? 'In Kind'
+            @activityGiftsArray.push(gift)
+          end
+        end
+        
+        #apply timeframe filter
+        @activityGiftsArray.each do |gift|
+          case @timeframe
+          when 'All'
+            @reportGiftsArray.push(gift)
+          when 'This Year'
+            if is_current_year(gift['donation_date'])
+              @reportGiftsArray.push(gift)  
+            end
+          when 'This Quarter'
+            if ((is_current_quarter(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)  
+            end
+          when 'This Month'
+            if ((is_current_month(gift['donation_date'].to_datetime)) && 
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)  
+            end
+          when 'Last Year'
+            if is_last_year(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Last Quarter'
+            if is_last_quarter(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Last Month'      
+            if is_last_month(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 2 Years'
+            if ((is_last_year(gift['donation_date'].to_datetime)) or
+              (is_current_year(gift['donation_date'].to_datetime)))
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 5 Years'
+            if is_past_5_years(gift['donation_date'].to_datetime)
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 2 Quarters'
+            if (
+                ((is_current_quarter(gift['donation_date'])) and 
+                (is_current_year(gift['donation_date']))) or
+                (is_last_quarter(gift['donation_date']))
+              )
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 3 Months'
+            if (is_past_3_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
+          when 'Past 6 Months'
+            if (is_past_6_months(gift['donation_date'].to_datetime))
+              @reportGiftsArray.push(gift)
+            end
+          end
+        end
+        
+        #apply sort filter
+        case @sortby
+          when 'Gift ID'
+            @reportGiftsArray.sort! { |b,a| a.id <=> b.id }
+          when 'Amount'
+            @reportGiftsArray.sort! { |b,a| a.amount.to_i <=> b.amount.to_i }
+          when 'Gift Date'
+            @reportGiftsArray.sort! { |b,a| a.donation_date <=> b.donation_date }
+          when 'Gift Type'
+            @reportGiftsArray.sort! { |a,b| a.gift_type <=> b.gift_type }
+          when 'Donor Name'
+            @reportGiftsArray.each do |g|
+              donorName = ''
+              donor = Donor.find([g.donor_id])
+              donor.each do |d|
+                donorName = d.last_name + ", " + d.first_name
+              end
+              g.solicited_by = donorName
+            end
+            @reportGiftsArray.sort! { |a,b| a.solicited_by <=> b.solicited_by }
+        end
+        
+        #generate pdf file
+        pdf = InkindPdf.new(@reportGiftsArray, @activity, @timeframe, @sortby, @user)
+        send_data pdf.render, :filename => 'In Kind Gifts Report' + " "  + 
+        Time.now.to_date.to_s + '.pdf', 
+        :type => 'application/pdf', :disposition => 'attachment'
+    end
+  end  
   
   #users must be logged into access any of this controller's methods/views
   before_action :logged_in
@@ -152,7 +274,7 @@ class ReportsController < ApplicationController
         pdf = ActivityPdf.new(@reportActivitiesArray, @timeframe, @sortby, @progressFilter, @user)
         send_data pdf.render, :filename => 'Activities Report' + " " + Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
-        #flash[:success] = "Activity report generated."
+        flash[:success] = "Activity report generated."
     end
   end
   
@@ -409,8 +531,6 @@ class ReportsController < ApplicationController
     respond_to do |format|
       format.html
         @gifts = Gift.all
-        #@founders.map{|founder| [founder.founder_name, founder.id]}.sort{|a,b| a.founder_name.downcase <=> b.founder_name.downcase
-        #@activities = Activity.all.map { |activity| [ activity.name, activity.id ] }.sort{|a,b| a.name.downcase <=> b.name.downcase }
         @activities = Activity.all
         @reportGiftsArray = []  
         @activityGiftsArray = []
@@ -532,7 +652,7 @@ class ReportsController < ApplicationController
           Time.now.to_date.to_s + '.pdf', 
           :type => 'application/pdf', :disposition => 'attachment'
         else
-          pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn, @user)
+          pdf = GiftPdf.new(@reportGiftsArray, @timeframe, @sortby, @topn, @user, "Gifts")
           send_data pdf.render, :filename => 'Gifts Report' + " "  + 
           Time.now.to_date.to_s + '.pdf', 
           :type => 'application/pdf', :disposition => 'attachment'
@@ -606,6 +726,13 @@ class ReportsController < ApplicationController
       send_data pdf.render, :filename => 'One Donor Report - ' + donor_profile.full_name + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
     end 
   end
+ 
+ 
+   # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  #Setup LYBUNT Donors Report View
+  #renders the basic donors report view
+  def lybunt_setup
+  end
     
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
   # LUBUNT (Last year but unfortunately not this) Report
@@ -614,55 +741,78 @@ class ReportsController < ApplicationController
       respond_to do |format|
         format.html
         @donors = Donor.all
+        @gifts = Gift.all
         @reportDonorsArray = []
+        @donorGiftsTotal = 0
         #parameters from the form view
         @timeframe = params[:times]
         @sortby = params[:sorts]
         @fullcontact = params[:landscape]
-      
-        if @timeframe == "Last Year"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 1))
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
+        @topn = 'all'
+        @user = current_user
+
+        @donors.each do |donor|
         
-        if @timeframe == "Last 2 Years"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear && @last_gift.year > (Time.currentYear - 2))
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
+          #first grab all gifts from the chosen donor
+          currentDonor = donor
+          @donorGiftsArray = [] #donor's gifts go in here
+          @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
         
-        if @timeframe == "All previous years"
-          @donors.each do |donor|
-            @last_gift = last_gift_by_donation_date(donor)
-            if (@last_gift.donation_date.year < Time.currentYear)
-              @reportDonorsArray.push(donor)
-            end
-          end
-        end
-    end
+          @gifts.each do |gift|
+            donorID = gift['donor_id']
+            if donorID.to_s.eql? currentDonor['id'].to_s
+              @donorGiftsArray.push(gift)
+            end #end if
+          end #end gifts loop
         
+          if @donorGiftsArray.length > 0 
+            addDonor = false  #flag for adding donor to report
+            
+            #apply timeframe filter
+            case @timeframe
+              when 'All previous years'
+              #should this include donors with NO gifts? currently it doesn't
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year < Time.current.year)
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            when 'Last year'
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year == (Time.current.year - 1))
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            when 'Last 2 years'
+              @last_gift = find_last_gift_by_donation_date(donor)
+              if (@last_gift != nil)
+                if (@last_gift.donation_date.year < Time.current.year && @last_gift.donation_date.year >= (Time.current.year - 2))
+                  addDonor = true
+                end
+              end
+              add_donor_and_gifts_if_applicable(addDonor, donor, @donorGiftsArray)
+            end #end switch for timeframe
+          else
+            #apply timeframe filter
+            case @timeframe
+            when 'All'
+              #donors with no gifts are still added in this filter
+              add_donor_with_no_gifts(donor)
+            end
+          end #end donorGiftsArray length check
+      end #end donors loop
         
       #apply sortby filter
       case @sortby
         when 'Last Name'
           @reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
-        when 'First Name'
-          @reportDonorsArray.sort! { |a,b| a.first_name.downcase <=> b.first_name.downcase }
-        when 'Email'
-          @reportDonorsArray.sort! { |a,b| a.email <=> b.email }
-        when 'State'
-          @reportDonorsArray.sort! { |a,b| a.state <=> b.state }
-        when 'Date of Last Gift'
-          #title field of donor is used to store last gift date. sort these
-          @reportDonorsArray.sort! { |b,a| a.title <=> b.title }
-        when 'Gift Total'
+        when 'ID'
+          @reportDonorsArray.sort! { |a,b| a.id.to_i <=> b.id.to_i }
+        when 'Total Gifts'
           #nickname field of donor is used to store last gift date. sort these
           @reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
       end
@@ -670,19 +820,125 @@ class ReportsController < ApplicationController
       #generate the pdf file for the report
       #landscape donors report will be the full contact report
       if @fullcontact
-        pdf = ContactPdf.new(@reportDonorsArray, @timeframe, @sortby)
+        pdf = ContactLYBUNTPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, @user)
         send_data pdf.render, :filename => 'LYBUNT Full Contact Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       else
         #portrait donors report will be the normal basic donors report
-        pdf = DonorPdf.new(@reportDonorsArray, @timeframe, @sortby, 
-        @donorGiftsTotal)
+        pdf = DonorLYBUNTPdf.new(@reportDonorsArray, @timeframe, @sortby, @topn, 
+        @donorGiftsTotal, @user)
         send_data pdf.render, :filename => 'LYBUNT Report' + " "  + 
         Time.now.to_date.to_s + '.pdf', 
         :type => 'application/pdf', :disposition => 'attachment'
       end
     end
+    end
+    
+      # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+  # New Donors Report
+  #     
+    
+  def new_donors_setup
+  end
+
+  def new_donors_pdf
+    respond_to do |format|
+      format.html
+      donors = Donor.all
+      # @gifts = Gift.all
+      reportDonorsArray = []
+      # @donorGiftsTotal = 0
+      #parameters from the form view
+      timeframe = params[:times]
+      sortby = params[:sorts]
+      # @topn = params[:topn]
+      fullcontact = params[:full_contact]
+      # @user = current_user
+      
+      donors.each do |donor|
+        # currentDonor = donor
+        # @donorGiftsArray = [] #donor's gifts go in here
+        # @giftsWithinTimeArray = [] #gifts that apply to timeframe filter go here
+        first_gift = find_first_gift(donor)
+        if !first_gift.nil?
+          case timeframe
+          when 'All'
+            addDonor = true
+          when 'This Year'
+            if is_current_year(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'This Quarter'
+            if ((is_current_quarter(first_gift['donation_date'].to_datetime)) && 
+              (is_current_year(gifirst_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'This Month'
+            if ((is_current_month(first_gift['donation_date'].to_datetime)) && 
+              (is_current_year(first_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'Last Year'
+            if is_last_year(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Last Quarter'
+            if is_last_quarter(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Last Month'      
+            if is_last_month(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Past 2 Years'
+            if ((is_last_year(first_gift['donation_date'].to_datetime)) or
+              (is_current_year(first_gift['donation_date'].to_datetime)))
+                addDonor = true
+            end
+          when 'Past 5 Years'
+            if is_past_5_years(first_gift['donation_date'].to_datetime)
+              addDonor = true
+            end
+          when 'Past 2 Quarters'
+            if (
+                ((is_current_quarter(first_gift['donation_date'])) and 
+                (is_current_year(first_gift['donation_date']))) or
+                (is_last_quarter(first_gift['donation_date']))
+              )
+                addDonor = true
+            end
+          when 'Past 3 Months'
+            if (is_past_3_months(first_gift['donation_date'].to_datetime))
+                addDonor = true
+            end
+          when 'Past 6 Months'
+            if (is_past_6_months(first_gift['donation_date'].to_datetime))
+                addDonor = true
+            end
+          end # end switch for timeframe
+          if addDonor
+            donor.title = find_last_gift(donor).donation_date.to_s
+            donor.nickname = gift_total_amount_per_donor(donor)
+            reportDonorsArray.push(donor)
+          end
+        end # end if !first_gift.nil?
+      end # end do donor
+       #apply sortby filter
+      case sortby
+        when 'Last Name'
+          reportDonorsArray.sort! { |a,b| a.last_name.downcase <=> b.last_name.downcase }
+        when 'Date of Last Gift'
+          #title field of donor is used to store last gift date. sort these
+          reportDonorsArray.sort! { |b,a| a.title <=> b.title }
+        when 'Gift Total'
+          #nickname field of donor is used to store total
+          reportDonorsArray.sort! { |b,a| a.nickname.to_i <=> b.nickname.to_i }
+      end
+      pdf = NewDonorsPdf.new(reportDonorsArray, timeframe, sortby, fullcontact, current_user.username)
+      send_data pdf.render, :filename => 'New Donors Report - ' + '-' + Time.now.to_date.to_s + '.pdf', :type => 'application/pdf', :disposition => 'attachment'
+    end # end format
+  end
   
   
   private
@@ -779,19 +1035,61 @@ class ReportsController < ApplicationController
     #methods for finding last gifts from donors
     
     #returns the last gift that a donor made, by created_at date
-  def find_last_gift(donor)
-    selected_gifts = Gift.where(:donor_id => donor)
-    last_gift = nil
-    selected_gifts.each do |g|
-      if last_gift.nil?
-        last_gift = g
-      else
-        if g.created_at > last_gift.created_at
+    def find_last_gift(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      last_gift = nil
+      selected_gifts.each do |g|
+        if last_gift.nil?
           last_gift = g
+        else
+          if g.created_at > last_gift.created_at
+            last_gift = g
+          end
         end
-      end
-    end 
-    return last_gift
-  end
+      end 
+      return last_gift
+    end
   
+   def find_last_gift_by_donation_date(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      last_gift = nil
+      selected_gifts.each do |g|
+        if last_gift.nil?
+          last_gift = g
+        else
+          if g.donation_date > last_gift.donation_date
+            last_gift = g
+          end
+        end
+      end 
+      return last_gift
+   end
+
+    # find the earliest gift from a donor
+    def find_first_gift(donor)
+      first_gift = nil
+      selected_gifts = Gift.where(:donor_id => donor)
+      selected_gifts.each do |g|
+        if first_gift.nil?
+          first_gift = g
+        else
+          if g.donation_date < first_gift.donation_date
+            first_gift = g
+          end
+        end
+      end 
+      return first_gift
+    end
+    
+    #returns the total dollar amount a donor has donated
+    def gift_total_amount_per_donor(donor)
+      selected_gifts = Gift.where(:donor_id => donor)
+      sum = 0
+      selected_gifts.each do |g|
+        sum+=g.amount
+      end
+      return sum
+    end
 end
+
+

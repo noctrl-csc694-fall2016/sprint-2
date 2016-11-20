@@ -25,7 +25,7 @@
       <div class="line-break">
         <p>Sort By</p>
       </div>
-      <%= select_tag(:sortby, options_for_select(Gift::SORTS, params[:sortby]), include_blank: " ", class: 'form-control input-sm') %>
+      <%= select_tag(:sortby, options_for_select(Gift::SORTS, params[:sortby]), class: 'form-control input-sm') %>
     </div>
     <div class="col-xs-2">
       <div class="line-break">

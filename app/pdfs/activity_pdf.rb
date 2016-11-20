@@ -52,7 +52,7 @@ class ActivityPdf < Prawn::Document
       
       #calculate associated gifts total
       begin
-        gifts = Gift.find([activity.id])
+        gifts = Gift.where(:activity_id => activity.id)
       rescue ActiveRecord::RecordNotFound
         gifts = nil #if no matches found
       end

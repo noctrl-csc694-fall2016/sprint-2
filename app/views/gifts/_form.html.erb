@@ -1,3 +1,6 @@
+<iframe name="hiddenFrame" class="hide"></iframe>
+
+<!--%=form_for(@gift), url: {action: "hiddenFrame"} do |f| %-->
 <%=form_for(@gift) do |f| %>
   <div class="row form-group">
     <%=render 'shared/gift_error_messages' %>
@@ -8,7 +11,7 @@
       </div>
       <%= @donor_id %>
       <% if @gift.new_record? %>
-        <%=f.select :donor_id, options_for_select(@donors.sort!, :selected =>@gift.donor_id), include_blank: "Select a donor", class: 'form-control input-sm' %>
+        <%=f.select :donor_id, options_for_select(@donors.sort!, :selected =>@gift.donor_id || params[:donor_id]), include_blank: "Select a donor", class: 'form-control input-sm' %>
       <% else %>
         <%= get_donor_full_name(@gift) %>
       <% end %>
@@ -28,16 +31,18 @@
 
   <div class="row form-group">
     <div class="col-xs-3 col-xs-offset-2">
-      <%=f.label :donation_date %>
+      <%=f.label :gift_date %>
       <span class="required-field-marker">*</span>
-      <%=f.date_field :donation_date, class: 'form-control input-sm' %>
+      <%=f.date_field :donation_date, :value => @gift.donation_date || params[:donation_date], class: 'form-control input-sm' %>
     </div>
     <div class="col-xs-3 col-xs-offset-1">
       <%=f.label :amount %>
       <span class="required-field-marker">*</span>
       <div class="input-group">
         <div class="input-group-addon">$</div>
-        <%=f.number_field :amount, class: 'form-control input-sm', value: number_with_precision(f.object.amount, precision: 2) %>
+        <!--Was not able to add precision in the view with an amount from a parameter. Will need to add this validation to the the controller!!!!!-->
+        <%=f.number_field :amount, :value =>  params[:amount] || @gift.amount, class: 'form-control input-sm' %>
+        <!--%=f.number_field :amount, :html_options => {value: number_with_precision(f.object.value, precision: 2) || params[:amount]}, class: 'form-control input-sm'%-->
       </div>
     </div>
   </div> <!-- row -->
@@ -46,11 +51,11 @@
     <div class="col-xs-3 col-xs-offset-2">
       <%=f.label :gift_type %>
         <span class="required-field-marker">*</span>
-        <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => @gift.gift_type),{}, {:onchange=> "GiftTypeCheck($('#gift_gift_type').val());", :class => "form-control"})%>
+        <%=f.select(:gift_type, options_for_select(Gift.gift_types.keys, :selected => params[:gift_type] || @gift.gift_type),{}, {:onchange=> "GiftTypeCheck($('#gift_gift_type').val());", :class => "form-control"})%>
     </div>
     <div class="col-xs-3  col-xs-offset-1">
       <%= f.label :solicited_by %>
-      <%= f.text_field :solicited_by, class: 'form-control input-sm' %>
+      <%= f.text_field :solicited_by, :value => @gift.solicited_by || params[:solicited_by], class: 'form-control input-sm' %>
     </div>
   </div>
   <!-- to be taken out soon! -->
@@ -111,10 +116,10 @@
   <div class=" row form-group">
     <div class="col-xs-8 col-xs-offset-1 text-center">
       <%= submit_tag yield(:button_text), class: "btn btn-success" %>
-      <% if @gift.new_record? || params[:commit].to_s == "Stay" %>
-        &nbsp;
-        <%= submit_tag "Stay", class: "btn btn-success" %>
-      <% end %>
+      <!--% if @gift.new_record? || params[:commit].to_s == "Stay" %-->
+        
+        <!--%= submit_tag "Stay", class: "btn btn-success" %-->
+      <!--% end %-->
       &nbsp;
       <%=link_to "Cancel", gifts_path(:activity_id => @gift.activity_id, :donor_id => @gift.donor_id), class: "btn btn-warning" %>
     </div>

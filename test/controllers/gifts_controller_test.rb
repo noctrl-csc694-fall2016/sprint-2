@@ -7,13 +7,21 @@
 require 'test_helper'
 
 class GiftsControllerTest < ActionDispatch::IntegrationTest
-  test "should get all_gifts with params" do
+  
+  def setup
+    @gift = gifts(:one)
+  end
+
+
+  test "should get all gifts with params" do
+    @user = users(:michael)
+    log_in_as(@user)
     get gifts_path + "?utf8=%E2%9C%93&activity_id=&donor_id=&timeframe=All&sortby=&pageby=&commit=GO"
     assert_response :success
     assert_select "title", "Surf Gifts | Gift Garden"
   end
   
-  test "should get new_gift" do
+  test "should get new gift" do
     @user = users(:michael)
     log_in_as(@user)
     get new_gift_path
@@ -21,9 +29,22 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "New Gift | Gift Garden"
   end
 
-  test "should get edit" do
-    get donors_edit_url
-    assert_response :success
+  test "should redirect create gift when not logged in" do
+    assert_no_difference 'Gift.count' do
+      post gifts_path, params: { gift: {   donor: 'andy',
+        activity: 'golf',
+        donation_date: '2016-10-12 18:40:46',
+        amount: 1500.00,
+        gift_type: 'cash' } }
+    end
+    assert_redirected_to login_url
   end
 
+  test "should redirect destroy when not logged in" do
+    assert_no_difference 'Gift.count' do
+      delete gift_path(@gift)
+    end
+    assert_redirected_to login_url
+  end
+  
 end

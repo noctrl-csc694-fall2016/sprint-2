@@ -50,11 +50,9 @@ class GiftsController < ApplicationController
     map_activities_n_donors()
     if @gift.save
       flash[:success] = "Gift added successfully!"
-      if params[:commit].to_s == "Create"
-        redirect_to gifts_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id)
-      else
-        render 'new'
-      end
+      redirect_to new_gift_url(:donor_id => @gift.donor_id, :activity_id => @gift.activity_id, :donation_date => @gift.donation_date,
+        :amount => @gift.amount, :gift_type => @gift.gift_type, :solicited_by => @gift.solicited_by, :check_date => @gift.check_date, 
+        :pledge => @gift.pledge, :anonymous => @gift.anonymous)
     else
       render 'new'
     end
@@ -129,14 +127,12 @@ class GiftsController < ApplicationController
     
     #sort results (reorder objects in table)
     case params[:sortby]
-      when 'Donor ID'
-        @selected_gifts = @selected_gifts.reorder("donor_id DESC")
+      when 'ID'
+        @selected_gifts = @selected_gifts.reorder("id DESC")
       when 'Amount'
         @selected_gifts = @selected_gifts.reorder("amount DESC")
-      when 'Donation Date'
+      when 'Date'
         @selected_gifts = @selected_gifts.reorder("donation_date DESC")
-      when 'Gift Type'
-        @selected_gifts = @selected_gifts.reorder("gift_type DESC")
     end
     
     #paginate selected gifts list after sorting & filtering
