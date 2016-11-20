@@ -48,4 +48,12 @@ class GiftTest < ActiveSupport::TestCase
     @gift.gift_type = nil
     assert_not @gift.valid?
   end
+  
+  test "if check payment selected then check number and date should be present" do
+    @gift.gift_type = "Check"
+    assert_not @gift.valid?
+    @gift.check_number = "1234"
+    @gift.check_date = DateTime.parse("2015-12-31 00:00:00")
+    assert @gift.valid?
+  end
 end

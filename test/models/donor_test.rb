@@ -44,5 +44,11 @@ class DonorTest < ActiveSupport::TestCase
     assert_not @donor.valid?
   end
   
+  test "zip should be 5 digit number" do
+    @donor.zip = "45ght"
+    assert_not @donor.valid?
+    @donor.zip = "123456"
+    assert_not @donor.valid?
+  end
 
 end
