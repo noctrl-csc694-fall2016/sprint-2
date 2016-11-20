@@ -23,10 +23,13 @@ class ImportGiftsCsvTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", "/import-export"
   end
   
-  test "should get warning if no file choosen" do
+  test "should get warning if no file chosen" do
     log_in_as(@user)
     get import_gifts_step_two_path
     post "/import-gifts-validate"
+    assert_equal 'Please choose a file.', flash[:error]
+    get import_gifts_step_two_path
+    post "/import-gifts-import"
     assert_equal 'Please choose a file.', flash[:error]
   end
 end

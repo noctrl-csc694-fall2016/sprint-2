@@ -46,9 +46,11 @@ class ActivitiesEditTest < ActionDispatch::IntegrationTest
                                                           start_date: "",
                                                           end_date: "",
                                                           description: "",
-                                                          goal: "number" } }
+                                                          goal: "number" ,
+                                                          activity_type: ""
+                                                          } }
     assert_template 'activities/edit'
-    assert_select "div.alert", true
+    assert_select "div.alert", true, count: 3
   end
   
 end
