@@ -19,7 +19,7 @@ class ActivityTest < ActiveSupport::TestCase
     assert @activity.valid?
   end
   
-  test "nae should be present" do 
+  test "name should be present" do 
     @activity.name = nil
     assert_not @activity.valid?
   end
@@ -34,4 +34,9 @@ class ActivityTest < ActiveSupport::TestCase
     assert_not @activity.valid?
   end
   
+  test "end_date should not be before start_date" do
+    @activity.start_date = DateTime.parse("2015-1-15 00:00:00")
+    @activity.end_date = DateTime.parse("2014-1-15 00:00:00")
+    assert_not @activity.valid?
+  end
 end

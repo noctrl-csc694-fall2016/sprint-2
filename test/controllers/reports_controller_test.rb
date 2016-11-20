@@ -53,4 +53,12 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "One Donor Report | Gift Garden"
   end
   
+  test "should get lybunt report" do
+    @user = users(:michael)
+    log_in_as(@user)
+    get report_lybunt_path
+    assert_response :success
+    assert_select "title", "LYBUNT Report | Gift Garden"
+  end
+  
 end
