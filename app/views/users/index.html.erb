@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class="page-header">
-  		<h2 class="page-header-surf">Surf Users <small>&nbsp; Select a row to view or edit that user</small><%= image_tag("icons/flower1_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
+  		<h2 class="page-header-surf">Surf Users <small>&nbsp; Select a row to view or edit that user</small><%= image_tag("icons/flower7_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
   		<div class="row relative-row">
     		<div class="text-left bottom-vertical-align">
           <span class="record-count">There are <%= pluralize(@users.count, "users") %>.</span>
@@ -53,4 +53,15 @@
     </div>
   </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        //formats alert correctly
+        $(".alert.alert-info").css("margin-left", "15%");
+        $(".alert.alert-info").addClass("col-md-8");
+        $(".alert.alert-info").addClass("col-md-offset-2");
+        $(".alert.alert-info").addClass("col-xs-12");
+        $(".alert.alert-info").addClass("extra-spacing");
+    });
+</script>
       
