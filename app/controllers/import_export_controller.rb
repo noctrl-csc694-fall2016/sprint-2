@@ -107,9 +107,9 @@ class ImportExportController < ApplicationController
               warning_msg += validate_donor(data_hash)
               warning_msg += validate_gift(data_hash)
               if warning_msg == "" # all required fields of gift and donnor are present
-                output << (row << "new donor; ready for import")
+                output << (row << "New Donor; ready for import")
               else
-                output << (row << warning_msg)
+                output << (row << ("new donor; " + warning_msg))
               end
             elsif found_donor_number == 1 # one matching donor, check if all the required fields for this gift are properly filled in
               warning_msg = validate_gift(data_hash)
@@ -140,7 +140,7 @@ class ImportExportController < ApplicationController
     @file = params[:file]
     if @file.nil?
       flash[:error] = "Please choose a file."
-      redirect_to import_gifts_next_url
+      redirect_to import_gifts_step_three_url
       return
     end
     error = false
@@ -159,15 +159,17 @@ class ImportExportController < ApplicationController
                           :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
                           :check_number => data_hash['check_number'], :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], 
                           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                          :notes => data_hash['notes'])
+                          :notes => data_hash['gift_notes'])
               else
+                error = true
                 output << (row << warning_msg)
               end
             else # donor_id do not exist in db
+              error= true
               warning_msg += "donor_id not exist in data base"
               output << (row << warning_msg)
             end
-          else
+          else # donor_id is blank, need to search for donor
             found_donor = Donor.where("first_name = ? AND last_name = ?", 
                                       data_hash["first_name"], data_hash["last_name"])
             found_donor_number = found_donor.count
@@ -179,12 +181,12 @@ class ImportExportController < ApplicationController
                             :last_name => data_hash['last_name'], :address => data_hash ['address'], 
                             :city => data_hash['city'], :state => data_hash['state'], :email => data_hash['email'], 
                             :title => data_hash['title'], :nickname => data_hash['nickname'], :address2 => data_hash['address2'], 
-                            :country => data_hash[:country], :phone => data_hash['phone'])
+                            :country => data_hash[:country], :phone => data_hash['phone'], :notes => data_hash['donor_notes'])
                 Gift.create!(:activity_id => @activity, :donor_id =>new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
                           :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
                           :check_number => data_hash['check_number'], :pledge => data_hash['pledge'], :anonymous => data_hash['anonymous'], 
                           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                          :notes => data_hash['notes'])
+                          :notes => data_hash['gift_notes'])
               else
                 error = true
                 output << (row << warning_msg)
@@ -211,7 +213,7 @@ class ImportExportController < ApplicationController
     end
     if error == false  # all donors and gifts are added
       flash[:success] = "Gifts imported successfully."
-      redirect_to root_path
+      redirect_to gifts_path
     else  # some donors or gifts can not be added, export csv file for review
       send_data csv_string, 
       :type => 'text/csv; charset=iso-8859-1; header=present', 

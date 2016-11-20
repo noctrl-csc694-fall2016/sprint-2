@@ -15,7 +15,7 @@
 <%= form_tag '/report-lybunt-pdf', multipart:true do %>
 
   <section class='row'>
-    <div class="col-sm-2 col-xs-offset-2">
+    <div class="col-sm-2">
       <span class='report-tab'>Sort By:</span><br />
       <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
     </div>
