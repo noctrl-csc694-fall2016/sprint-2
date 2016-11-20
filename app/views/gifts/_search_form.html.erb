@@ -5,7 +5,7 @@
       <div class="line-break">
         <p>Activity</p>
       </div>
-      <%= select_tag :activity_id,  options_for_select(@activities.sort!, :selected => params[:activity_id] || "" ), include_blank: "Select an activity", class:'form-control input-sm' %>
+      <%= select_tag :activity_id,  options_for_select(@activities.sort!, :selected => params[:activity_id] || "" ), include_blank: "All activities", class:'form-control input-sm' %>
       <!--%= select_tag(:activity_id, options_for_select(@activities, params[:activity_id] || "" ), include_blank: "All Activities", class: 'form-control input-sm') %-->
     </div>
     <div class="col-xs-2">
