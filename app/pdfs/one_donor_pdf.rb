@@ -39,7 +39,7 @@ class OneDonorPdf < Prawn::Document
     y_position = cursor - 20
 
     bounding_box([0, y_position], :width => 658, :height => 75) do
-      text "This Gift Garden report created " + Time.zone.now.to_date.to_s + " by " + @requestor, size: 15
+      text "This Gift Garden report created " + Time.zone.now.to_date.strftime("%b %d, %Y") + " by " + @requestor, size: 15
       text "Report options: Donor is "+ @donorData[0] + " (" + @donorData[2] + ", " + @donorData[1] + ")", size: 15
     end
   end
@@ -104,7 +104,7 @@ class OneDonorPdf < Prawn::Document
     [['ID', 'Activity Name', 'Gift Date', 'Gift Amount']] +
     @gifts.map do |gift|
       giftAmount = number_to_currency(gift.amount, precision: 0)
-      ["GFT" + gift.id.to_s, Activity.find(gift.activity).name, gift.donation_date.strftime("%B %d, %Y"), giftAmount]
+      ["GFT" + gift.id.to_s, Activity.find(gift.activity).name, gift.donation_date.strftime("%b %d, %Y"), giftAmount]
     end
   end
   

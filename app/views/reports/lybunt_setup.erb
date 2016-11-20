@@ -1,6 +1,6 @@
 <% provide(:title, "LYBUNT Report") %>
 <div class="row">
-  <div class="col-sm-10 col-xs-offset-2">
+  <div class="col-sm-8 col-xs-offset-2">
     <div id="flash"></div>
     <div class="page-header">
      <h2>LYBUNT Report <small>&nbsp;
@@ -14,12 +14,12 @@
 <!-- Content -->
 <%= form_tag '/report-lybunt-pdf', multipart:true do %>
 
-  <section class='report-container'>
-    <div class="col-sm-4">
+  <section class='row'>
+    <div class="col-sm-2 col-xs-offset-2">
       <span class='report-tab'>Sort By:</span><br />
       <%= select_tag 'sorts', options_for_select(Donor::SORTS) %>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
       <span class='report-tab'>Timeframe:</span><br />
       <%= radio_button_tag(:times, "Last year") %>
       <%= label_tag(:times_last_yr, "Last year") %><br />
@@ -28,19 +28,21 @@
       <%= radio_button_tag(:times, "All previous years") %>
       <%= label_tag(:times_all, "All previous years") %><br />
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-2">
       </br>
       <%= check_box_tag 'landscape', 'yes', false %>
       <%= label_tag(:landscape, "Full Contact") %>
     </div>
-  </section><br /><br />
+  </section>
   
-  <div class="report-submit">
-    <%= submit_tag "Report", class: "btn btn-success" %>
-    &nbsp;
-    <%=link_to "Cancel", reports_url, class: "btn btn-warning" %>
+  <br /><br />
+  <div class="row">
+    <div class="col-sm-2 col-xs-offset-2">
+      <%= submit_tag "Report", class: "btn btn-success" %>
+      &nbsp;
+      <%=link_to "Cancel", reports_url, class: "btn btn-danger" %>
+    </div>
   </div>
-
 <% end %>
 
 <script>

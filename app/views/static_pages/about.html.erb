@@ -37,42 +37,78 @@
   <div class="row col-xs-8 col-xs-offset-2">
     <h3>The Design Team</h3>
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Prof Bill</h4>
-      <div class="row">
-        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"I enjoyed my 10 long Tuesday nights with CSC 694. Long live Gift Garden! thanks... yow, bill"</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("team/jason.jpg", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Jason K</h4> <br /> <span class="picture-donna-text">"Placing great emphasis on design and usability...along with a little bit of code."</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
+    
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Jason K</h4>
-      <div class="row">
-        <%= image_tag("team/jason.jpg", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Placing great emphasis on design and usability...along with a little bit of code."</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("team/andyw.jpg", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Andy W</h4> <br /> <span class="picture-donna-text">"Data models, pagination, parameters, and sorting: its been a pleasure surfing with CSC 694 and Gift Garden!"</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
+    
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Andy W</h4>
-      <div class="row">
-        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("team/patm.png", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Pat M</h4> <br /> <span class="picture-donna-text">"Gift Garden is a great tool and I'm proud to support it. I hope our users utilize it to its full potential."</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
+    
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Mike D</h4>
-      <div class="row">
-        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("icons/bee1_square.png", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Wei H</h4> <br /> <span class="picture-donna-text">&nbsp;</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
+    
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Pat M</h4>
-      <div class="row">
-        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("team/miked.png", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Mike D</h4> <br /> <span class="picture-donna-text">"UX Team, New Gifts, and Reports. Has done technical work at McDonald's Corporation, Northwestern University and volunteers time teaching programming through various robotics programs at the library. He is very happy to be able to add his contributions to Gift Garden!"</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
+    
     <div class="row staff-wrapper col-xs-offset-1">
-      <h4>Wei H</h4>
-      <div class="row">
-        <%= image_tag("team/profbill.gif", height: "128",  alt: "New Gifts", class: "hidden-xs") %><span class="picture-donna-text">"Coming Soon"</span>
-      </div>
-    </div>
+      <div class="media">
+			  <div class="media-right media-middle" >
+				    <%= image_tag("team/profbill.gif", height: "128",  alt: "Staff Image", class: "hidden-xs media-object") %>
+				</div>
+				<div class="media-body" style="padding-left: 10px;">
+					<br />
+				  <h4>Prof Bill</h4> <br /> <span class="picture-donna-text">"I enjoyed my 10 long Tuesday nights with CSC 694. Long live Gift Garden! thanks... yow, bill"</span>
+				</div>
+			</div>   <!-- media -->
+    </div> <!-- row -->
   </div>
+  
   <div class="row col-xs-8 col-xs-offset-2">
     <h3>Thank Yous</h3>
     We sincerely thank our two nonprofit partners for their valuable input during the design of Gift Garden:
@@ -106,5 +142,20 @@
     <div class="row row-spacing-gallery">
       <div class="col-sm-4"><%= link_to 'assets/art/logo3_original.png', target: '_blank' do %><%= image_tag("art/logo3.png", height: "150",  alt: "Logo 1") %><% end %></div>
       <div class="col-sm-4"><%= link_to 'assets/art/dragonfly1_original.png', target: '_blank' do %><%= image_tag("art/dragonfly1_original.png", height: "150",  alt: "Logo 1") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/bee1_original.png', target: '_blank' do %><%= image_tag("art/bee1.png", height: "150",  alt: "Logo 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/flower3_original.png', target: '_blank' do %><%= image_tag("art/flower3_original.png", height: "150",  alt: "Logo 1") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/flower4_original.png', target: '_blank' do %><%= image_tag("art/flower4.png", height: "150",  alt: "Flower 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/flower5_original.png', target: '_blank' do %><%= image_tag("art/flower5.png", height: "150",  alt: "Flower 2") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/flower6_original.png', target: '_blank' do %><%= image_tag("art/flower6.png", height: "150",  alt: "Flower 1") %><% end %></div>
+      <div class="col-sm-4"><%= link_to 'assets/art/flower7_original.png', target: '_blank' do %><%= image_tag("art/flower7.png", height: "150",  alt: "Flower 2") %><% end %></div>
+    </div>
+    <div class="row row-spacing-gallery">
+      <div class="col-sm-4"><%= link_to 'assets/art/flower8_original.png', target: '_blank' do %><%= image_tag("art/flower8.png", height: "150",  alt: "Flower 1") %><% end %></div>
     </div>
   </div>
