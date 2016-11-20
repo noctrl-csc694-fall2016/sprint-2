@@ -13,7 +13,7 @@
             <h5>Email:
               <%= current_user.email %></h5>
             <h5>Last Login:
-              <%= @user.last_login %></h5>
+              <%= @user.last_login.to_date.try(:strftime, "%b %d, %Y") %></h5>
           </b><br />
           
           <div class="form-group">
@@ -38,3 +38,14 @@
     </div>
   </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        //formats alert correctly
+        $(".alert.alert-info").css("margin-left", "15%");
+        $(".alert.alert-info").addClass("col-md-8");
+        $(".alert.alert-info").addClass("col-md-offset-2");
+        $(".alert.alert-info").addClass("col-xs-12");
+        $(".alert.alert-info").addClass("extra-spacing");
+    });
+</script>
