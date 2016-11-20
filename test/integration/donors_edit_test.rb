@@ -10,9 +10,11 @@ class DonorsEditTest < ActionDispatch::IntegrationTest
 
   def setup
     @donor = donors(:andy)
+    @user = users(:michael)
   end
   
   test "successful edit" do
+    log_in_as(@user)
     get edit_donor_path(@donor)
     assert_template 'donors/edit'
     first_name = "Joe"
@@ -49,6 +51,7 @@ class DonorsEditTest < ActionDispatch::IntegrationTest
   end
   
   test "unsuccessful edit" do
+    log_in_as(@user)
     get edit_donor_path(@donor)
     assert_template 'donors/edit'
     patch donor_path(@donor), params: { donor: { first_name:  "Joe",
