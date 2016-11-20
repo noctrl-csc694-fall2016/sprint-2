@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class='import-header'>
-  		<h2 class="import-color">Second Step<small>&nbsp; Upload your file for validation.</small></h2>
+  		<h2 class="import-color">Second Step<small>&nbsp; Upload your file for validation.</small><%= image_tag("icons/butterfly2_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
   	</div>
   </div>
 </div>
@@ -11,7 +11,7 @@
 <div class="row">
   <%= form_tag import_gifts_validate_path, multipart:true do %>
     <div class="row form-group">
-      <div class="col-sm-10 col-xs-offset-2">
+      <div class="col-sm-8 col-xs-offset-2">
         <ol>
           <li>Click "Choose File" to upload your file.</li>
           <li>Click "Validate" to validate your data.</li>
@@ -20,11 +20,9 @@
       </div>
     </div>
     
-    <div class="row form-group">
-      <div class="col-sm-4 col-xs-offset-2">
-        <div class="line-break">
-          <p>Select a file:</p>
-        </div>
+    <div class="row form-group margin-left-10">
+      <div class="col-sm-8 col-xs-offset-2">
+        <p>Select a file:</p>
         <%= file_field_tag :file %>
       </div>
     </div>
@@ -32,7 +30,7 @@
     &nbsp;
     <div class=" row form-group">
       <div class="col-xs-8 col-xs-offset-1 text-center">
-        <%= submit_tag "Validate", class: "btn btn-success" %>
+        <%= submit_tag "Validate", class: "btn btn-primary" %>
         &nbsp;
         <%= link_to "Next Step", import_gifts_step_three_path, class: "btn btn-success" %>
         &nbsp;

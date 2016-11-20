@@ -65,9 +65,7 @@ body {
   padding-top: 20px;
   margin-bottom: 60px;		/* margin bottom by footer height */
   font-family: 'Open Sans', sans-serif;
-}
-p{
-  font-size: 1.15em;
+  font-size: 14px;
 }
 a, a:active, a:visited{
   
@@ -175,7 +173,7 @@ h1{
 
 .row-donna-home-icons {
   padding: 25px;
-  font-size: 1.75;
+  font-size: 1.75em;
   color: $text-gray;
 }
 .icon-donna {
@@ -390,6 +388,9 @@ a.btn.btn-danger{
   display: block;
   margin: 7px;
   font-weight: bold;
+}
+.margin-left-10{
+  margin-left: 10px;
 }
 
 /* Surf Common CSS */
