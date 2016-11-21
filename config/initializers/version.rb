@@ -3,8 +3,8 @@
 module GiftGarden
   
   class Application
-    VERSION = "0.4.71"
-    DEPLOY = "Nov 17, 2016"
+    VERSION = "1.0"
+    DEPLOY = "Nov 21, 2016"
   end
   
 end
