@@ -8,6 +8,7 @@ class ImportExportController < ApplicationController
   
   
   require 'csv'
+  require 'date'
   #users must be logged into access any of this controller's methods/views
   before_action :logged_in
   
@@ -77,7 +78,7 @@ class ImportExportController < ApplicationController
     csv_string = CSV.generate(:headers => true) do |output|
       CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row|
         if row.header_row?
-          output << row
+          output << (row << "validation notes")
         else
           warning_msg = ""
           data_hash = row.to_hash
@@ -129,17 +130,24 @@ class ImportExportController < ApplicationController
   # import gifts from csv files
   def import_gifts_import
     @activity = params[:activity]
+    if @activity.blank?
+      flash[:error] = "Please choose an activity."
+      redirect_to import_gifts_step_three_url
+      return
+    end
+      
     @file = params[:file]
     if @file.nil?
       flash[:error] = "Please choose a file."
       redirect_to import_gifts_step_three_url
       return
     end
+    
     error = false
     csv_string = CSV.generate(:headers => true) do |output|
       CSV.foreach(@file.path, :headers => true, :return_headers => true, :col_sep => ',') do |row| #@file.path
         if row.header_row?
-          output << row
+          output << (row << "import notes")
         else
           warning_msg = ""
           data_hash = row.to_hash
@@ -149,7 +157,7 @@ class ImportExportController < ApplicationController
               if warning_msg == "" # one donor found, all reqired data present, import gift
                 Gift.create!(:activity_id => @activity, :donor_id =>data_hash["donor_id"], :donation_date => Date.parse(data_hash['donation_date']),
                           :amount => data_hash['amount'].to_f, :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
+                          :check_number => data_hash['check_number'], :check_date => DateTime.parse(data_hash['check_date']), :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
                           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
                           :notes => data_hash['gift_notes'])
               else
@@ -171,12 +179,12 @@ class ImportExportController < ApplicationController
               if warning_msg == ""
                 new_donor = Donor.create!(:donor_type => data_hash['donor_type'], :first_name => data_hash['first_name'], 
                             :last_name => data_hash['last_name'], :address => data_hash ['address'], 
-                            :city => data_hash['city'], :state => data_hash['state'], :email => data_hash['email'], 
+                            :city => data_hash['city'], :state => data_hash['state'], :zip => data_hash['zip'], :email => data_hash['email'], 
                             :title => data_hash['title'], :nickname => data_hash['nickname'], :address2 => data_hash['address2'], 
                             :country => data_hash[:country], :phone => data_hash['phone'], :notes => data_hash['donor_notes'])
                 Gift.create!(:activity_id => @activity, :donor_id =>new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
                           :amount => data_hash['amount'].to_f, :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
+                          :check_number => data_hash['check_number'], :check_date => DateTime.parse(data_hash['check_date']), :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
                           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
                           :notes => data_hash['gift_notes'])
               else
@@ -186,11 +194,12 @@ class ImportExportController < ApplicationController
             elsif found_donor_number == 1  # one matching donor
               warning_msg = validate_gift(data_hash)
               if warning_msg == ""
-                Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
-                          :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                          :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
-                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                          :notes => data_hash['notes'])
+                # Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
+                #           :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
+                #           :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
+                #           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
+                #           :notes => data_hash['gift_notes'])
+                Gift.create!(new_gift_hash(data_hash, @activity, found_donor.first.id, @file.original_filename))
               else
                 error = true
                 output << (row << warning_msg)
@@ -239,6 +248,9 @@ class ImportExportController < ApplicationController
       if (new_donor['email'].nil?) 
         msg += "email cannot be blank,"
       end
+      if (new_donor['zip'].nil?)
+        msg += "zip cannot be blank,"
+      end
       return msg
     end
   
@@ -275,4 +287,28 @@ class ImportExportController < ApplicationController
     def integer?(str)
       /\A[+-]?\d+\z/ === str
     end
+    
+    def new_gift_hash(data, activity, donor, file)
+      g = {}
+      g["donor_id"] = donor
+      g["activity_id"] = activity
+      g["donation_date"] = Date.parse(data['donation_date'])
+      g["amount"] = data['amount'].to_f
+      g["gift_type"] = data['gift_type']
+      g["gift_user"] = current_user.username
+      g["gift_source"] = file
+      g["solicited_by"] =data['solicited_by'] unless data['solicited_by'].nil?
+      g["check_number"] = data['check_number'] unless data['check_date'].nil?
+      g["check_date"] = DateTime.parse(data['check_date']) unless data['check_date'].nil?
+      g["pledge"] = data['pledge'] unless data['pledge'].nil?
+      g["memorial_note"] = data['memorial_note'] unless data['memorial_note'].nil?
+      g["notes"] = data['gift_notes'] unless data['gift_notes'].nil?
+      return g
+    end
 end
+
+# Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
+                #           :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
+                #           :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
+                #           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
+                #           :notes => data_hash['notes'])
