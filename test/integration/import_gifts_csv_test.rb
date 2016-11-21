@@ -28,8 +28,8 @@ class ImportGiftsCsvTest < ActionDispatch::IntegrationTest
     get import_gifts_step_two_path
     post "/import-gifts-validate"
     assert_equal 'Please choose a file.', flash[:error]
-    get import_gifts_step_two_path
+    get import_gifts_step_three_path
     post "/import-gifts-import"
-    assert_equal 'Please choose a file.', flash[:error]
+    assert_equal 'Please choose an activity.', flash[:error]
   end
 end
