@@ -2,7 +2,7 @@
 <div class='container-fluid login_container'>
     <div class='row'>
         <div class='col-md-4 col-md-offset-1 well session-login'>
-            <h1 class="login-header-text">Gift Garden V1.0</h1>
+            <h1 class="login-header-text">Gift Garden V<%= GiftGarden::Application::VERSION %></h1>
             <br>
                 <%= form_for(:session, url: login_path) do |f| %>
                     <div class="form-group">
