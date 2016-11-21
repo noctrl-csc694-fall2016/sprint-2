@@ -156,7 +156,7 @@
     city        = Faker::Address.city
     state       = Faker::Address.state
     country     = Faker::Address.country
-    zip         = Faker::Address.zip
+    zip         = Faker::Address.zip.to_i
     phone       = Faker::PhoneNumber.phone_number
     email       = Faker::Internet.email
     notes       = Faker::Company.bs
@@ -197,7 +197,7 @@
                 donor_id: 2,
                 donation_date: "2016-07-09",
                 amount: 150,
-                gift_type: "Check")
+                gift_type: "Cash")
                 
                 
   Gift.create!( activity_id: 2,
@@ -331,7 +331,7 @@
       check_date: Faker::Time.between(DateTime.now - 1825, DateTime.now + 14),
       anonymous: Faker::Boolean.boolean,
       amount: Faker::Number.between(1, 100000),
-      gift_type: [:Cash, :Check, :'Credit Card', :Stock, :'In Kind'].sample)
+      gift_type: [:Cash, :'Credit Card', :Stock, :'In Kind'].sample)
   end
                 
   #create sample users; id of 1 is super admin (profbill)
