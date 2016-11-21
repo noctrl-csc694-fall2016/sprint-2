@@ -155,11 +155,7 @@ class ImportExportController < ApplicationController
             if Donor.exists?(data_hash["donor_id"].to_i) # donor exists in db
               warning_msg += validate_gift(data_hash) # validate required gift fields for import
               if warning_msg == "" # one donor found, all reqired data present, import gift
-                Gift.create!(:activity_id => @activity, :donor_id =>data_hash["donor_id"], :donation_date => Date.parse(data_hash['donation_date']),
-                          :amount => data_hash['amount'].to_f, :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                          :check_number => data_hash['check_number'], :check_date => DateTime.parse(data_hash['check_date']), :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
-                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                          :notes => data_hash['gift_notes'])
+                Gift.create!(new_gift_hash(data_hash, @activity, data_hash['donor_id'], @file.original_filename))
               else
                 error = true
                 output << (row << warning_msg)
@@ -182,11 +178,7 @@ class ImportExportController < ApplicationController
                             :city => data_hash['city'], :state => data_hash['state'], :zip => data_hash['zip'], :email => data_hash['email'], 
                             :title => data_hash['title'], :nickname => data_hash['nickname'], :address2 => data_hash['address2'], 
                             :country => data_hash[:country], :phone => data_hash['phone'], :notes => data_hash['donor_notes'])
-                Gift.create!(:activity_id => @activity, :donor_id =>new_donor.id, :donation_date => Date.parse(data_hash['donation_date']),
-                          :amount => data_hash['amount'].to_f, :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                          :check_number => data_hash['check_number'], :check_date => DateTime.parse(data_hash['check_date']), :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
-                          :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                          :notes => data_hash['gift_notes'])
+                Gift.create!(new_gift_hash(data_hash, @activity, new_donor.id, @file.original_filename))
               else
                 error = true
                 output << (row << warning_msg)
@@ -194,11 +186,6 @@ class ImportExportController < ApplicationController
             elsif found_donor_number == 1  # one matching donor
               warning_msg = validate_gift(data_hash)
               if warning_msg == ""
-                # Gift.create!(:activity_id => @activity, :donor_id =>found_donor.first.id, :donation_date => Date.parse(data_hash['donation_date']),
-                #           :amount => data_hash['amount'], :gift_type => data_hash['gift_type'], :solicited_by => data_hash['solicited_by'],
-                #           :check_number => data_hash['check_number'], :pledge => data_hash['pledge'].to_f, :anonymous => data_hash['anonymous'], 
-                #           :gift_user => current_user.username, :gift_source => @file.original_filename, :memorial_note => data_hash['memorial_note'], 
-                #           :notes => data_hash['gift_notes'])
                 Gift.create!(new_gift_hash(data_hash, @activity, found_donor.first.id, @file.original_filename))
               else
                 error = true
@@ -298,11 +285,16 @@ class ImportExportController < ApplicationController
       g["gift_user"] = current_user.username
       g["gift_source"] = file
       g["solicited_by"] =data['solicited_by'] unless data['solicited_by'].nil?
-      g["check_number"] = data['check_number'] unless data['check_date'].nil?
+      g["check_number"] = data['check_number'].to_i unless data['check_number'].nil?
       g["check_date"] = DateTime.parse(data['check_date']) unless data['check_date'].nil?
       g["pledge"] = data['pledge'] unless data['pledge'].nil?
       g["memorial_note"] = data['memorial_note'] unless data['memorial_note'].nil?
       g["notes"] = data['gift_notes'] unless data['gift_notes'].nil?
+      if data['anonymous'].nil?
+        g['anonymous'] = false
+      else
+        g['anonymous'] = data['anonymous']
+      end
       return g
     end
 end
