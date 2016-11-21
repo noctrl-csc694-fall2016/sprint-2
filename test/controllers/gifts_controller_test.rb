@@ -3,6 +3,7 @@
 # original written by: Jason K, Nov 5 2016
 # major contributions by:
 #                       Andy W Nov 14 2016
+#                       Pat M Nov 20 2016
 #----------------------------------#
 require 'test_helper'
 
@@ -47,4 +48,24 @@ class GiftsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to login_url
   end
   
+  #makes sure that users not logged in can't access the gifts surf
+  test "should redirect gifts surf when not logged in" do
+    get gifts_path
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+  
+  #makes sure that users not logged in can't access new gift page
+  test "should redirect new gift when not logged in" do
+    get new_gift_path
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+  
+  #makes sure that users not logged in can't access edit gift page
+  test "should redirect edit gift when not logged in" do
+    get '/gifts/1/edit'
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
 end
