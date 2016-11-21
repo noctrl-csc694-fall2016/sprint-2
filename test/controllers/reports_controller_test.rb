@@ -10,7 +10,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
 #----------------------------------#
 # Standard Reports
 #----------------------------------#
-  test "should get activities report" do
+  test "should_get_activities_report" do
     @user = users(:michael)
     log_in_as(@user)
     get  report_activities_path
@@ -18,7 +18,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get donors report" do
+  test "should_get_donors_report" do
     @user = users(:michael)
     log_in_as(@user)
     get report_donors_path
@@ -26,7 +26,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Donors Report | Gift Garden"
   end
 
-  test "should get gifts report" do
+  test "should_get_gifts_report" do
     @user = users(:michael)
     log_in_as(@user)
     get report_gifts_path
@@ -34,7 +34,7 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", "Gifts Report | Gift Garden"
   end
   
-  test "should get trashes report" do
+  test "should_get_trashes_report" do
     @user = users(:michael)
     log_in_as(@user)
     get trashes_path
@@ -45,12 +45,20 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
 #----------------------------------#
 # Exotic Reports
 #----------------------------------#  
-  test "should get one donors report" do
+  test "should_get_one_donors_report" do
     @user = users(:michael)
     log_in_as(@user)
     get report_one_donor_path
     assert_response :success
     assert_select "title", "One Donor Report | Gift Garden"
+  end
+  
+  test "should get lybunt report" do
+    @user = users(:michael)
+    log_in_as(@user)
+    get report_lybunt_path
+    assert_response :success
+    assert_select "title", "LYBUNT Report | Gift Garden"
   end
   
 end
