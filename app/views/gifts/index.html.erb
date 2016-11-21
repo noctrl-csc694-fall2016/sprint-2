@@ -57,8 +57,8 @@
           <!--find the gifts that match the selected activity and donor-->
           <tr data-link="<%= edit_gift_path(gift) %>">
             <td><%= get_gift_id(gift) %></td>
-            <td><%= Activity.find(gift.activity).name %></td>
-            <td><%= Donor.find(gift.donor).first_name + " " + Donor.find(gift.donor).last_name %></td>
+            <td><%= Activity.find(gift.activity_id).name %></td>
+            <td><%= Donor.find(gift.donor_id).first_name + " " + Donor.find(gift.donor_id).last_name %></td>
             <td><%= gift.gift_type %></td>
             <td><%= gift.donation_date.strftime("%b %d, %Y") %></td>
             <td><%= number_to_currency(gift.amount, precision: 0) %></td>
