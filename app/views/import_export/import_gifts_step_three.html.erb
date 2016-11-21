@@ -2,13 +2,13 @@
 <div class="row">
   <div class="col-sm-8 col-xs-offset-2">
   	<div class='import-header'>
-  		<h2 class="import-color">Final Step<small>&nbsp; Select an activity and pload your validated file to import gifts.</small><%= image_tag("icons/flower3_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
+  		<h2 class="import-color">Final Step<small>&nbsp; Select an activity and upload your validated file to import gifts.</small><%= image_tag("icons/flower3_square.png", height: "48",  alt: "Users", class: "pull-right hidden-xs") %></h2>
   	</div>
   </div>
 </div>
 
 &nbsp;
-<div class="row">
+<div class="activity-text row">
   <%= form_tag import_gifts_import_path, multipart:true do %>
     <div class="row form-group">
       <div class="col-sm-8 col-xs-offset-2">
@@ -25,7 +25,7 @@
         <div class="line-break">
   			  <p>Activity</p>
   		  </div>
-  		  <%= select_tag "activity", options_from_collection_for_select(@activities, "id", "name") %>
+  		  <%= select_tag "activity", options_from_collection_for_select(@activities, "id", "name"), include_blank: "Select an activity", class: 'form-control' %>
       </div>
       
       <div class="col-sm-4">

@@ -11,7 +11,7 @@
 <div class="row">
   <%= form_tag import_gifts_validate_path, multipart:true do %>
     <div class="row form-group">
-      <div class="col-sm-8 col-xs-offset-2">
+      <div class="activity-text col-sm-8 col-xs-offset-2">
         <ol>
           <li>Click "Choose File" to upload your file.</li>
           <li>Click "Validate" to validate your data.</li>
@@ -20,7 +20,7 @@
       </div>
     </div>
     
-    <div class="row form-group margin-left-10">
+    <div class="row form-group activity-text margin-left-10">
       <div class="col-sm-8 col-xs-offset-2">
         <p>Select a file:</p>
         <%= file_field_tag :file %>
