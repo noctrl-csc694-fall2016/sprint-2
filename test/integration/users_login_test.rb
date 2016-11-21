@@ -7,7 +7,7 @@
 require 'test_helper'
 require 'sessions_helper'
 
-class UsersLoginTest < ActionDispatch::IntegrationTest
+class UsersLoginLogoutTest < ActionDispatch::IntegrationTest
   
   def setup
     @user = users(:michael)
